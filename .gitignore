@@ -20,3 +20,5 @@ data/field/photos/
 .DS_Store
 .idea/
 .vscode/
+# OSRM data
+data/osrm/
