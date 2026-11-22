@@ -19,6 +19,13 @@ git push -u origin main          # the ONLY direct push to main, ever
 4. Run `bash scripts/set_handles.sh <six GitHub usernames>`, merge that change by PR, then run `bash scripts/bootstrap_github.sh`.
 5. Everyone: `git clone`, set `git config user.name` and `user.email`, copy `.env.example` to `.env`, open the repo in Antigravity.
 
+## Quick start
+```bash
+cp .env.example .env
+make up
+# Open http://localhost:8000/health (available after Task 2)
+```
+
 ## Map of the repository
 | Path | Owner | Purpose |
 |---|---|---|
