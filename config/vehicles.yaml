@@ -1,0 +1,9 @@
+# ARCHETYPES ONLY - numbers are ASSUMPTIONS (confidence 0.3) used for development.
+# Replace with manufacturer datasheet values (cite URL in `source`) before any result is reported.
+vehicles:
+  - {model_name: "Generic E2W scooter",     segment: E2W,  battery_kwh: 3.0,  wh_per_km: 30,  max_dc_kw: null, max_ac_kw: 1.0, connector_types: [AC_LEV], source: "assumption", confidence: 0.3}
+  - {model_name: "Generic E3W passenger",   segment: E3W,  battery_kwh: 8.0,  wh_per_km: 80,  max_dc_kw: null, max_ac_kw: 2.0, connector_types: [AC_LEV], source: "assumption", confidence: 0.3}
+  - {model_name: "Generic E3W cargo",       segment: E3W,  battery_kwh: 10.0, wh_per_km: 90,  max_dc_kw: null, max_ac_kw: 3.0, connector_types: [AC_LEV], source: "assumption", confidence: 0.3}
+  - {model_name: "Generic E4W hatchback",   segment: E4W,  battery_kwh: 30.0, wh_per_km: 140, max_dc_kw: 50,   max_ac_kw: 7.2, connector_types: [CCS2, Type2], source: "assumption", confidence: 0.3}
+  - {model_name: "Generic E4W SUV",         segment: E4W,  battery_kwh: 40.0, wh_per_km: 150, max_dc_kw: 50,   max_ac_kw: 7.2, connector_types: [CCS2, Type2], source: "assumption", confidence: 0.3}
+  - {model_name: "Generic e-LCV",           segment: ELCV, battery_kwh: 25.0, wh_per_km: 200, max_dc_kw: 30,   max_ac_kw: 7.2, connector_types: [CCS2, Type2], source: "assumption", confidence: 0.3}

@@ -1,0 +1,30 @@
+# Replace the HANDLE_* placeholders by running:  bash scripts/set_handles.sh <ansh> <atharva> <yash> <anshuman> <kashish> <eshwari>
+# Format: path  owner  primary-reviewer.  Owners are the people responsible for the area, reviewers are peers.
+/backend/app/mcdm/     @HANDLE_ATHARVA  @HANDLE_YASH
+/backend/app/queue/    @HANDLE_ATHARVA  @HANDLE_YASH
+/backend/tests/mcdm/   @HANDLE_ATHARVA  @HANDLE_YASH
+/backend/tests/queue/  @HANDLE_ATHARVA  @HANDLE_YASH
+/research/             @HANDLE_ATHARVA  @HANDLE_YASH
+/backend/app/etl/      @HANDLE_YASH     @HANDLE_ATHARVA
+/backend/app/api/      @HANDLE_YASH     @HANDLE_ANSHUMAN
+/backend/app/models/   @HANDLE_YASH     @HANDLE_ANSHUMAN
+/backend/app/schemas/  @HANDLE_YASH     @HANDLE_ANSHUMAN
+/backend/tests/etl/    @HANDLE_YASH     @HANDLE_ATHARVA
+/backend/tests/api/    @HANDLE_YASH     @HANDLE_ANSHUMAN
+/db/seeds/             @HANDLE_YASH     @HANDLE_ATHARVA
+/frontend/             @HANDLE_ANSHUMAN @HANDLE_ANSH
+/analysis/             @HANDLE_KASHISH  @HANDLE_ESHWARI
+/data/field/           @HANDLE_KASHISH  @HANDLE_ESHWARI
+/data/vahan/           @HANDLE_ESHWARI  @HANDLE_KASHISH
+/data/policy/          @HANDLE_ESHWARI  @HANDLE_KASHISH
+/docs/                 @HANDLE_ESHWARI  @HANDLE_KASHISH
+/docs/team/            @HANDLE_ANSH     @HANDLE_ATHARVA
+/docs/PHASE_REPORT.md  @HANDLE_ANSH     @HANDLE_ATHARVA
+/db/                   @HANDLE_ANSH     @HANDLE_YASH
+/contracts/            @HANDLE_ANSH     @HANDLE_YASH @HANDLE_ATHARVA
+/config/               @HANDLE_ATHARVA  @HANDLE_YASH @HANDLE_ANSH
+/tests/e2e/            @HANDLE_ANSH     @HANDLE_ANSHUMAN
+/.github/              @HANDLE_ANSH     @HANDLE_ATHARVA
+/docker-compose.yml    @HANDLE_ANSH     @HANDLE_ATHARVA
+/Makefile              @HANDLE_ANSH     @HANDLE_ATHARVA
+/scripts/              @HANDLE_ANSH     @HANDLE_ATHARVA

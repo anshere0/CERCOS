@@ -1,0 +1,181 @@
+# CERCOS project manifest - single source of truth for agents and humans
+project:
+  name: CERCOS
+  full_name: Cognitive EV Route and Charging Optimization System
+  programme: EPICS - Engineering Project in Community Service (VIT Bhopal University)
+  region: Madhya Pradesh; field-work radius <= 100 km of campus (Bhopal, Sehore, Vidisha, Raisen, Narmadapuram,
+    Ashta corridor)
+  phase_1_target_completion_pct: 40
+  deadlines:
+    bonafide_certificate_printed: '2026-11-30'
+    min_team_hours_per_week: 6
+    record_book: weekly supervisor signature, submit at final review
+problem_statement: Navigation apps show the NEAREST charger. They ignore price, speed the vehicle can really accept,
+  queue time and battery risk, and government has no measured view of where charging gaps are.
+community_need:
+  primary_users:
+  - e-rickshaw / e-3W drivers (~47.6% of CY2024 MP registrations)
+  - e-2W riders (~49.6%)
+  - e-4W owners (~2.4%)
+  - fleet operators
+  secondary_users:
+  - UDHD / smart-city agencies
+  - Discoms
+  - CPOs
+  - urban planners
+  - researchers
+research_questions:
+  RQ1: Does multi-criteria (TOPSIS) charger recommendation reduce generalised trip cost vs a nearest-charger baseline?
+  RQ2: How do user priorities (weights) differ by vehicle segment (E2W/E3W/E4W) in the Bhopal region?
+  RQ3: Where are charging gaps vs MoP norms (3x3 km urban grid, 25 km highway spacing) and vs demand?
+  RQ4: Can queue waiting time be estimated without live telemetry (M/M/c or M/G/c calibrated by field counts)?
+  RQ5: How stable are recommendations under weight uncertainty and candidate-set changes (rank reversal)?
+phases_note: weight_pct = share of TOTAL project effort (sums to 100). Phase-I commitment = P0-P4 = 40%. Cut line
+  sits between P4 and P5.
+phases:
+  P0_foundation:
+    weight_pct: 4
+    weeks:
+    - 1
+    - 1
+    deliverable: repo, docker compose, CI, schema, seed pipeline skeleton
+  P1_data:
+    weight_pct: 8
+    weeks:
+    - 1
+    - 3
+    deliverable: OSM + Open Charge Map station ingest, Vahan district CSV ingest, survey/census tables
+  P2_engine:
+    weight_pct: 10
+    weeks:
+    - 3
+    - 5
+    deliverable: range model, TOPSIS + anchored-WSM engine, 6 modes, queue module, unit tests, simulator
+  P3_field_research:
+    weight_pct: 10
+    weeks:
+    - 2
+    - 6
+    deliverable: station census (>=40 stations), user survey (n>=60), queue observations (>=8 stations x 3 slots),
+      corridor_spacing_v0 script
+  P4_api_ui_mvp:
+    weight_pct: 8
+    weeks:
+    - 5
+    - 7
+    deliverable: /recommend API + map UI (one corridor) + Nearest-vs-CERCOS comparison panel
+  '---PHASE_I_CUT_LINE---': everything above is committed Phase-I scope (40%)
+  P5_gap_analytics:
+    weight_pct: 12
+    weeks:
+    - 8
+    - 10
+    deliverable: district + corridor + 3x3 km grid gap dashboard, 2SFCA, candidate-site ranking v0
+  P6_ml_queue:
+    weight_pct: 14
+    weeks:
+    - 10
+    - 12
+    deliverable: demand/wait prediction trained on field + proxy data
+  P7_statewide:
+    weight_pct: 18
+    weeks:
+    - 11
+    - 14
+    deliverable: statewide analytics + government planning dashboard + survey-weight integration
+  P8_harden:
+    weight_pct: 16
+    weeks:
+    - 14
+    - 16
+    deliverable: auth, admin, deploy, load test, research paper draft, final report
+mcdm:
+  criteria:
+  - detour_km
+  - cost_inr_per_kwh
+  - wait_min
+  - effective_kw
+  - rating
+  - arrival_soc_pct
+  type:
+  - cost
+  - cost
+  - cost
+  - benefit
+  - benefit
+  - benefit
+  default_weights:
+    Cheapest:
+    - 0.1
+    - 0.5
+    - 0.1
+    - 0.1
+    - 0.05
+    - 0.15
+    Fastest:
+    - 0.1
+    - 0.05
+    - 0.25
+    - 0.45
+    - 0.05
+    - 0.1
+    Shortest:
+    - 0.45
+    - 0.05
+    - 0.25
+    - 0.1
+    - 0.05
+    - 0.1
+    HighestRated:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.5
+    - 0.1
+    BatterySafe:
+    - 0.1
+    - 0.05
+    - 0.05
+    - 0.1
+    - 0.05
+    - 0.65
+    Balanced:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.15
+    - 0.1
+    - 0.15
+  weight_source_after_survey: AHP or Best-Worst Method per vehicle segment
+  hard_filters:
+  - connector_compatible
+  - operational
+  - reachable_with_8pct_reserve
+acceptance_tests:
+- range model within +-15% of published/real-world range for 3 reference vehicles
+- 'TOPSIS unit tests: ideal alternative scores 1.0; dominated alternative never wins; weights sum to 1'
+- zero rank reversal on 4000 random problems with anchored bounds
+- /recommend p95 latency < 500 ms for 200 candidate stations (local docker)
+- every station returned by the API carries provenance fields
+- corridor_spacing_v0 flags every > 25 km segment on test fixtures
+data_sources:
+  stations:
+  - OpenStreetMap Overpass (amenity=charging_station)
+  - Open Charge Map API
+  - field census (primary data)
+  vehicles:
+  - Vahan public dashboard exports (district, class, fuel)
+  - dataful.in mirrors (check licence)
+  policy:
+  - MoP/BEE charging guidelines
+  - MP EV Policy 2025
+  - MHI Rajya Sabha reply 27-03-2026 (state PCS table)
+  tariff:
+  - MPERC tariff orders
+  - station-posted prices recorded in census
+  synthetic_validation_only: research/01_cercos_pilot_experiments.py
+known_risks:
+- 'No public CPO real-time API: use census + survey + queueing model; live telemetry is a future module'
+- 'No public historical session data for MP: ML phase starts from proxy data + our field counts'
+- Official count (1,417 installed / 1,291 operational on 01-03-2026) is OMC-reported and undercounts other CPOs

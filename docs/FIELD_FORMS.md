@@ -1,0 +1,4 @@
+# Field forms (columns) — Station census / Survey / Queue observation
+**Census:** station_name, operator, lat, lon, address, n_connectors, connector_types, max_kw, tariff_inr_kwh, tariff_posted_photo, hours_24x7, payment_methods, app_required, working_yn, notes, photo, enumerator, timestamp.
+**Survey:** consent, segment(E2W/E3W/E4W/fleet), model, battery_kwh_if_known, home_charge_yn, trips_per_week_beyond_30km, range_anxiety_1_5, last_charging_problem, BWM: best + worst criterion, then 5 best-to-others and 5 others-to-worst ratings (1-9) = 9 distinct comparisons over {detour, cost, wait, speed, rating, battery safety}, willingness_to_pay_extra_per_kwh_for_zero_wait.
+**Queue observation:** station_id, date, slot(07-10/12-15/18-21), minute_stamp, vehicles_waiting, connectors_busy, session_start, session_end, kWh_delivered_if_visible, observer.

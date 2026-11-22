@@ -1,0 +1,65 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Lint and test (skipped until backend/requirements.txt exists)
+        run: |
+          if [ -f backend/requirements.txt ]; then
+            pip install -r backend/requirements.txt ruff pytest
+            ruff check backend
+            pytest backend/tests -q
+          else
+            echo "backend not scaffolded yet - skipping"
+          fi
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Build (skipped until frontend/package.json exists)
+        run: |
+          if [ -f frontend/package.json ]; then
+            cd frontend && npm ci && npm run build
+          else
+            echo "frontend not scaffolded yet - skipping"
+          fi
+  research-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install numpy matplotlib
+      - run: cd research && python 01_cercos_pilot_experiments.py > /dev/null
+  config-valid:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pyyaml
+      - run: |
+          python - <<'PY'
+          import yaml, glob
+          for f in glob.glob('config/*.yaml') + ['PROJECT_MANIFEST.yaml', 'contracts/openapi.draft.yaml']:
+              yaml.safe_load(open(f)); print('ok', f)
+          w = yaml.safe_load(open('config/weights.yaml'))['default']
+          for k, v in w.items():
+              assert abs(sum(v) - 1) < 1e-9, f'weights for {k} do not sum to 1'
+          PY
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }

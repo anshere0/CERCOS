@@ -1,0 +1,7 @@
+# Fixed ("anchored") normalisation bounds -> no rank reversal. [low, high]. Revisit with census data (Atharva + Kashish).
+detour_km:            [0, 10]
+cost_inr_per_kwh:     [8, 28]
+wait_min:             [0, 60]
+effective_kw:         [3.3, 60]
+rating:               [1, 5]
+arrival_soc_pct:      [0, 100]

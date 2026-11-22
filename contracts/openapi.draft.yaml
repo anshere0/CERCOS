@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info: {title: CERCOS API (draft contract), version: 0.1.0}
+paths:
+  /health: {get: {summary: Liveness, responses: {"200": {description: ok}}}}
+  /v1/modes: {get: {summary: List modes and default weights, responses: {"200": {description: ok}}}}
+  /v1/vehicles: {get: {summary: List vehicle profiles, responses: {"200": {description: ok}}}}
+  /v1/stations:
+    get:
+      summary: Stations in a bounding box
+      parameters:
+        - {name: bbox, in: query, required: true, schema: {type: string}, description: "minLon,minLat,maxLon,maxLat"}
+        - {name: source, in: query, schema: {type: string}}
+      responses: {"200": {description: GeoJSON FeatureCollection with provenance fields}}
+  /v1/stations/{id}: {get: {summary: Station detail, parameters: [{name: id, in: path, required: true, schema: {type: integer}}], responses: {"200": {description: ok}, "404": {description: not found}}}}
+  /v1/recommend:
+    post:
+      summary: Recommend the best charging stop (see contracts/engine_interface.md for the body and result)
+      requestBody: {required: true, content: {application/json: {schema: {$ref: "#/components/schemas/RecommendRequest"}}}}
+      responses: {"200": {description: RecommendResult}, "422": {description: validation error}}
+  /v1/field/census: {post: {summary: Submit a station census record, responses: {"201": {description: created}}}}
+  /v1/field/survey: {post: {summary: Submit an anonymous survey response (consent=true required), responses: {"201": {description: created}}}}
+  /v1/field/queue: {post: {summary: Submit a queue observation, responses: {"201": {description: created}}}}
+  /v1/field/export/{kind}: {get: {summary: CSV export (census|survey|queue), parameters: [{name: kind, in: path, required: true, schema: {type: string, enum: [census, survey, queue]}}], responses: {"200": {description: text/csv}}}}
+components:
+  schemas:
+    LatLon: {type: object, required: [lat, lon], properties: {lat: {type: number}, lon: {type: number}}}
+    RecommendRequest:
+      type: object
+      required: [origin, destination, soc_pct, mode, segment]
+      properties:
+        origin: {$ref: "#/components/schemas/LatLon"}
+        destination: {$ref: "#/components/schemas/LatLon"}
+        soc_pct: {type: number, minimum: 0, maximum: 100}
+        mode: {type: string, enum: [Cheapest, Fastest, Shortest, HighestRated, BatterySafe, Balanced]}
+        segment: {type: string, enum: [E2W, E3W, E4W, ELCV]}
+        vehicle_id: {type: integer, nullable: true}

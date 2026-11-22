@@ -1,0 +1,15 @@
+# Criteria order: detour_km, cost_inr_per_kwh, wait_min, effective_kw, rating, arrival_soc_pct
+# Defaults come from the CERCOS design documents. Survey (BWM) weights REPLACE these per segment once Kashish delivers them.
+criteria: [detour_km, cost_inr_per_kwh, wait_min, effective_kw, rating, arrival_soc_pct]
+default:
+  Cheapest:     [0.10, 0.50, 0.10, 0.10, 0.05, 0.15]
+  Fastest:      [0.10, 0.05, 0.25, 0.45, 0.05, 0.10]
+  Shortest:     [0.45, 0.05, 0.25, 0.10, 0.05, 0.10]
+  HighestRated: [0.10, 0.10, 0.10, 0.10, 0.50, 0.10]
+  BatterySafe:  [0.10, 0.05, 0.05, 0.10, 0.05, 0.65]
+  Balanced:     [0.20, 0.20, 0.20, 0.15, 0.10, 0.15]
+segment_overrides:   # filled from analysis/bwm_weights.py output; keep empty until real survey data exists
+  E2W: {}
+  E3W: {}
+  E4W: {}
+  ELCV: {}

@@ -1,0 +1,133 @@
+{
+  "note": "SYNTHETIC DATA - validates method, not real-world effect size",
+  "trips_simulated": 20000,
+  "infeasible_trips_no_reachable_station": 1865,
+  "policy_table": [
+    {
+      "policy": "Nearest",
+      "mean_time_min": 93.4495120732667,
+      "p90_time_min": 204.73903059813904,
+      "mean_cost_inr": 266.16656213543,
+      "mean_wait_min": 17.054688277038853,
+      "stranding_pct": 0.011028398125172319,
+      "gen_cost_inr": 453.0655862819634,
+      "delta_gen_cost_vs_nearest": 0.0,
+      "ci95": 0.0
+    },
+    {
+      "policy": "CheapestOnly",
+      "mean_time_min": 118.93280477524807,
+      "p90_time_min": 225.5657784382714,
+      "mean_cost_inr": 226.809194645287,
+      "mean_wait_min": 21.95154842591656,
+      "stranding_pct": 0.09925558312655086,
+      "gen_cost_inr": 464.6748041957832,
+      "delta_gen_cost_vs_nearest": 11.609217913819744,
+      "ci95": 3.4346243912003347
+    },
+    {
+      "policy": "FastestOnly",
+      "mean_time_min": 59.12209484159201,
+      "p90_time_min": 97.8849313836301,
+      "mean_cost_inr": 294.43802736678526,
+      "mean_wait_min": 9.937880024869543,
+      "stranding_pct": 0.03859939343810312,
+      "gen_cost_inr": 412.68221704996927,
+      "delta_gen_cost_vs_nearest": -40.383369231994116,
+      "ci95": 2.627243632010089
+    },
+    {
+      "policy": "TOPSIS-Cheapest",
+      "mean_time_min": 84.29399395771365,
+      "p90_time_min": 192.12604138166384,
+      "mean_cost_inr": 238.11476612021895,
+      "mean_wait_min": 9.934738224053381,
+      "stranding_pct": 0.055141990625861594,
+      "gen_cost_inr": 406.7027540356462,
+      "delta_gen_cost_vs_nearest": -46.36283224631713,
+      "ci95": 2.754183775681071
+    },
+    {
+      "policy": "TOPSIS-Fastest",
+      "mean_time_min": 56.54122775550608,
+      "p90_time_min": 83.48873669374605,
+      "mean_cost_inr": 291.4717982265896,
+      "mean_wait_min": 7.037045512952271,
+      "stranding_pct": 0.07168458781362007,
+      "gen_cost_inr": 404.55425373760175,
+      "delta_gen_cost_vs_nearest": -48.51133254436165,
+      "ci95": 2.6426514432517743
+    },
+    {
+      "policy": "TOPSIS-Shortest",
+      "mean_time_min": 73.563222367349,
+      "p90_time_min": 179.78198809695414,
+      "mean_cost_inr": 272.45166866544434,
+      "mean_wait_min": 8.91716061388512,
+      "stranding_pct": 0.07168458781362007,
+      "gen_cost_inr": 419.5781134001424,
+      "delta_gen_cost_vs_nearest": -33.48747288182101,
+      "ci95": 2.7621099885686204
+    },
+    {
+      "policy": "TOPSIS-HighestRated",
+      "mean_time_min": 64.67955986649218,
+      "p90_time_min": 150.64802428072173,
+      "mean_cost_inr": 276.5447022668831,
+      "mean_wait_min": 6.8390683496667135,
+      "stranding_pct": 0.07719878687620624,
+      "gen_cost_inr": 405.9038219998675,
+      "delta_gen_cost_vs_nearest": -47.161764282095916,
+      "ci95": 2.6153326255157205
+    },
+    {
+      "policy": "TOPSIS-BatterySafe",
+      "mean_time_min": 82.10187235893801,
+      "p90_time_min": 190.3312552584193,
+      "mean_cost_inr": 270.40272909760773,
+      "mean_wait_min": 14.247660164786426,
+      "stranding_pct": 0.011028398125172319,
+      "gen_cost_inr": 434.60647381548375,
+      "delta_gen_cost_vs_nearest": -18.459112466479688,
+      "ci95": 2.459290769246768
+    },
+    {
+      "policy": "TOPSIS-Balanced",
+      "mean_time_min": 64.27363351930812,
+      "p90_time_min": 153.04784596295966,
+      "mean_cost_inr": 272.43363894657153,
+      "mean_wait_min": 6.326258885636469,
+      "stranding_pct": 0.06617038875103391,
+      "gen_cost_inr": 400.9809059851878,
+      "delta_gen_cost_vs_nearest": -52.08468029677562,
+      "ci95": 2.6405035240779857
+    }
+  ],
+  "topsis_winner_stability": {
+    "mean_pct": 71.035,
+    "p10_pct": 42.9,
+    "p50_pct": 71.0
+  },
+  "rank_reversal_pct": {
+    "TOPSIS (vector norm)": 6.05,
+    "WSM (min-max)": 5.525,
+    "WSM (anchored bounds)": 0.0
+  },
+  "mm_c_wait_in_service_times_at_rho_0_85": {
+    "0.5": [
+      4.25,
+      1.9527027027027022,
+      0.8616452771014729
+    ],
+    "1.0": [
+      5.666666666666666,
+      2.6036036036036028,
+      1.1488603694686306
+    ],
+    "2.0": [
+      8.5,
+      3.9054054054054044,
+      1.7232905542029457
+    ]
+  }
+}

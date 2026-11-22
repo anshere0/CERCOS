@@ -1,0 +1,22 @@
+# secrets
+.env
+*.pem
+# python / node
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+dist/
+.pytest_cache/
+.ruff_cache/
+# RAW FIELD DATA MUST NEVER BE COMMITTED (consent / privacy). Only anonymised files in data/field/processed/ are allowed.
+data/field/raw/
+data/field/photos/
+*.survey.raw.csv
+# large data
+*.pbf
+*.osm
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

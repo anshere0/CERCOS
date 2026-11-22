@@ -1,0 +1,19 @@
+name: Task
+description: One deliverable owned by one person
+labels: ["task"]
+body:
+  - type: input
+    attributes: {label: Owner (GitHub handle), placeholder: "@handle"}
+    validations: {required: true}
+  - type: dropdown
+    attributes:
+      label: Phase
+      options: [P0 Foundation, P1 Data, P2 Engine, P3 Field research, P4 API+UI MVP, Report]
+    validations: {required: true}
+  - type: textarea
+    attributes: {label: Deliverable and acceptance criteria, description: "Exactly what must exist when this is Done"}
+    validations: {required: true}
+  - type: input
+    attributes: {label: Due date (YYYY-MM-DD)}
+  - type: textarea
+    attributes: {label: Depends on / hands off to}

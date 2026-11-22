@@ -1,0 +1,53 @@
+ansh	P0	2026-11-24	Bootstrap repo: push pack, apply ruleset, invite all six, run bootstrap_github.sh
+ansh	P0	2026-11-27	docker-compose (postgis + api + web) and Makefile (up, down, test, lint, seed)
+ansh	P0	2026-11-27	FastAPI skeleton with /health and Alembic migration 0001 from contracts/schema.sql
+ansh	P0	2026-11-29	CI green on main; tag v0.1-foundation
+ansh	Report	2026-11-29	Bonafide page signed by supervisor and both reviewers (all six coordinate) - deliver before 30 Nov
+ansh	P0	2026-12-06	OSRM compose profile for the Bhopal region with haversine fallback documented
+ansh	P0	2026-12-13	make seed hook that loads db/seeds fixtures (with Yash)
+ansh	P4	2026-12-20	Playwright e2e skeleton running against docker compose
+ansh	P4	2026-12-27	Integration check of engine+data+api; tag v0.5-engine-data
+ansh	P4	2027-01-03	e2e test: Bhopal to Ashta recommendation scenario
+ansh	Report	2027-01-10	Final demo build, PHASE_REPORT.md complete, tag v1.0-phase1
+atharva	P2	2026-11-29	Port research/01 into backend/app/mcdm modules with pytest skeleton
+atharva	P2	2026-12-06	range.py and criteria.py (effective kW = min(station, vehicle))
+atharva	P2	2026-12-13	Anchored weighted-sum scoring, TOPSIS baseline, modes loader (config/weights.yaml)
+atharva	P2	2026-12-20	queue.py: Erlang-C M/M/c and Allen-Cunneen M/G/c with reference-value tests
+atharva	P2	2026-12-20	explain.py and recommend() function matching contracts/engine_interface.md
+atharva	P2	2026-12-27	simulator.py regression test reproducing research/results.json within tolerance
+atharva	P3	2027-01-03	Queue model calibration on field observations (lambda, mu, SCV vs observed wait)
+atharva	P3	2027-01-03	Re-run simulation with census inputs and BWM weights; low-SoC stress test
+atharva	P2	2027-01-10	docs/ENGINE.md with formulas and results for the report
+yash	P1	2026-11-29	SQLAlchemy models matching contracts/schema.sql; review Ansh's migration
+yash	P1	2026-12-06	osm_stations.py (Overpass) with provenance and etl_rejects
+yash	P1	2026-12-06	ocm_stations.py (Open Charge Map) and 50 m dedupe against OSM
+yash	P1	2026-12-13	Loaders: districts GeoJSON, Vahan CSV, census_import
+yash	P1	2026-12-20	Data-quality report script and docs/DATA_QUALITY.md; seed fixture
+yash	P4	2026-12-20	API: /v1/stations, /v1/vehicles, /v1/modes and /v1/field/* endpoints with CSV export
+yash	P4	2026-12-27	/v1/recommend wired to Atharva's recommend() with OSRM client and fallback
+yash	P4	2027-01-03	API tests; p95 < 500 ms for 200 stations; export OpenAPI
+yash	P1	2027-01-10	Stable data snapshot and docs/DATA_SOURCES.md final for the report
+anshuman	P4	2026-11-29	Vite + React + TypeScript scaffold, lint, base map centred on Bhopal, mock API from contracts/openapi.draft.yaml
+anshuman	P3	2026-12-06	Field Mode: census form (mobile layout, validation, offline queue)
+anshuman	P3	2026-12-06	Field Mode: Best-Worst survey form (9 comparisons, consent) and queue observation sheet
+anshuman	P3	2026-12-13	Connect field forms to /v1/field/* and add CSV export page
+anshuman	P4	2026-12-20	Recommend form and result cards with explanations
+anshuman	P4	2026-12-27	Nearest-vs-CERCOS comparison panel, station detail drawer, provenance badges
+anshuman	P4	2027-01-03	Responsive mobile layout, accessibility pass, component tests
+anshuman	P4	2027-01-10	Demo screenshots and recording; docs/UI.md
+kashish	P3	2026-11-29	Finalise instruments (census, survey, queue) and Google Form fallbacks; faculty approval
+kashish	P3	2026-11-29	docs/FIELD_PROTOCOL.md and docs/ETHICS.md; book first faculty-guided visit
+kashish	P3	2026-12-06	Pilot survey with 3-5 people; first census visit in Bhopal city
+kashish	P3	2026-12-20	Census: 40+ stations (or all that exist) across the 100 km zones
+kashish	P3	2026-12-27	Survey: 60+ responses with quotas per segment
+kashish	P3	2026-12-27	Queue observation: 8+ stations x 3 time slots
+kashish	P3	2027-01-03	analysis/bwm_weights.py, queue_stats.py, survey_summary.py with anonymised outputs
+kashish	P3	2027-01-10	Processed datasets in data/field/processed and results summary for the report
+eshwari	Report	2026-11-29	Reading list and comparison table started; references.bib with verified entries
+eshwari	P1	2026-12-06	docs/DATA_SOURCES.md: exact Vahan export steps; collect district EV CSVs
+eshwari	P1	2026-12-13	MP district boundaries and policy summary (MoP, BEE, MP EV Policy 2025, MHI reply)
+eshwari	Report	2026-12-13	Literature review draft (2-5 pages) with gap statement
+eshwari	P3	2026-12-20	Corridor polylines and analysis/corridor_spacing_v0.py (flags >25 km)
+eshwari	Report	2026-12-27	Report skeleton in the Phase-I format: Introduction, Motivation, Objective
+eshwari	Report	2027-01-03	Figures and tables numbering; collect individual contributions from all six
+eshwari	Report	2027-01-10	Final report assembly, reference check, declaration page, submission via the Google Form
