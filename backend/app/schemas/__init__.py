@@ -19,8 +19,9 @@ from app.schemas.station import (
     StationFeature,
     StationFeatureCollection,
     StationRead,
+    StationResponse,
 )
-from app.schemas.vehicle import VehicleCreate, VehicleRead
+from app.schemas.vehicle import VehicleCatalogItem, VehicleCreate, VehicleRead
 
 __all__ = [
     "CensusRecord",
@@ -35,9 +36,11 @@ __all__ = [
     "StationFeature",
     "StationFeatureCollection",
     "StationRead",
+    "StationResponse",
     "SurveyResponseCreate",
     "SurveyResponseRead",
     "TopStationResult",
+    "VehicleCatalogItem",
     "VehicleCreate",
     "VehicleRead",
 ]

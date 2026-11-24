@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from fastapi import APIRouter
+
 from app.etl.ocm_stations import haversine_distance
 from app.schemas.recommend import (
     CriteriaValues,
@@ -18,8 +20,6 @@ from app.schemas.recommend import (
     RejectedStation,
     TopStationResult,
 )
-from fastapi import APIRouter
-
 from db.seeds.seed_fixtures import load_fixture_stations
 
 router = APIRouter()

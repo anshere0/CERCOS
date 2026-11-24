@@ -3,8 +3,9 @@ from pathlib import Path
 from typing import Any, Literal
 
 import yaml
-from app.schemas.vehicle import VehicleRead
 from fastapi import APIRouter, Query
+
+from app.schemas.vehicle import VehicleRead
 
 router = APIRouter()
 

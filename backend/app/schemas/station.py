@@ -61,6 +61,9 @@ class StationRead(StationBase):
     connectors: list[ConnectorRead] = []
 
 
+StationResponse = StationRead  # Alias for contract compatibility
+
+
 class GeoJSONGeometry(BaseModel):
     """Point geometry representation for GeoJSON."""
     type: Literal["Point"] = "Point"

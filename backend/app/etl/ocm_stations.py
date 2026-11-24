@@ -44,6 +44,9 @@ def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
     return EARTH_RADIUS_METERS * c
 
 
+haversine_distance_m = haversine_distance  # alias
+
+
 def normalize_ocm_connector_type(raw_type: str | None) -> str:
     """Normalize OCM ConnectionType title to standard CERCOS enum."""
     if not raw_type:
@@ -252,3 +255,6 @@ def deduplicate_spatial_stations(
             master_stations.append(dict(incoming))
 
     return master_stations
+
+
+deduplicate_stations = deduplicate_spatial_stations  # alias for backward compatibility

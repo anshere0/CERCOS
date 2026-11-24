@@ -2,14 +2,14 @@
 from datetime import UTC, datetime
 from typing import Any
 
+from fastapi import APIRouter, HTTPException, Query
+
 from app.schemas.station import (
     GeoJSONGeometry,
     StationFeature,
     StationFeatureCollection,
     StationRead,
 )
-from fastapi import APIRouter, HTTPException, Query
-
 from db.seeds.seed_fixtures import load_fixture_stations
 
 router = APIRouter()

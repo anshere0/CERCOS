@@ -182,3 +182,6 @@ The automated deduplication engine enforces a strict 50-meter Haversine spatial 
 - **Eshwari (Empirical Report):** Verified corridor coverage figures ready for academic Phase-I report incorporation.
 """
     return report
+
+
+audit_dataset = audit_stations  # alias for backward compatibility

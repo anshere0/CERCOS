@@ -29,3 +29,6 @@ class VehicleRead(VehicleBase):
     """Schema for reading a vehicle with ID."""
     model_config = ConfigDict(from_attributes=True)
     vehicle_id: int
+
+
+VehicleCatalogItem = VehicleRead  # Alias for contract compatibility

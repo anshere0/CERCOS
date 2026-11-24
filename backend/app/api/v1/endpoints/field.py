@@ -4,12 +4,13 @@ import io
 from datetime import UTC, datetime
 from typing import Any, Literal
 
+from fastapi import APIRouter, HTTPException, Response, status
+
 from app.schemas.field import (
     CensusRecord,
     QueueObservationCreate,
     SurveyResponseCreate,
 )
-from fastapi import APIRouter, HTTPException, Response, status
 
 router = APIRouter()
 
