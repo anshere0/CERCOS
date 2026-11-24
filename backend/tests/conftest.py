@@ -1,5 +1,14 @@
 """Shared test fixtures for CERCOS engine and queue test suites."""
+import sys
+from pathlib import Path
 from typing import Any
+
+# Ensure repository root and backend directory are in sys.path
+_repo_root = Path(__file__).resolve().parents[2]
+_backend_dir = _repo_root / "backend"
+for _path_str in [str(_repo_root), str(_backend_dir)]:
+    if _path_str not in sys.path:
+        sys.path.insert(0, _path_str)
 
 import pytest
 from app.schemas.recommend import LatLon, RecommendRequest
