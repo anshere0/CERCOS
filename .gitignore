@@ -24,3 +24,5 @@ data/field/photos/
 data/osrm/
 # Local runtime SQLite fallback DB
 data/cercos_local.db
+# Large external registry snapshots (>15MB, downloaded by ETL on demand)
+data/external/

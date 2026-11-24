@@ -1,17 +1,274 @@
 from_station,to_station,start_km,end_km,gap_km,violates_mop_25km_norm
-DB City Mall EV Hub (EVDOQ / Tata Power),MP Nagar Zone 1 MLCP Statiq Hub,0.0,0.0,0.0,False
-MP Nagar Zone 1 MLCP Statiq Hub,Rani Kamalapati Railway Station EV Point (VEVC),0.0,0.0,0.0,False
-Rani Kamalapati Railway Station EV Point (VEVC),Tata Power - Rohit Nagar / Gulmohar Charging Station,0.0,0.0,0.0,False
-Tata Power - Rohit Nagar / Gulmohar Charging Station,Jio-bp pulse - Bawadiya Kalan Hoshangabad Rd,0.0,0.0,0.0,False
-Jio-bp pulse - Bawadiya Kalan Hoshangabad Rd,Tata Power - Govindpura JK Road Industrial Hub,0.0,0.0,0.0,False
-Tata Power - Govindpura JK Road Industrial Hub,Ather Grid - Ashoka Garden Raisen Rd (LECCS 2W/3W),0.0,0.0,0.0,False
-Ather Grid - Ashoka Garden Raisen Rd (LECCS 2W/3W),Bhopal Junction Railway Hub (Old City AC/Socket),0.0,0.0,0.0,False
-Bhopal Junction Railway Hub (Old City AC/Socket),Adani TotalEnergies - Chunabhatti Kolar Rd,0.0,0.6,0.6,False
-Adani TotalEnergies - Chunabhatti Kolar Rd,MPPKVVCL - Phanda / Sehore Rd Substation (LV-5 AC Hub),0.6,23.71,23.11,False
-MPPKVVCL - Phanda / Sehore Rd Substation (LV-5 AC Hub),Statiq - Tirupati Fuel Point Sehore (NH-46),23.71,37.29,13.58,False
-Statiq - Tirupati Fuel Point Sehore (NH-46),VIT Bhopal / Kothri Kalan Corridor E2W/E3W Hub,37.29,69.52,32.23,True
-VIT Bhopal / Kothri Kalan Corridor E2W/E3W Hub,Jio-bp pulse - Ashta Kilerama Highway Plaza,69.52,83.09,13.57,False
-Jio-bp pulse - Ashta Kilerama Highway Plaza,Sonkatch Highway Transit AC/DC Point,83.09,118.17,35.08,True
-Sonkatch Highway Transit AC/DC Point,Jio-bp pulse - Dewas Town Highway Hub,118.17,159.15,40.98,True
-Jio-bp pulse - Dewas Town Highway Hub,Jio-bp pulse - Dewas Naka Mobility Station Indore,159.15,187.33,28.18,True
-Jio-bp pulse - Dewas Naka Mobility Station Indore,Jio-bp pulse - C21 Business Park Radisson Square Indore,187.33,196.9,9.57,False
+Sanjha Chulla A Family Restaurant,Statiq Shell Recharge CI Hyunda Station,0.0,0.0,0.0,False
+Statiq Shell Recharge CI Hyunda Station,SLK Nimbus Arcade Charging Station,0.0,0.0,0.0,False
+SLK Nimbus Arcade Charging Station,"IOCL RO CNG KAVI Fuels, Avinash Nagar",0.0,0.0,0.0,False
+"IOCL RO CNG KAVI Fuels, Avinash Nagar",Ashish Auto Services,0.0,0.0,0.0,False
+Ashish Auto Services,MP | Bhopal | Surjeet hyundai,0.0,0.0,0.0,False
+MP | Bhopal | Surjeet hyundai,SNR Kia J.K. Road,0.0,0.0,0.0,False
+SNR Kia J.K. Road,TML Varenyam Motor Car,0.0,0.0,0.0,False
+TML Varenyam Motor Car,NEW STAR TRAVELS,0.0,0.0,0.0,False
+NEW STAR TRAVELS,"BMC Zone Office 9 , Near10 No Market",0.0,0.0,0.0,False
+"BMC Zone Office 9 , Near10 No Market",Capital Service Station,0.0,0.0,0.0,False
+Capital Service Station,Jiobp Modern Warehousing Hub (Renault Showroom),0.0,0.0,0.0,False
+Jiobp Modern Warehousing Hub (Renault Showroom),Hotel Lake view Ranjeet BMC Smart Parking,0.0,0.0,0.0,False
+Hotel Lake view Ranjeet BMC Smart Parking,State Bank of India Arera Hills (Private Charger),0.0,0.0,0.0,False
+State Bank of India Arera Hills (Private Charger),Vindhyanchal Bhawan Govt. Office,0.0,0.0,0.0,False
+Vindhyanchal Bhawan Govt. Office,Infront of Shahpura Lake,0.0,0.0,0.0,False
+Infront of Shahpura Lake,Under the Veer Savarkar Setu Bridge,0.0,0.0,0.0,False
+Under the Veer Savarkar Setu Bridge,UAD Palika Bhawan BMC Smart Parking,0.0,0.0,0.0,False
+UAD Palika Bhawan BMC Smart Parking,ISBT Bus Stand,0.0,0.0,0.0,False
+ISBT Bus Stand,INFRONT OF ALLEN COACHING PARKING BHOPAL,0.0,0.0,0.0,False
+INFRONT OF ALLEN COACHING PARKING BHOPAL,Multilevel Parking New Market,0.0,0.0,0.0,False
+Multilevel Parking New Market,Statiq MLCP MP Nagar Station,0.0,0.0,0.0,False
+Statiq MLCP MP Nagar Station,Fortune Building BMC Smart Parking,0.0,0.0,0.0,False
+Fortune Building BMC Smart Parking,MP Nagar Zone I opposite DB Mall BMC Smart Parking,0.0,0.0,0.0,False
+MP Nagar Zone I opposite DB Mall BMC Smart Parking,Satpura Bhawan Govt. Office complex,0.0,0.0,0.0,False
+Satpura Bhawan Govt. Office complex,DAMMO FILLING STATION,0.0,0.0,0.0,False
+DAMMO FILLING STATION,TATPAR,0.0,0.0,0.0,False
+TATPAR,DURGA SERVICE STATION,0.0,0.0,0.0,False
+DURGA SERVICE STATION,AUTO HOUSE,0.0,0.0,0.0,False
+AUTO HOUSE,Hotel Amer Green - ChargeJet,0.0,0.0,0.0,False
+Hotel Amer Green - ChargeJet,2006833-PARAM FILLING STATION,0.0,0.0,0.0,False
+2006833-PARAM FILLING STATION,2006992-MAHENDRA FUEL POINT,0.0,0.0,0.0,False
+2006992-MAHENDRA FUEL POINT,2012047-NIRMAL FILLING STATION,0.0,0.0,0.0,False
+2012047-NIRMAL FILLING STATION,7Kw Ac charger 0662,0.0,0.0,0.0,False
+7Kw Ac charger 0662,Bhopal Smart City Office (BSCDCL),0.0,0.0,0.0,False
+Bhopal Smart City Office (BSCDCL),Enterprising Automation,0.0,0.0,0.0,False
+Enterprising Automation,KAMLA RAMSONS,0.0,0.0,0.0,False
+KAMLA RAMSONS,Canara bank co bhopal,0.0,0.0,0.0,False
+Canara bank co bhopal,Ather Space Bhopal,0.0,0.0,0.0,False
+Ather Space Bhopal,Humble Cow - Star City Society,0.0,0.0,0.0,False
+Humble Cow - Star City Society,2006836 - RELIABLE CARRIERS PRIVATE LIMITED,0.0,0.07,0.07,False
+2006836 - RELIABLE CARRIERS PRIVATE LIMITED,Ather Service Centre - Bhopal Kolar Road,0.07,0.23,0.16,False
+Ather Service Centre - Bhopal Kolar Road,POLICE WELFARE CENTRE,0.23,0.39,0.16,False
+POLICE WELFARE CENTRE,RAGHUBAR SERVICE STATION,0.39,0.47,0.08,False
+RAGHUBAR SERVICE STATION,"Ather space Kolar Road, Bhopal",0.47,0.64,0.17,False
+"Ather space Kolar Road, Bhopal",NHM office BMC Smart Parking,0.64,0.69,0.05,False
+NHM office BMC Smart Parking,Nadra Bus Stand,0.69,0.7,0.01,False
+Nadra Bus Stand,Amaira Emporio,0.7,0.71,0.01,False
+Amaira Emporio,"Jiobp Hotel Western, Bhopal",0.71,1.06,0.35,False
+"Jiobp Hotel Western, Bhopal",BMC Office Workshop Main Road No 2,1.06,1.52,0.46,False
+BMC Office Workshop Main Road No 2,MAJOR NANKAY & CO.,1.52,1.56,0.04,False
+MAJOR NANKAY & CO.,Behind Old Chirayu BMC Smart Parking,1.56,1.69,0.13,False
+Behind Old Chirayu BMC Smart Parking,2006830-FILL & FLY,1.69,3.0,1.31,False
+2006830-FILL & FLY,Statiq BMC Lake View Charging station,3.0,3.05,0.05,False
+Statiq BMC Lake View Charging station,2006860-URJA KENDRA,3.05,3.13,0.08,False
+2006860-URJA KENDRA,"Boat Club, BMC Smart Parking",3.13,3.73,0.6,False
+"Boat Club, BMC Smart Parking","Taj Lakefront, Nehru Nagar",3.73,3.98,0.25,False
+"Taj Lakefront, Nehru Nagar",Humble Cow Private,3.98,4.48,0.5,False
+Humble Cow Private,Infront of Judicial Academy BMC Smart Parking,4.48,4.6,0.12,False
+Infront of Judicial Academy BMC Smart Parking,"Jiobp Jio-bp Mobility Station, Bhopal Bypass",4.6,4.61,0.01,False
+"Jiobp Jio-bp Mobility Station, Bhopal Bypass",Punjab service station,4.61,4.67,0.06,False
+Punjab service station,2014059-SMART CITY FUELS,4.67,4.87,0.2,False
+2014059-SMART CITY FUELS,NIKOL EV - Quickwatt 30KW - Winggs Club Bhopal,4.87,5.05,0.18,False
+NIKOL EV - Quickwatt 30KW - Winggs Club Bhopal,Halalpur Bus Stand,5.05,5.18,0.13,False
+Halalpur Bus Stand,2013536-SOOD FILLING STATION,5.18,6.42,1.24,False
+2013536-SOOD FILLING STATION,Bling Square Mall Bairagarh Bhopal,6.42,6.88,0.46,False
+Bling Square Mall Bairagarh Bhopal,BLING SQUARE,6.88,7.38,0.5,False
+BLING SQUARE,Hotel SMR Palace,7.38,7.78,0.4,False
+Hotel SMR Palace,MLP Bairagarh BMC Smart Parking,7.78,7.93,0.15,False
+MLP Bairagarh BMC Smart Parking,Ather EC - Bairagarh,7.93,8.83,0.9,False
+Ather EC - Bairagarh,The Grand Jalsa,8.83,9.8,0.97,False
+The Grand Jalsa,2020340-ATHARVA RAJ HIGHWAY SEERVICES,9.8,11.25,1.45,False
+2020340-ATHARVA RAJ HIGHWAY SEERVICES,VIDHANT PETROLEUM,11.25,15.43,4.18,False
+VIDHANT PETROLEUM,2006761 - JANTA SALES AND SERVICE,15.43,17.2,1.77,False
+2006761 - JANTA SALES AND SERVICE,Rajpoot Restaurant (Laxmi Narayan Mewada),17.2,19.93,2.73,False
+Rajpoot Restaurant (Laxmi Narayan Mewada),Tata motors,19.93,21.37,1.44,False
+Tata motors,Jai Shree Balaji Dhaba and Family Restaurant,21.37,23.01,1.64,False
+Jai Shree Balaji Dhaba and Family Restaurant,Rachna Sales And Service,23.01,23.62,0.61,False
+Rachna Sales And Service,Tata sehore,23.62,31.83,8.21,False
+Tata sehore,Sahu Fuel Point,31.83,35.64,3.81,False
+Sahu Fuel Point,BE6,35.64,38.43,2.79,False
+BE6,BHARAT SALES & SERVICES,38.43,38.49,0.06,False
+BHARAT SALES & SERVICES,SHRI MANOHAR SALES AND SERVICE,38.49,40.68,2.19,False
+SHRI MANOHAR SALES AND SERVICE,AMBIKA FUEL POINT,40.68,41.8,1.12,False
+AMBIKA FUEL POINT,RAI FUEL STATION,41.8,42.34,0.54,False
+RAI FUEL STATION,"Jiobp Jio-bp Mobility Station, Sehore Bypass",42.34,44.31,1.97,False
+"Jiobp Jio-bp Mobility Station, Sehore Bypass",Kasotiya Energy Station,44.31,44.61,0.3,False
+Kasotiya Energy Station,Graces Resort - ChargeJet,44.61,44.62,0.01,False
+Graces Resort - ChargeJet,2025363-JAGDISH FUELS,44.62,48.87,4.25,False
+2025363-JAGDISH FUELS,M/S. MAHENDRA SINGH TPT.FILLING STATION,48.87,51.92,3.05,False
+M/S. MAHENDRA SINGH TPT.FILLING STATION,Katare Sales and Service,51.92,58.86,6.94,False
+Katare Sales and Service,Maruti Nandan sales and service,58.86,60.53,1.67,False
+Maruti Nandan sales and service,EV Charging Station #11867,60.53,63.38,2.85,False
+EV Charging Station #11867,2014160	- PRAGYA FUELS,63.38,67.27,3.89,False
+2014160	- PRAGYA FUELS,SHRI JAI RAM AUTO FILLINGS,67.27,72.88,5.61,False
+SHRI JAI RAM AUTO FILLINGS,"Jiobp Hotel Nikunj, Sehore",72.88,78.73,5.85,False
+"Jiobp Hotel Nikunj, Sehore",2013506-PARMAR FILLING STATION,78.73,79.66,0.93,False
+2013506-PARMAR FILLING STATION,"Jiobp Jio-bp Mobility Station, Ashta -2",79.66,82.31,2.65,False
+"Jiobp Jio-bp Mobility Station, Ashta -2",Ibp Auto Service-Astha,82.31,83.09,0.78,False
+Ibp Auto Service-Astha,2006848-APNA FILLING STATION,83.09,83.09,0.0,False
+2006848-APNA FILLING STATION,Hp Auto center Ashta,83.09,85.28,2.19,False
+Hp Auto center Ashta,MP | Ashta | ode da dhaba,85.28,88.97,3.69,False
+MP | Ashta | ode da dhaba,MPT FUELS DODI,88.97,96.93,7.96,False
+MPT FUELS DODI,Sol Retreat Charging Station,96.93,101.08,4.15,False
+Sol Retreat Charging Station,2013258-GHANSHYAM HIGHWAYS,101.08,122.39,21.31,False
+2013258-GHANSHYAM HIGHWAYS,Suman Arpit  Kisan Sewa Kendra,122.39,125.48,3.09,False
+Suman Arpit  Kisan Sewa Kendra,HARIKRIPA KISAN SEWA KENDRA,125.48,128.35,2.87,False
+HARIKRIPA KISAN SEWA KENDRA,Royal Kisan Seva Kendra,128.35,130.17,1.82,False
+Royal Kisan Seva Kendra,Mangalam Fuels Kisan Sewa Kendra,130.17,130.26,0.09,False
+Mangalam Fuels Kisan Sewa Kendra,Murliwala Chappan Bhog - ChargeJet,130.26,131.72,1.46,False
+Murliwala Chappan Bhog - ChargeJet,Solanki Kisan Seva Kendra,131.72,133.91,2.19,False
+Solanki Kisan Seva Kendra,2020651-OM SAI RAM FILLING CENTER,133.91,142.83,8.92,False
+2020651-OM SAI RAM FILLING CENTER,SHRI BHAWARNATHJI FUELS,142.83,143.07,0.24,False
+SHRI BHAWARNATHJI FUELS,Shri Pravesh Maa Narayani Petrol Pu,143.07,147.28,4.21,False
+Shri Pravesh Maa Narayani Petrol Pu,2017360-AMRUTDHARA FILLING STATION,147.28,147.3,0.02,False
+2017360-AMRUTDHARA FILLING STATION,"Jiobp Jio-bp Mobility Station, Sendhwa",147.3,148.52,1.22,False
+"Jiobp Jio-bp Mobility Station, Sendhwa",Akansha Petroleum,148.52,155.9,7.38,False
+Akansha Petroleum,MAA BAGLAMUKHI EV CHARGING STATION,155.9,156.25,0.35,False
+MAA BAGLAMUKHI EV CHARGING STATION,KAMIL CHARGING STATION,156.25,156.26,0.01,False
+KAMIL CHARGING STATION,Narmada Filling Station,156.26,157.64,1.38,False
+Narmada Filling Station,2003157-CHAMUNDA MOTORS,157.64,160.03,2.39,False
+2003157-CHAMUNDA MOTORS,Anadi Fuels,160.03,160.49,0.46,False
+Anadi Fuels,Lucky Fuels,160.49,160.59,0.1,False
+Lucky Fuels,BOLT.EARTH,160.59,162.09,1.5,False
+BOLT.EARTH,Ather EC - Dewas,162.09,162.36,0.27,False
+Ather EC - Dewas,Pappu Jaat Dhaba,162.36,171.74,9.38,False
+Pappu Jaat Dhaba,Soni and sons - HP Pump Indore,171.74,173.75,2.01,False
+Soni and sons - HP Pump Indore,Bp-Arjun/Baroda,173.75,175.15,1.4,False
+Bp-Arjun/Baroda,"2003149-SUNIL SERV ST,LASUDIA PARMAR",175.15,178.24,3.09,False
+"2003149-SUNIL SERV ST,LASUDIA PARMAR",Shubham Kisan Sewa Kendra,178.24,178.27,0.03,False
+Shubham Kisan Sewa Kendra,"Jiobp Jio-bp Mobility Station, Indore II TS",178.27,179.48,1.21,False
+"Jiobp Jio-bp Mobility Station, Indore II TS",Stylish Beauty Salon,179.48,180.66,1.18,False
+Stylish Beauty Salon,"Jiobp Fly Food Park, Indore",180.66,183.33,2.67,False
+"Jiobp Fly Food Park, Indore",bolt.earth ev charger 11kw,183.33,185.71,2.38,False
+bolt.earth ev charger 11kw,MP | Indore | Sheraton Grand Palace,185.71,186.22,0.51,False
+MP | Indore | Sheraton Grand Palace,"ThunderPlus EV Charge Hub, Tata Sanghi Brothers, Indore",186.22,186.92,0.7,False
+"ThunderPlus EV Charge Hub, Tata Sanghi Brothers, Indore",srishti Automotive,186.92,187.82,0.9,False
+srishti Automotive,Sai Soham Ganga Fuels,187.82,188.03,0.21,False
+Sai Soham Ganga Fuels,The Empress Kazam 1,188.03,188.15,0.12,False
+The Empress Kazam 1,24 Hour Bakery and Cafe,188.15,188.43,0.28,False
+24 Hour Bakery and Cafe,2003089-LAXMI SERVICE STATION,188.43,188.55,0.12,False
+2003089-LAXMI SERVICE STATION,MP | Indore | MB#Land Mark Cars,188.55,188.61,0.06,False
+MP | Indore | MB#Land Mark Cars,Electriva - Nipania Main Rd,188.61,188.77,0.16,False
+Electriva - Nipania Main Rd,HEMANG CORPORATE,188.77,188.77,0.0,False
+HEMANG CORPORATE,"GLIDA Phoenix Citadel Mall, Indore",188.77,188.84,0.07,False
+"GLIDA Phoenix Citadel Mall, Indore",Bridgestone Fleet Point - Shivam Wheel Alignment Center,188.84,189.07,0.23,False
+Bridgestone Fleet Point - Shivam Wheel Alignment Center,Salasar Citroen Indore,189.07,189.09,0.02,False
+Salasar Citroen Indore,Electriva - Dewas Naka,189.09,189.13,0.04,False
+Electriva - Dewas Naka,Shree KIA Indore,189.13,189.2,0.07,False
+Shree KIA Indore,"Jiobp Jardin Hotel, Indore",189.2,189.21,0.01,False
+"Jiobp Jardin Hotel, Indore","The Park, Bhicholi Hapsi",189.21,189.36,0.15,False
+"The Park, Bhicholi Hapsi",Ather EC - Indore (Niranjanpur),189.36,189.38,0.02,False
+Ather EC - Indore (Niranjanpur),SUN & DEEP,189.38,189.42,0.04,False
+SUN & DEEP,Public Park Near Garden Entrance,189.42,189.78,0.36,False
+Public Park Near Garden Entrance,ELECTRIVA - NEAR STAR SQUARE,189.78,190.09,0.31,False
+ELECTRIVA - NEAR STAR SQUARE,Opp. Townhouse OAK Hotel Shivaay,190.09,190.49,0.4,False
+Opp. Townhouse OAK Hotel Shivaay,Satya Sai Square,190.49,190.61,0.12,False
+Satya Sai Square,Ranjeet’s Kitchen - Vijay Nagar,190.61,190.75,0.14,False
+Ranjeet’s Kitchen - Vijay Nagar,Jiobp C21 Business Park,190.75,190.77,0.02,False
+Jiobp C21 Business Park,Guru Kripa Building,190.77,190.82,0.05,False
+Guru Kripa Building,Electriva - THE HUB BUILDING,190.82,190.82,0.0,False
+Electriva - THE HUB BUILDING,IMC Parking (Dhan Trident),190.82,190.83,0.01,False
+IMC Parking (Dhan Trident),Electriva - Vijay Nagar Square,190.83,191.26,0.43,False
+Electriva - Vijay Nagar Square,E-ROZGAAR,191.26,191.28,0.02,False
+E-ROZGAAR,Near Shaheed Park,191.28,191.43,0.15,False
+Near Shaheed Park,Near Medanta Super Specialty Hospital,191.43,191.5,0.07,False
+Near Medanta Super Specialty Hospital,At Rasoma Bus Depot,191.5,191.63,0.13,False
+At Rasoma Bus Depot,"Sayaji Hotels Limited, Vijay Nagar",191.63,191.64,0.01,False
+"Sayaji Hotels Limited, Vijay Nagar",SeleQtions Indore WOW Hotel,191.64,191.64,0.0,False
+SeleQtions Indore WOW Hotel,Chill Baby,191.64,191.64,0.0,False
+Chill Baby,Electriva - Meghdoot Garden,191.64,191.79,0.15,False
+Electriva - Meghdoot Garden,Electriva - Kanadia Main Rd,191.79,191.82,0.03,False
+Electriva - Kanadia Main Rd,Raghunath Prasad & Co.,191.82,191.86,0.04,False
+Raghunath Prasad & Co.,"Jiobp C21 Mall, Indore",191.86,191.91,0.05,False
+"Jiobp C21 Mall, Indore",IMC Parking (Between Magdoot Garden & Marriott Hotel),191.91,191.93,0.02,False
+IMC Parking (Between Magdoot Garden & Marriott Hotel),Between Raghunath Pump and Princess Business,191.93,191.96,0.03,False
+Between Raghunath Pump and Princess Business,2003179-KHAJRANA PETRO NEEDS,191.96,191.98,0.02,False
+2003179-KHAJRANA PETRO NEEDS,MEC TECHNOLOGY MACHINES PVT LTD,191.98,192.07,0.09,False
+MEC TECHNOLOGY MACHINES PVT LTD,MP | Indore | Indore Marriott Hotel,192.07,192.08,0.01,False
+MP | Indore | Indore Marriott Hotel,Electriva - Prime City Rd,192.08,192.59,0.51,False
+Electriva - Prime City Rd,National Skill Training Institute (NSTI),192.59,192.7,0.11,False
+National Skill Training Institute (NSTI),Aastha Talkies,192.7,192.84,0.14,False
+Aastha Talkies,Ginger Indore Charging Station,192.84,192.98,0.14,False
+Ginger Indore Charging Station,READYMADE COMPLEX,192.98,193.38,0.4,False
+READYMADE COMPLEX,Electriva - Bangali Square,193.38,193.44,0.06,False
+Electriva - Bangali Square,Near LIG Square Lions Citizen,193.44,193.48,0.04,False
+Near LIG Square Lions Citizen,Hriday Cars,193.48,193.64,0.16,False
+Hriday Cars,Near Shri Krishna Public School,193.64,193.94,0.3,False
+Near Shri Krishna Public School,Chatori Corner - ChargeJet,193.94,193.96,0.02,False
+Chatori Corner - ChargeJet,PWD Colony Indore,193.96,194.15,0.19,False
+PWD Colony Indore,Electriva - NEAR PWD OLD PALASIYA,194.15,194.15,0.0,False
+Electriva - NEAR PWD OLD PALASIYA,Eminent hospital,194.15,194.3,0.15,False
+Eminent hospital,Devilal Kanhaiyala HUF,194.3,194.46,0.16,False
+Devilal Kanhaiyala HUF,Electriva - PIPLIYAHANA LAKE MAIN ROAD,194.46,194.67,0.21,False
+Electriva - PIPLIYAHANA LAKE MAIN ROAD,SWAMI VIVEKANAND SITE,194.67,194.71,0.04,False
+SWAMI VIVEKANAND SITE,Heritage Building Indore,194.71,194.8,0.09,False
+Heritage Building Indore,Near Pipliyahan Square (Worldcup Square),194.8,194.87,0.07,False
+Near Pipliyahan Square (Worldcup Square),MALWA MILL BUS STOP,194.87,194.91,0.04,False
+MALWA MILL BUS STOP,Ather Service Center MG Road Indore,194.91,194.94,0.03,False
+Ather Service Center MG Road Indore,Empire Market Place,194.94,195.14,0.2,False
+Empire Market Place,"Jiobp Nexus Treasure Island, MG Road",195.14,195.29,0.15,False
+"Jiobp Nexus Treasure Island, MG Road",NIKOL EV 7.4kW - Indore,195.29,195.31,0.02,False
+NIKOL EV 7.4kW - Indore,MPEB POLOGROUND CM RISE SCHOOL,195.31,195.36,0.05,False
+MPEB POLOGROUND CM RISE SCHOOL,NIKOL 7.4kW - Ratlam Kothi Indore,195.36,195.38,0.02,False
+NIKOL 7.4kW - Ratlam Kothi Indore,"NAVRATNA BAGH, POSTAL COLONY",195.38,195.4,0.02,False
+"NAVRATNA BAGH, POSTAL COLONY",GLIDA Kalindi Pride,195.4,195.42,0.02,False
+GLIDA Kalindi Pride,Qwertyuiop,195.42,195.49,0.07,False
+Qwertyuiop,Near Dhakkan Wala Kuan Bus Stop,195.49,195.53,0.04,False
+Near Dhakkan Wala Kuan Bus Stop,Electriva - Snehlataganj,195.53,195.53,0.0,False
+Electriva - Snehlataganj,2003091-MAHIMA AUTO CENTRE,195.53,195.56,0.03,False
+2003091-MAHIMA AUTO CENTRE,AICTSL Charging Station || Ecoplug Charging Station,195.56,195.57,0.01,False
+AICTSL Charging Station || Ecoplug Charging Station,ROBERT NURSING HOME,195.57,195.57,0.0,False
+ROBERT NURSING HOME,"IOCL Central Jail RO, Rambagh",195.57,195.62,0.05,False
+"IOCL Central Jail RO, Rambagh",Electriva - Nehru Park Railway Station,195.62,195.65,0.03,False
+Electriva - Nehru Park Railway Station,POLOGROUND (MSME),195.65,195.74,0.09,False
+POLOGROUND (MSME),Nehru Park Smart City Office,195.74,195.79,0.05,False
+Nehru Park Smart City Office,Palson Petroleum,195.79,195.83,0.04,False
+Palson Petroleum,AARGO I HRJ SAROVAR PORTICO,195.83,195.89,0.06,False
+AARGO I HRJ SAROVAR PORTICO,GOKULDAS HOSPITAL,195.89,195.98,0.09,False
+GOKULDAS HOSPITAL,Electriva - SP Office,195.98,196.01,0.03,False
+Electriva - SP Office,Near Income Tax Office,196.01,196.02,0.01,False
+Near Income Tax Office,"Jiobp Nexus Treasure Island, South Tukoganj",196.02,196.06,0.04,False
+"Jiobp Nexus Treasure Island, South Tukoganj","2003099-V.M. MODI & SONS,",196.06,196.06,0.0,False
+"2003099-V.M. MODI & SONS,",Jaora Compound,196.06,196.06,0.0,False
+Jaora Compound,Nagar Nigam Office Parking,196.06,196.6,0.54,False
+Nagar Nigam Office Parking,Sarwate Bus Stand Parking,196.6,196.71,0.11,False
+Sarwate Bus Stand Parking,Parking (RTO Office),196.71,196.72,0.01,False
+Parking (RTO Office),"Devi Ahilyabai Holker Airport, Indore",196.72,196.9,0.18,False
+"Devi Ahilyabai Holker Airport, Indore",Sirpur Lake Garden Near Water Tank,196.9,196.9,0.0,False
+Sirpur Lake Garden Near Water Tank,Ramchandra Nagar Square Near Bus Stop,196.9,196.9,0.0,False
+Ramchandra Nagar Square Near Bus Stop,SVIMS – Indore,196.9,196.9,0.0,False
+SVIMS – Indore,Rajwada Parking,196.9,196.9,0.0,False
+Rajwada Parking,Malav Kanya Higher Secondary School,196.9,196.9,0.0,False
+Malav Kanya Higher Secondary School,Beside Dhanwantri Nagar Water Tank,196.9,196.9,0.0,False
+Beside Dhanwantri Nagar Water Tank,MP | Indore | Prince Hyundai,196.9,196.9,0.0,False
+MP | Indore | Prince Hyundai,Parking (Mai Mangeshkar Sabha Grah),196.9,196.9,0.0,False
+Parking (Mai Mangeshkar Sabha Grah),Silver Springs,196.9,196.9,0.0,False
+Silver Springs,H S Road Carriers,196.9,196.9,0.0,False
+H S Road Carriers,Statiq Somya Vehicle Indore Station,196.9,196.9,0.0,False
+Statiq Somya Vehicle Indore Station,Harsh Hyundai Charging Station,196.9,196.9,0.0,False
+Harsh Hyundai Charging Station,Near Sapna Sangeeta (Lumiere),196.9,196.9,0.0,False
+Near Sapna Sangeeta (Lumiere),MobiLane Deccan Vehicle Pvt. Ltd.,196.9,196.9,0.0,False
+MobiLane Deccan Vehicle Pvt. Ltd.,Jawahar Marg,196.9,196.9,0.0,False
+Jawahar Marg,EV Charging Station #11864,196.9,196.9,0.0,False
+EV Charging Station #11864,Shri Ujagar Fuels,196.9,196.9,0.0,False
+Shri Ujagar Fuels,Shiva Fuel Station,196.9,196.9,0.0,False
+Shiva Fuel Station,Vinod ev charge,196.9,196.9,0.0,False
+Vinod ev charge,Hotel Solaris 40 KW Charing Station,196.9,196.9,0.0,False
+Hotel Solaris 40 KW Charing Station,2003122-RATANKAMAL AUTOMOBILES,196.9,196.9,0.0,False
+2003122-RATANKAMAL AUTOMOBILES,2003154-PRAKASH AUTO CENTRE,196.9,196.9,0.0,False
+2003154-PRAKASH AUTO CENTRE,Garden (Pipliya Pala Main Road),196.9,196.9,0.0,False
+Garden (Pipliya Pala Main Road),GURUKRIPA RESTURANT,196.9,196.9,0.0,False
+GURUKRIPA RESTURANT,RAMSINGH & SONS,196.9,196.9,0.0,False
+RAMSINGH & SONS,Chetak Phuti Kothi,196.9,196.9,0.0,False
+Chetak Phuti Kothi,PIPLIYA RAO RING ROAD IT PARK,196.9,196.9,0.0,False
+PIPLIYA RAO RING ROAD IT PARK,A E-We Power,196.9,196.9,0.0,False
+A E-We Power,ELECTRIVA - BHAWARKUA TOWARDS IT PARK,196.9,196.9,0.0,False
+ELECTRIVA - BHAWARKUA TOWARDS IT PARK,Narmada Transport Company,196.9,196.9,0.0,False
+Narmada Transport Company,IMC PARKING RAJWADA,196.9,196.9,0.0,False
+IMC PARKING RAJWADA,9930SPACES,196.9,196.9,0.0,False
+9930SPACES,Electriva - Saifi Nagar,196.9,196.9,0.0,False
+Electriva - Saifi Nagar,Electriva - Madhuban Colony,196.9,196.9,0.0,False
+Electriva - Madhuban Colony,Ather Space Indore 2,196.9,196.9,0.0,False
+Ather Space Indore 2,Kastur Deluxe Theater,196.9,196.9,0.0,False
+Kastur Deluxe Theater,RANJEET CHOPATI,196.9,196.9,0.0,False
+RANJEET CHOPATI,Sontu Montu Higher Secondary School,196.9,196.9,0.0,False
+Sontu Montu Higher Secondary School,"Electriva Hawa Banglow, IMC Zone 14",196.9,196.9,0.0,False
+"Electriva Hawa Banglow, IMC Zone 14",NAVLAKHA SQUARE Charging Point,196.9,196.9,0.0,False
+NAVLAKHA SQUARE Charging Point,Rudraksh Building,196.9,196.9,0.0,False
+Rudraksh Building,Electriva - KILA ROAD,196.9,196.9,0.0,False
+Electriva - KILA ROAD,Dosa Magic,196.9,196.9,0.0,False
+Dosa Magic,GURUNANAK TIMBER MARKET,196.9,196.9,0.0,False
+GURUNANAK TIMBER MARKET,Ather EC - Kalani Nagar Indore,196.9,196.9,0.0,False
+Ather EC - Kalani Nagar Indore,Electriva - Airport Road,196.9,196.9,0.0,False

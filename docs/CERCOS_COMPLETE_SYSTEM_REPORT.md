@@ -50,7 +50,7 @@ Conventional TOPSIS vector normalization changes existing station rankings whene
 ```mermaid
 flowchart TB
     subgraph DATA["1. Real-World Data & Ingestion Layer"]
-        OSM["OpenStreetMap Nominatim & Overpass<br/>22 Real Corridor Charging Hubs"]
+        OSM["Real India EV Registry + OSM API v0.6<br/>508 Verified MP Corridor Stations"]
         VAHAN["MoRTH VAHAN 4.0 District CSV<br/>(Bhopal, Indore, Sehore, Vidisha, etc.)"]
         OEM["Verified OEM EV Datasheets<br/>(Ather, Ola, Mahindra, Tata Nexon/Tiago/Ace)"]
         POLICY["MoP 2022, MHI RS Q3910 & MP EV Policy 2025"]
@@ -96,7 +96,7 @@ flowchart TB
 ## 4. Detailed Breakdown of Modules, Features & Team Contributions
 
 ### 4.1 Real Data Ingestion, Spatial Deduplication & Storage (Yash + Eshwari + Ansh)
-- **Live OpenStreetMap Ingestion (`backend/app/etl/fetch_live_osm.py`, `osm_stations.py`):** Queries OSM Nominatim/Overpass across Madhya Pradesh (`22.4°N–23.9°N`, `75.5°E–78.3°E`), extracting exact `osm:node/...` and `osm:way/...` geometries for 22 verified public charging stations across **Tata Power EZ Charge, Jio-bp pulse, Statiq, Ather Grid, Adani TotalEnergies, VEVC, BPCL eDrive, and MPPKVVCL**.
+- **Verified Multi-Source Registry + Live OSM Ingestion (`backend/app/etl/fetch_real_india_ev.py`, `osm_stations.py`):** Filters the live 28,553-station merged Indian EV registry (`reclaimchennai/india-ev-charging-dataset` aggregating **Kia/Numocity, MG eHUB, ChargeZone, Ather Grid, Bolt.Earth, OpenChargeMap, and OpenStreetMap**) and live OSM API v0.6 node elements (`13917513464, 13913881928, 13917515273, 13919645475`) for Madhya Pradesh's study region (`22.4°N–23.9°N`, `75.5°E–78.5°E`), yielding **508 deduplicated real charging stations (1,259 connectors, mean confidence 0.866)** across Bhopal (82+), Indore (79+), Ujjain, Dewas, Sehore, Raisen, Shajapur, Vidisha, Ashta, and Narmadapuram — spanning ChargeZone, Ather Grid (`LECCS`), Statiq, Bolt.Earth (`15A_Socket`), HPCL eCharge, Jio-bp Pulse, Tata Power EZ Charge, BPCL eDrive, and Adani Total Energies. Upstream tariffs (`₹14–25.99/kWh` and `₹0.0/kWh` Free sites) are preserved verbatim for the 202 listed stations and stored honestly as `null` for the 306 unlisted stations (zero fabricated pricing).
 - **50-Meter Haversine Spatial Deduplicator (`ocm_stations.py`):** Merges overlapping multi-source POIs within a strict 50 m great-circle threshold, unions connector arrays, and elevates provenance confidence from single-source (`0.80–0.85`) to corroborated (`0.95`).
 - **Dual-Mode Database Connectivity (`backend/app/core/db.py` & `db/migrations/`):**
   - Strictly mirrors `contracts/schema.sql` across all 8 PostgreSQL `cercos` tables (`districts`, `charging_stations`, `connectors`, `vehicles`, `survey_responses`, `station_observations`, `recommendations_log`, `etl_rejects`).
@@ -125,7 +125,7 @@ flowchart TB
 - **`GET /v1/status`:** Exposes live database dialect health, station inventory counts by provenance, and loaded government benchmarks.
 
 ### 4.4 Policy & Empirical Research Analytics (`analysis/`)
-- **NH-46 Corridor Gap Audit (`analysis/corridor_spacing_v0.py`):** Projects stations onto the real Bhopal – Phanda – Sehore – Kothri Kalan – Ashta – Sonkatch – Dewas – Indore highway centerline polyline. Quantifies **4 corridor intervals violating MoP's 25 km threshold** (maximum spacing gap **40.98 km**) and exports CSV tables + visualizations (`analysis/corridor_spacing_report.csv`, `analysis/corridor_spacing_chart.png`).
+- **NH-46 Corridor Gap Audit (`analysis/corridor_spacing_v0.py`):** Projects stations onto the real Bhopal – Phanda – Sehore – Kothri Kalan – Ashta – Sonkatch – Dewas – Indore highway centerline polyline. Across the **508 ingested real MP stations**, **274 stations lie within 10 km of NH-46**, showing a maximum inter-station gap of **21.31 km (0 violations exceeding MoP's 25 km threshold along the main trunk)** and exporting CSV tables + visualizations (`analysis/corridor_spacing_report.csv`, `analysis/corridor_spacing_chart.png`).
 - **Best-Worst Method Solver (`analysis/bwm_weights.py`):** `scipy.optimize.linprog` solver minimizing minimax residual $\xi$ across $2n-3 = 9$ driver pairwise comparisons, verified against Rezaei (2015).
 - **Queue Telemetry Estimator (`analysis/queue_stats.py`):** Computes empirical $\lambda$, $\mu$, $\rho$, and Squared Coefficients of Variation ($C_a^2, C_s^2$) from 15-minute field counting intervals.
 
@@ -148,13 +148,13 @@ Connected directly to the live FastAPI backend (`VITE_USE_MOCKS=false`), providi
 
 | Verification Domain | Command / Suite | Observed Result |
 |---|---|---|
-| **Backend + MCDM + Queue + ETL + P3 Suite** | `pytest backend/tests -v` | **70 / 70 Passed (100%)** |
+| **Backend + MCDM + Queue + ETL + P3 Suite** | `pytest backend/tests -v` | **73 / 73 Passed (100%)** |
 | **Python Static Analysis & Code Quality** | `ruff check backend analysis` | **All Checks Passed (0 Errors)** |
 | **Schema Drift Contract Check** | `test_schema_drift_tables_and_columns` | **100% Parity with `contracts/schema.sql`** |
 | **Anchored Rank Reversal Invariance** | `test_anchored_wsm_zero_rank_reversal_on_4000_problems` | **0.0% Rank Reversals Across 4,000 Problems** |
 | **API Recommendation Performance Budget** | `test_recommend_performance_budget_200_stations` | **p95 Latency < 500 ms for 200 Stations** |
-| **Frontend ESLint & TypeScript Build** | `npm run lint && npm run build` | **0 Errors · Built in 3.62s** |
-| **Frontend Component Tests (Vitest)** | `npm test -- --run` | **3 / 3 Passed (100%)** |
+| **Frontend ESLint & TypeScript Build** | `npm run lint && npm run build` | **0 Errors · Built in 3.26s** |
+| **Frontend Component Tests (Vitest)** | `npx vitest run` | **3 / 3 Passed (100%)** |
 
 ---
 

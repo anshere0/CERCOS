@@ -48,6 +48,13 @@ const CORRIDOR_PRESETS: CorridorPreset[] = [
     destination: { lat: 23.5226, lon: 77.8148 },
     routeKm: 58.0,
   },
+  {
+    id: 'bhopal-urban',
+    label: 'Bhopal Urban Loop (~22 km · E2W/E3W friendly)',
+    origin: { lat: 23.2338, lon: 77.4319 },
+    destination: { lat: 23.2712, lon: 77.3385 },
+    routeKm: 22.0,
+  },
 ]
 
 const ALL_MP_BBOX = '75.0,22.0,79.0,24.5'
@@ -103,6 +110,35 @@ export const App: React.FC = () => {
     () => vehicles[selectedVehicleIdx] || vehicles[0] || null,
     [vehicles, selectedVehicleIdx],
   )
+
+  const stationNameById = useMemo(() => {
+    const map = new Map<number, string>()
+    stations.forEach((st) => {
+      map.set(st.properties.station_id, st.properties.name || st.properties.station_name || `Station #${st.properties.station_id}`)
+    })
+    return map
+  }, [stations])
+
+  const rejectedSummary = useMemo(() => {
+    const list = recommendation?.rejected ?? []
+    let mismatch = 0
+    let unreachable = 0
+    let offline = 0
+    for (const item of list) {
+      const lower = item.reason.toLowerCase()
+      if (lower.includes('connector mismatch')) mismatch += 1
+      else if (lower.includes('unreachable') || lower.includes('reserve')) unreachable += 1
+      else offline += 1
+    }
+    const parts: string[] = []
+    if (mismatch > 0) parts.push(`${mismatch} connector mismatch`)
+    if (unreachable > 0) parts.push(`${unreachable} below 8% safety reserve`)
+    if (offline > 0) parts.push(`${offline} out of service`)
+    return {
+      total: list.length,
+      breakdown: parts.join(', '),
+    }
+  }, [recommendation])
 
   // Load initial stations, vehicles, modes, and system status from live backend
   const loadInitialData = useCallback(async () => {
@@ -428,14 +464,24 @@ export const App: React.FC = () => {
                 {recommendation.rejected.length > 0 && (
                   <details className="rejected-details">
                     <summary>
-                      {recommendation.rejected.length} stations filtered out (Hard Constraints)
+                      {rejectedSummary.total} stations filtered out
+                      {rejectedSummary.breakdown ? ` (${rejectedSummary.breakdown})` : ' (Hard Constraints)'}
                     </summary>
                     <ul>
-                      {recommendation.rejected.map((r) => (
-                        <li key={r.station_id}>
-                          Station #{r.station_id}: {r.reason}
+                      {recommendation.rejected.slice(0, 25).map((r) => {
+                        const stName = stationNameById.get(r.station_id)
+                        return (
+                          <li key={r.station_id}>
+                            <strong>{stName ? `${stName} (#${r.station_id})` : `Station #${r.station_id}`}:</strong>{' '}
+                            {r.reason}
+                          </li>
+                        )
+                      })}
+                      {recommendation.rejected.length > 25 && (
+                        <li>
+                          <em>+ {recommendation.rejected.length - 25} additional stations filtered by hard constraints.</em>
                         </li>
-                      ))}
+                      )}
                     </ul>
                   </details>
                 )}
@@ -473,13 +519,18 @@ export const App: React.FC = () => {
                 <p className="drawer-addr">{selectedStation.properties.address}</p>
                 <div className="drawer-specs">
                   <div>
-                    <strong>Operator:</strong> {selectedStation.properties.cpo_name}
+                    <strong>Operator:</strong> {selectedStation.properties.cpo_name || 'Public / Unlisted'}
                   </div>
                   <div>
-                    <strong>Max Power:</strong> {selectedStation.properties.max_power_kw} kW
+                    <strong>Max Power:</strong> {selectedStation.properties.max_power_kw ?? 'N/A'} kW
                   </div>
                   <div>
-                    <strong>Retail Tariff:</strong> ₹{selectedStation.properties.tariff_inr_kwh}/kWh
+                    <strong>Retail Tariff:</strong>{' '}
+                    {selectedStation.properties.tariff_inr_kwh == null
+                      ? 'Unlisted (est. ₹18/kWh)'
+                      : selectedStation.properties.tariff_inr_kwh === 0
+                        ? 'Free (₹0/kWh)'
+                        : `₹${selectedStation.properties.tariff_inr_kwh}/kWh`}
                   </div>
                   <div>
                     <strong>Hours:</strong> {selectedStation.properties.hours_text || '24/7'}

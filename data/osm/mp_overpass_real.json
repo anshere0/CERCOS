@@ -1,0 +1,63 @@
+{
+  "version": 0.6,
+  "generator": "OpenStreetMap API v0.6 live nodes",
+  "fetched_at": "2026-11-24T19:48:40.495057+00:00",
+  "elements": [
+    {
+      "type": "node",
+      "id": 13917513464,
+      "lat": 22.7157725,
+      "lon": 75.8759735,
+      "timestamp": "2026-06-07T13:50:23Z",
+      "version": 1,
+      "changeset": 183782096,
+      "user": "user_24179217",
+      "uid": 24179217,
+      "tags": {
+        "amenity": "charging_station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13913881928,
+      "lat": 22.7217837,
+      "lon": 75.8363276,
+      "timestamp": "2026-06-06T06:59:41Z",
+      "version": 1,
+      "changeset": 183724577,
+      "user": "user_24179217",
+      "uid": 24179217,
+      "tags": {
+        "amenity": "charging_station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13917515273,
+      "lat": 22.7251301,
+      "lon": 75.8816036,
+      "timestamp": "2026-06-07T13:50:23Z",
+      "version": 1,
+      "changeset": 183782096,
+      "user": "user_24179217",
+      "uid": 24179217,
+      "tags": {
+        "amenity": "charging_station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13919645475,
+      "lat": 23.1027843,
+      "lon": 76.8760406,
+      "timestamp": "2026-06-08T09:20:06Z",
+      "version": 1,
+      "changeset": 183817928,
+      "user": "user_24179217",
+      "uid": 24179217,
+      "tags": {
+        "amenity": "charging_station"
+      }
+    }
+  ]
+}

@@ -402,8 +402,12 @@ export const MapView: React.FC<MapViewProps> = ({
                       <strong>CPO:</strong> {p.cpo_name || 'Public'}
                     </div>
                     <div>
-                      <strong>Power:</strong> {kw} kW · <strong>Tariff:</strong> ₹
-                      {p.tariff_inr_kwh ?? 18}/kWh
+                      <strong>Power:</strong> {kw} kW · <strong>Tariff:</strong>{' '}
+                      {p.tariff_inr_kwh == null
+                        ? 'Unlisted (est. ₹18/kWh)'
+                        : p.tariff_inr_kwh === 0
+                          ? 'Free (₹0/kWh)'
+                          : `₹${p.tariff_inr_kwh}/kWh`}
                     </div>
                     <div>
                       <strong>Connectors:</strong>{' '}
