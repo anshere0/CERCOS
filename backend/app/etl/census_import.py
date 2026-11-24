@@ -153,11 +153,17 @@ def parse_census_csv(
     if isinstance(csv_source, Path):
         reader = csv.DictReader(csv_source.open(mode="r", encoding="utf-8"))
     elif isinstance(csv_source, str):
-        p = Path(csv_source)
-        if p.exists() and p.is_file():
-            reader = csv.DictReader(p.open(mode="r", encoding="utf-8"))
-        else:
+        if "\n" in csv_source or "\r" in csv_source:
             reader = csv.DictReader(io.StringIO(csv_source))
+        else:
+            try:
+                p = Path(csv_source)
+                if p.exists() and p.is_file():
+                    reader = csv.DictReader(p.open(mode="r", encoding="utf-8"))
+                else:
+                    reader = csv.DictReader(io.StringIO(csv_source))
+            except (OSError, ValueError):
+                reader = csv.DictReader(io.StringIO(csv_source))
     else:
         reader = csv.DictReader(csv_source)
 
