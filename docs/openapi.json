@@ -1,0 +1,1576 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CERCOS API",
+    "description": "Cognitive EV Route & Charging Optimization System API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/v1/modes": {
+      "get": {
+        "tags": [
+          "Modes"
+        ],
+        "summary": "Get Decision Modes",
+        "description": "List 6 standardized driver decision modes, criteria names, and default BWM weight vectors.",
+        "operationId": "get_decision_modes_v1_modes_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Get Decision Modes V1 Modes Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/vehicles": {
+      "get": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Get Vehicles",
+        "description": "List vehicle catalog intake parameters and technical charging envelopes.",
+        "operationId": "get_vehicles_v1_vehicles_get",
+        "parameters": [
+          {
+            "name": "segment",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "E2W",
+                    "E3W",
+                    "E4W",
+                    "ELCV"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter vehicles by fleet segment (E2W, E3W, E4W, ELCV)",
+              "title": "Segment"
+            },
+            "description": "Filter vehicles by fleet segment (E2W, E3W, E4W, ELCV)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleRead"
+                  },
+                  "title": "Response Get Vehicles V1 Vehicles Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/stations": {
+      "get": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Get Stations In Bbox",
+        "description": "Bounding box spatial query returning GeoJSON FeatureCollection with provenance attributes.",
+        "operationId": "get_stations_in_bbox_v1_stations_get",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Bounding box query in format 'minLon,minLat,maxLon,maxLat' (e.g. 75.5,22.5,77.8,23.5)",
+              "title": "Bbox"
+            },
+            "description": "Bounding box query in format 'minLon,minLat,maxLon,maxLat' (e.g. 75.5,22.5,77.8,23.5)"
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by data source (e.g. fixture, osm, ocm, census)",
+              "title": "Source"
+            },
+            "description": "Filter by data source (e.g. fixture, osm, ocm, census)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationFeatureCollection"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/stations/{id}": {
+      "get": {
+        "tags": [
+          "Stations"
+        ],
+        "summary": "Get Station Detail",
+        "description": "Detailed profile lookup for a specific charging station with 404 handler.",
+        "operationId": "get_station_detail_v1_stations__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/field/census": {
+      "post": {
+        "tags": [
+          "Field Research"
+        ],
+        "summary": "Submit Census Record",
+        "description": "Ingest mobile hardware census audit for physical charging stations.",
+        "operationId": "submit_census_record_v1_field_census_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CensusRecord"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Submit Census Record V1 Field Census Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/field/survey": {
+      "post": {
+        "tags": [
+          "Field Research"
+        ],
+        "summary": "Submit Survey Response",
+        "description": "Submit anonymous driver BWM pairwise comparison responses.\n\nStrict informed consent gate: consent must be explicitly True or 422 is returned.\nStrict zero PII rule: absolutely no driver names, telephone numbers, or license plates.",
+        "operationId": "submit_survey_response_v1_field_survey_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyResponseCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Submit Survey Response V1 Field Survey Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/field/queue": {
+      "post": {
+        "tags": [
+          "Field Research"
+        ],
+        "summary": "Submit Queue Observation",
+        "description": "Submit 3-hour queuing observations ('07-10', '12-15', '18-21').",
+        "operationId": "submit_queue_observation_v1_field_queue_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueueObservationCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Submit Queue Observation V1 Field Queue Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/field/export/{kind}": {
+      "get": {
+        "tags": [
+          "Field Research"
+        ],
+        "summary": "Export Field Csv",
+        "description": "Stream live CSV export of field data for census, survey, or queue records.",
+        "operationId": "export_field_csv_v1_field_export__kind__get",
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "census",
+                "survey",
+                "queue"
+              ],
+              "type": "string",
+              "title": "Kind"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/recommend": {
+      "post": {
+        "tags": [
+          "Recommendation Engine"
+        ],
+        "summary": "Recommend Charging Stop",
+        "description": "Evaluate candidate charging stations along the route using TOPSIS and Allen-Cunneen queueing.\n\nEnforces:\n    P_eff = min(P_station, P_vehicle)\nand verifies that candidate arrival State of Charge exceeds the 8.0% safety reserve.",
+        "operationId": "recommend_charging_stop_v1_recommend_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check endpoint.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Check Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CensusRecord": {
+        "properties": {
+          "station_name": {
+            "type": "string",
+            "title": "Station Name"
+          },
+          "cpo_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpo Name"
+          },
+          "latitude": {
+            "type": "number",
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Latitude"
+          },
+          "longitude": {
+            "type": "number",
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Longitude"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "max_power_kw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Power Kw"
+          },
+          "tariff_inr_kwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tariff Inr Kwh"
+          },
+          "is_operational": {
+            "type": "boolean",
+            "title": "Is Operational",
+            "default": true
+          },
+          "open_24x7": {
+            "type": "boolean",
+            "title": "Open 24X7",
+            "default": true
+          },
+          "connector_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Connector Types",
+            "default": []
+          },
+          "photo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photo Url"
+          },
+          "auditor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Auditor"
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_name",
+          "latitude",
+          "longitude"
+        ],
+        "title": "CensusRecord",
+        "description": "Field audit ingestion schema for physical charging station audits."
+      },
+      "ConnectorRead": {
+        "properties": {
+          "connector_type": {
+            "type": "string",
+            "title": "Connector Type"
+          },
+          "output_power_kw": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Output Power Kw"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "OCCUPIED",
+              "FAULTY",
+              "OFFLINE",
+              "UNKNOWN"
+            ],
+            "title": "Status",
+            "default": "UNKNOWN"
+          },
+          "connector_id": {
+            "type": "integer",
+            "title": "Connector Id"
+          },
+          "station_id": {
+            "type": "integer",
+            "title": "Station Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "connector_type",
+          "output_power_kw",
+          "connector_id",
+          "station_id"
+        ],
+        "title": "ConnectorRead",
+        "description": "Connector read schema."
+      },
+      "CriteriaValues": {
+        "properties": {
+          "detour_km": {
+            "type": "number",
+            "title": "Detour Km"
+          },
+          "cost_inr_kwh": {
+            "type": "number",
+            "title": "Cost Inr Kwh"
+          },
+          "wait_min": {
+            "type": "number",
+            "title": "Wait Min"
+          },
+          "effective_kw": {
+            "type": "number",
+            "title": "Effective Kw"
+          },
+          "rating": {
+            "type": "number",
+            "title": "Rating"
+          },
+          "arrival_soc_pct": {
+            "type": "number",
+            "title": "Arrival Soc Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detour_km",
+          "cost_inr_kwh",
+          "wait_min",
+          "effective_kw",
+          "rating",
+          "arrival_soc_pct"
+        ],
+        "title": "CriteriaValues",
+        "description": "Normalized criteria values used in MCDM calculation."
+      },
+      "CriterionExplain": {
+        "properties": {
+          "criterion": {
+            "type": "string",
+            "title": "Criterion"
+          },
+          "contribution": {
+            "type": "number",
+            "title": "Contribution"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "criterion",
+          "contribution"
+        ],
+        "title": "CriterionExplain",
+        "description": "Contribution and qualitative explanation for each decision criterion."
+      },
+      "GeoJSONGeometry": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Point",
+            "title": "Type",
+            "default": "Point"
+          },
+          "coordinates": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Coordinates"
+          }
+        },
+        "type": "object",
+        "required": [
+          "coordinates"
+        ],
+        "title": "GeoJSONGeometry",
+        "description": "Point geometry representation for GeoJSON."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LatLon": {
+        "properties": {
+          "lat": {
+            "type": "number",
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Lat"
+          },
+          "lon": {
+            "type": "number",
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Lon"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "title": "LatLon",
+        "description": "Geographic coordinate representation."
+      },
+      "QueueObservationCreate": {
+        "properties": {
+          "station_id": {
+            "type": "integer",
+            "title": "Station Id"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Observed At"
+          },
+          "slot": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "07-10",
+                  "12-15",
+                  "18-21"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slot"
+          },
+          "vehicles_waiting": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vehicles Waiting"
+          },
+          "connectors_busy": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Connectors Busy"
+          },
+          "arrivals_in_interval": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arrivals In Interval"
+          },
+          "interval_minutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval Minutes"
+          },
+          "session_start": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Start"
+          },
+          "session_end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session End"
+          },
+          "kwh_delivered": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kwh Delivered"
+          },
+          "observer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_id",
+          "observed_at"
+        ],
+        "title": "QueueObservationCreate",
+        "description": "Schema for submitting 3-hour queuing observations."
+      },
+      "RecommendRequest": {
+        "properties": {
+          "origin": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "destination": {
+            "$ref": "#/components/schemas/LatLon"
+          },
+          "soc_pct": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Soc Pct"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "Cheapest",
+              "Fastest",
+              "Shortest",
+              "HighestRated",
+              "BatterySafe",
+              "Balanced"
+            ],
+            "title": "Mode"
+          },
+          "segment": {
+            "type": "string",
+            "enum": [
+              "E2W",
+              "E3W",
+              "E4W",
+              "ELCV"
+            ],
+            "title": "Segment"
+          },
+          "vehicle_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vehicle Id"
+          },
+          "route_km": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route Km"
+          },
+          "route_geojson": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route Geojson"
+          }
+        },
+        "type": "object",
+        "required": [
+          "origin",
+          "destination",
+          "soc_pct",
+          "mode",
+          "segment"
+        ],
+        "title": "RecommendRequest",
+        "description": "Request payload for route charging recommendations matching contracts/engine_interface.md."
+      },
+      "RecommendResult": {
+        "properties": {
+          "needs_charging": {
+            "type": "boolean",
+            "title": "Needs Charging"
+          },
+          "reachable_km": {
+            "type": "number",
+            "title": "Reachable Km"
+          },
+          "top3": {
+            "items": {
+              "$ref": "#/components/schemas/TopStationResult"
+            },
+            "type": "array",
+            "title": "Top3",
+            "default": []
+          },
+          "rejected": {
+            "items": {
+              "$ref": "#/components/schemas/RejectedStation"
+            },
+            "type": "array",
+            "title": "Rejected",
+            "default": []
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings",
+            "default": []
+          },
+          "engine_version": {
+            "type": "string",
+            "title": "Engine Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "needs_charging",
+          "reachable_km",
+          "engine_version"
+        ],
+        "title": "RecommendResult",
+        "description": "Recommendation response payload matching contracts/engine_interface.md."
+      },
+      "RejectedStation": {
+        "properties": {
+          "station_id": {
+            "type": "integer",
+            "title": "Station Id"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_id",
+          "reason"
+        ],
+        "title": "RejectedStation",
+        "description": "Station filtered out during candidate evaluation with rejection reason."
+      },
+      "StationFeature": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "Feature",
+            "title": "Type",
+            "default": "Feature"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/GeoJSONGeometry"
+          },
+          "properties": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Properties"
+          }
+        },
+        "type": "object",
+        "required": [
+          "geometry",
+          "properties"
+        ],
+        "title": "StationFeature",
+        "description": "GeoJSON Feature representation of a charging station."
+      },
+      "StationFeatureCollection": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "FeatureCollection",
+            "title": "Type",
+            "default": "FeatureCollection"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/StationFeature"
+            },
+            "type": "array",
+            "title": "Features"
+          }
+        },
+        "type": "object",
+        "required": [
+          "features"
+        ],
+        "title": "StationFeatureCollection",
+        "description": "GeoJSON FeatureCollection containing charging stations."
+      },
+      "StationRead": {
+        "properties": {
+          "station_name": {
+            "type": "string",
+            "title": "Station Name"
+          },
+          "cpo_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpo Name"
+          },
+          "district_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District Id"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "max_power_kw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Power Kw"
+          },
+          "tariff_inr_kwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tariff Inr Kwh"
+          },
+          "rating": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rating"
+          },
+          "is_operational": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Operational",
+            "default": true
+          },
+          "open_24x7": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open 24X7",
+            "default": true
+          },
+          "hours_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hours Text"
+          },
+          "contact": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact"
+          },
+          "latitude": {
+            "type": "number",
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Latitude"
+          },
+          "longitude": {
+            "type": "number",
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Longitude"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "osm",
+              "ocm",
+              "census",
+              "fixture",
+              "synthetic",
+              "manual"
+            ],
+            "title": "Source"
+          },
+          "source_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Ref"
+          },
+          "confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence"
+          },
+          "station_id": {
+            "type": "integer",
+            "title": "Station Id"
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fetched At"
+          },
+          "connectors": {
+            "items": {
+              "$ref": "#/components/schemas/ConnectorRead"
+            },
+            "type": "array",
+            "title": "Connectors",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_name",
+          "latitude",
+          "longitude",
+          "source",
+          "confidence",
+          "station_id",
+          "fetched_at"
+        ],
+        "title": "StationRead",
+        "description": "Schema for reading a charging station with ID and fetched timestamp."
+      },
+      "SurveyResponseCreate": {
+        "properties": {
+          "segment": {
+            "type": "string",
+            "enum": [
+              "E2W",
+              "E3W",
+              "E4W",
+              "ELCV"
+            ],
+            "title": "Segment"
+          },
+          "vehicle_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vehicle Model"
+          },
+          "area": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Area"
+          },
+          "home_charging": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Home Charging"
+          },
+          "range_anxiety": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Range Anxiety"
+          },
+          "best_criterion": {
+            "type": "string",
+            "title": "Best Criterion"
+          },
+          "worst_criterion": {
+            "type": "string",
+            "title": "Worst Criterion"
+          },
+          "best_to_others": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Best To Others"
+          },
+          "others_to_worst": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Others To Worst"
+          },
+          "wtp_zero_wait_inr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wtp Zero Wait Inr"
+          },
+          "consent": {
+            "type": "boolean",
+            "title": "Consent"
+          },
+          "enumerator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enumerator"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "segment",
+          "best_criterion",
+          "worst_criterion",
+          "best_to_others",
+          "others_to_worst",
+          "consent"
+        ],
+        "title": "SurveyResponseCreate",
+        "description": "Driver BWM survey response creation schema.\n\nStrict zero PII rule: absolutely no driver names, telephone numbers, or license plates.\nConsent must be strictly True or validation fails immediately."
+      },
+      "TopStationResult": {
+        "properties": {
+          "station_id": {
+            "type": "integer",
+            "title": "Station Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "eta_extra_min": {
+            "type": "number",
+            "title": "Eta Extra Min"
+          },
+          "est_cost_inr": {
+            "type": "number",
+            "title": "Est Cost Inr"
+          },
+          "est_charge_min": {
+            "type": "number",
+            "title": "Est Charge Min"
+          },
+          "arrival_soc_pct": {
+            "type": "number",
+            "title": "Arrival Soc Pct"
+          },
+          "criteria": {
+            "$ref": "#/components/schemas/CriteriaValues"
+          },
+          "explain": {
+            "items": {
+              "$ref": "#/components/schemas/CriterionExplain"
+            },
+            "type": "array",
+            "title": "Explain",
+            "default": []
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_id",
+          "name",
+          "score",
+          "rank",
+          "eta_extra_min",
+          "est_cost_inr",
+          "est_charge_min",
+          "arrival_soc_pct",
+          "criteria",
+          "source",
+          "confidence"
+        ],
+        "title": "TopStationResult",
+        "description": "Top-ranked recommended charging station."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VehicleRead": {
+        "properties": {
+          "model_name": {
+            "type": "string",
+            "title": "Model Name"
+          },
+          "segment": {
+            "type": "string",
+            "enum": [
+              "E2W",
+              "E3W",
+              "E4W",
+              "ELCV"
+            ],
+            "title": "Segment"
+          },
+          "battery_kwh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Battery Kwh"
+          },
+          "wh_per_km": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wh Per Km"
+          },
+          "max_dc_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Dc Kw"
+          },
+          "max_ac_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Ac Kw"
+          },
+          "connector_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Connector Types",
+            "default": []
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence"
+          },
+          "vehicle_id": {
+            "type": "integer",
+            "title": "Vehicle Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_name",
+          "segment",
+          "source",
+          "confidence",
+          "vehicle_id"
+        ],
+        "title": "VehicleRead",
+        "description": "Schema for reading a vehicle with ID."
+      }
+    }
+  }
+}
