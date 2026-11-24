@@ -46,6 +46,10 @@ class TopStationResult(BaseModel):
     """Top-ranked recommended charging station."""
     station_id: int
     name: str
+    cpo_name: str | None = None
+    lat: float | None = None
+    lon: float | None = None
+    connectors: list[str] = []
     score: float
     rank: int
     eta_extra_min: float
@@ -68,7 +72,9 @@ class RecommendResult(BaseModel):
     """Recommendation response payload matching contracts/engine_interface.md."""
     needs_charging: bool
     reachable_km: float
+    route_km: float | None = None
     top3: list[TopStationResult] = []
     rejected: list[RejectedStation] = []
+    nearest_baseline: dict[str, Any] | None = None
     warnings: list[str] = []
     engine_version: str

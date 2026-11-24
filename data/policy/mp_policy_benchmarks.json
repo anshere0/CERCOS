@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "title": "Madhya Pradesh Official EV Policy & Charging Infrastructure Benchmarks",
+    "sources": [
+      "Ministry of Power Gazette Order Ref No. 12/2/2018-EV (14 Jan 2022)",
+      "Ministry of Heavy Industries Rajya Sabha Unstarred Question No. 3910 (27 Mar 2026)",
+      "UDHD Madhya Pradesh Electric Vehicle Policy 2025",
+      "MPERC EV Charging Tariff Order (LV-5 / HV-7)"
+    ]
+  },
+  "mop_guidelines_2022": {
+    "urban_grid_km": 3.0,
+    "highway_spacing_km": 25.0,
+    "fast_charger_heavy_duty_spacing_km": 100.0
+  },
+  "mhi_rajya_sabha_q3910_2026_03_27": {
+    "state": "Madhya Pradesh",
+    "omc_stations_installed": 1417,
+    "omc_stations_operational": 1291,
+    "operational_ratio_pct": 91.11,
+    "centralized_gap_tracking_exists": false
+  },
+  "mp_ev_policy_2025": {
+    "adoption_target_2027_pct": 10.0,
+    "model_ev_cities": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"],
+    "road_tax_exemption_e2w_e3w_pct": 100
+  },
+  "mperc_regulated_discom_tariff_inr_kwh": {
+    "base_offpeak_min": 6.80,
+    "base_standard_max": 8.20
+  }
+}

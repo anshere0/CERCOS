@@ -22,3 +22,5 @@ data/field/photos/
 .vscode/
 # OSRM data
 data/osrm/
+# Local runtime SQLite fallback DB
+data/cercos_local.db

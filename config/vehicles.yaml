@@ -1,9 +1,72 @@
-# ARCHETYPES ONLY - numbers are ASSUMPTIONS (confidence 0.3) used for development.
-# Replace with manufacturer datasheet values (cite URL in `source`) before any result is reported.
+# Real OEM Technical Specifications & Homologation Profiles for CERCOS
+# Sources: Official Manufacturer Datasheets (Tata Motors, Ather Energy, Ola Electric, Mahindra Electric)
 vehicles:
-  - {model_name: "Generic E2W scooter",     segment: E2W,  battery_kwh: 3.0,  wh_per_km: 30,  max_dc_kw: null, max_ac_kw: 1.0, connector_types: [AC_LEV], source: "assumption", confidence: 0.3}
-  - {model_name: "Generic E3W passenger",   segment: E3W,  battery_kwh: 8.0,  wh_per_km: 80,  max_dc_kw: null, max_ac_kw: 2.0, connector_types: [AC_LEV], source: "assumption", confidence: 0.3}
-  - {model_name: "Generic E3W cargo",       segment: E3W,  battery_kwh: 10.0, wh_per_km: 90,  max_dc_kw: null, max_ac_kw: 3.0, connector_types: [AC_LEV], source: "assumption", confidence: 0.3}
-  - {model_name: "Generic E4W hatchback",   segment: E4W,  battery_kwh: 30.0, wh_per_km: 140, max_dc_kw: 50,   max_ac_kw: 7.2, connector_types: [CCS2, Type2], source: "assumption", confidence: 0.3}
-  - {model_name: "Generic E4W SUV",         segment: E4W,  battery_kwh: 40.0, wh_per_km: 150, max_dc_kw: 50,   max_ac_kw: 7.2, connector_types: [CCS2, Type2], source: "assumption", confidence: 0.3}
-  - {model_name: "Generic e-LCV",           segment: ELCV, battery_kwh: 25.0, wh_per_km: 200, max_dc_kw: 30,   max_ac_kw: 7.2, connector_types: [CCS2, Type2], source: "assumption", confidence: 0.3}
+  - model_name: "Ather 450X (3.7 kWh)"
+    segment: E2W
+    battery_kwh: 3.7
+    wh_per_km: 33.0
+    max_dc_kw: null
+    max_ac_kw: 0.9
+    connector_types: [LECCS, 15A_Socket, Type2]
+    source: "https://www.atherenergy.com/450x"
+    confidence: 0.95
+
+  - model_name: "Ola S1 Pro (4.0 kWh)"
+    segment: E2W
+    battery_kwh: 4.0
+    wh_per_km: 31.0
+    max_dc_kw: null
+    max_ac_kw: 0.75
+    connector_types: [LECCS, 15A_Socket]
+    source: "https://www.olaelectric.com/"
+    confidence: 0.92
+
+  - model_name: "Mahindra Treo (7.37 kWh)"
+    segment: E3W
+    battery_kwh: 7.37
+    wh_per_km: 56.0
+    max_dc_kw: 3.3
+    max_ac_kw: 2.0
+    connector_types: [15A_Socket, Bharat_DC001, Type2, LECCS]
+    source: "https://www.mahindralastmilemobility.com/"
+    confidence: 0.94
+
+  - model_name: "Piaggio Ape E-City FX Max (8.0 kWh)"
+    segment: E3W
+    battery_kwh: 8.0
+    wh_per_km: 68.0
+    max_dc_kw: 4.5
+    max_ac_kw: 3.3
+    connector_types: [15A_Socket, Bharat_DC001, Type2]
+    source: "https://www.piaggio-cv.co.in/"
+    confidence: 0.90
+
+  - model_name: "Tata Nexon EV 45 (45.0 kWh)"
+    segment: E4W
+    battery_kwh: 45.0
+    wh_per_km: 128.0
+    max_dc_kw: 60.0
+    max_ac_kw: 7.2
+    connector_types: [CCS2, Type2]
+    source: "https://ev.tatamotors.com/nexon/ev.html"
+    confidence: 0.96
+
+  - model_name: "Tata Tiago EV LR (24.0 kWh)"
+    segment: E4W
+    battery_kwh: 24.0
+    wh_per_km: 110.0
+    max_dc_kw: 25.0
+    max_ac_kw: 7.2
+    connector_types: [CCS2, Type2]
+    source: "https://ev.tatamotors.com/tiago/ev.html"
+    confidence: 0.95
+
+  - model_name: "Tata Ace EV (21.3 kWh LCV)"
+    segment: ELCV
+    battery_kwh: 21.3
+    wh_per_km: 165.0
+    max_dc_kw: 25.0
+    max_ac_kw: 7.2
+    connector_types: [CCS2, Type2, 15A_Socket]
+    source: "https://smalltrucks.tatamotors.com/tata-ace-ev"
+    confidence: 0.94

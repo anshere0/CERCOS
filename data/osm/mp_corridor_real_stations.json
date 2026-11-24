@@ -1,0 +1,682 @@
+[
+  {
+    "station_name": "DB City Mall EV Hub (EVDOQ / Tata Power)",
+    "cpo_name": "Tata Power / EVDOQ",
+    "address": "Basement B3, DB City Mall, Arera Hills, MP Nagar Zone 1, Bhopal 462011",
+    "latitude": 23.232617,
+    "longitude": 77.429906,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 19.0,
+    "rating": 4.6,
+    "is_operational": true,
+    "open_24x7": false,
+    "hours_text": "10:00 - 23:00",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/359820525",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.94,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 22.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "MP Nagar Zone 1 MLCP Statiq Hub",
+    "cpo_name": "Statiq",
+    "address": "Multi-Level Car Parking, MP Nagar Zone 1, Bhopal 462011",
+    "latitude": 23.238356,
+    "longitude": 77.433143,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 18.5,
+    "rating": 4.5,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/488540428",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.92,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 11.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Rani Kamalapati Railway Station EV Point (VEVC)",
+    "cpo_name": "VEVC / Indian Railways",
+    "address": "Rani Kamalapati (Habibganj) Railway Station Premises, Bhopal 462016",
+    "latitude": 23.220883,
+    "longitude": 77.439369,
+    "max_power_kw": 15.0,
+    "tariff_inr_kwh": 13.0,
+    "rating": 4.2,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/12088325453",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Bharat_DC001",
+        "output_power_kw": 15.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Tata Power - Rohit Nagar / Gulmohar Charging Station",
+    "cpo_name": "Tata Power EZ Charge",
+    "address": "80/2/1/1/2, Rohit Nagar, Gulmohar Colony, Bhopal 462039",
+    "latitude": 23.181807,
+    "longitude": 77.43242,
+    "max_power_kw": 30.0,
+    "tariff_inr_kwh": 19.5,
+    "rating": 4.4,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/488434009",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.91,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 30.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Jio-bp pulse - Bawadiya Kalan Hoshangabad Rd",
+    "cpo_name": "Jio-bp pulse",
+    "address": "Ground Floor, Bawadiya Kalan, Hoshangabad Road, Bhopal 462026",
+    "latitude": 23.183648,
+    "longitude": 77.43866,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 21.0,
+    "rating": 4.7,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/488439752",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.92,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 22.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Jio-bp pulse - Misrod Narmadapuram Rd",
+    "cpo_name": "Jio-bp pulse",
+    "address": "Narmadapuram Road, Misrod (Beside Best Price), Bhopal 462047",
+    "latitude": 23.168496,
+    "longitude": 77.458623,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 21.0,
+    "rating": 4.6,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/1114868502",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Jio-bp pulse - Kolar Road Corridor",
+    "cpo_name": "Jio-bp pulse",
+    "address": "Salaiya / Aakriti Ecocity, Kolar Road, Bhopal 462042",
+    "latitude": 23.15559,
+    "longitude": 77.412674,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 20.5,
+    "rating": 4.5,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/957821200",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 7.4,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Adani TotalEnergies - Chunabhatti Kolar Rd",
+    "cpo_name": "Adani TotalEnergies",
+    "address": "Rachna Trade Centre, Plot No. 54, Chunabhatti, Kolar Road, Bhopal 462016",
+    "latitude": 23.203901,
+    "longitude": 77.415393,
+    "max_power_kw": 30.0,
+    "tariff_inr_kwh": 17.5,
+    "rating": 4.3,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/487973463",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 30.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Tata Power - Govindpura JK Road Industrial Hub",
+    "cpo_name": "Tata Power EZ Charge",
+    "address": "56-57, Sector A, JK Road, Govindpura Industrial Area, Bhopal 462023",
+    "latitude": 23.24602,
+    "longitude": 77.446704,
+    "max_power_kw": 50.0,
+    "tariff_inr_kwh": 18.0,
+    "rating": 4.4,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/3682229503",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.92,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 50.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 22.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "CHAdeMO",
+        "output_power_kw": 50.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Ather Grid - Ashoka Garden Raisen Rd (LECCS 2W/3W)",
+    "cpo_name": "Ather Grid",
+    "address": "Plot No. 253, Raisen Road, Punjabi Bagh, Ashoka Garden, Bhopal 462023",
+    "latitude": 23.249244,
+    "longitude": 77.495268,
+    "max_power_kw": 7.4,
+    "tariff_inr_kwh": 12.0,
+    "rating": 4.6,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/240745682",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.93,
+    "connectors": [
+      {
+        "connector_type": "LECCS",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 7.4,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Bhopal Junction Railway Hub (Old City AC/Socket)",
+    "cpo_name": "MPPKVVCL / Smart City",
+    "address": "Platform 1 Circulating Area, Bhopal Junction, Bhopal 462001",
+    "latitude": 23.266485,
+    "longitude": 77.413084,
+    "max_power_kw": 11.0,
+    "tariff_inr_kwh": 12.5,
+    "rating": 4.0,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/12088458538",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 11.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Statiq - Tirupati Fuel Point Sehore (NH-46)",
+    "cpo_name": "Statiq",
+    "address": "Tirupati Fuel Point, Indore Road NH-46, Sehore 466001",
+    "latitude": 23.214742,
+    "longitude": 77.078289,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 19.0,
+    "rating": 4.4,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/1842456009",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.91,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 22.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "MPPKVVCL - Phanda / Sehore Rd Substation (LV-5 AC Hub)",
+    "cpo_name": "MPPKVVCL",
+    "address": "Phanda Toll & Substation Corridor NH-46, Sehore-Bhopal Rd",
+    "latitude": 23.228571,
+    "longitude": 77.200468,
+    "max_power_kw": 7.4,
+    "tariff_inr_kwh": 12.5,
+    "rating": 4.1,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "census",
+    "source_ref": "census:osm:relation/16645644",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.95,
+    "connectors": [
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 7.4,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "LECCS",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "VIT Bhopal / Kothri Kalan Corridor E2W/E3W Hub",
+    "cpo_name": "Campus Mobility Point",
+    "address": "Bhopal-Indore Highway, Kothri Kalan, Sehore District 466114",
+    "latitude": 23.073963,
+    "longitude": 76.829792,
+    "max_power_kw": 11.0,
+    "tariff_inr_kwh": 13.5,
+    "rating": 4.4,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "census",
+    "source_ref": "census:osm:node/11344866820",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.96,
+    "connectors": [
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "LECCS",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 11.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Jio-bp pulse - Ashta Kilerama Highway Plaza",
+    "cpo_name": "Jio-bp pulse",
+    "address": "Indore-Bhopal Highway, Kilerama, Ashta, Sehore District 466116",
+    "latitude": 23.019538,
+    "longitude": 76.722176,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 18.5,
+    "rating": 4.5,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/666403164",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.92,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 22.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Sonkatch Highway Transit AC/DC Point",
+    "cpo_name": "ChargeZone",
+    "address": "Bhopal-Indore Corridor NH-46/SH-18, Sonkatch, Dewas 455118",
+    "latitude": 23.069042,
+    "longitude": 76.409346,
+    "max_power_kw": 50.0,
+    "tariff_inr_kwh": 18.0,
+    "rating": 4.2,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/11379586901",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 50.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Jio-bp pulse - Dewas Town Highway Hub",
+    "cpo_name": "Jio-bp pulse",
+    "address": "Bakliwal Filling Station Area, NH-52A / AB Road, Dewas 455001",
+    "latitude": 22.978023,
+    "longitude": 76.051964,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 20.0,
+    "rating": 4.5,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/664210317",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.91,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 22.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Jio-bp pulse - Dewas Naka Mobility Station Indore",
+    "cpo_name": "Jio-bp pulse",
+    "address": "No. 102/5, AB Road, Lasudiya Mori, Dewas Naka, Indore 452010",
+    "latitude": 22.78334,
+    "longitude": 75.909412,
+    "max_power_kw": 120.0,
+    "tariff_inr_kwh": 21.5,
+    "rating": 4.7,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/6374366647",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.93,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 120.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Jio-bp pulse - C21 Business Park Radisson Square Indore",
+    "cpo_name": "Jio-bp pulse",
+    "address": "C21 Business Park, Radisson Square, MR10, Vijay Nagar, Indore 452010",
+    "latitude": 22.694838,
+    "longitude": 75.853995,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 20.5,
+    "rating": 4.8,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:way/674973286",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.94,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 22.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "LECCS",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Jio-bp pulse - Vidisha Sagar Road Hub",
+    "cpo_name": "Jio-bp pulse",
+    "address": "Survey No. 27/5, Sagar Road, Mirzapur, Vidisha 464001",
+    "latitude": 23.522579,
+    "longitude": 77.8148,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 19.5,
+    "rating": 4.4,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/1340389923",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 60.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Type2",
+        "output_power_kw": 7.4,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "Adani EV Station - NH-86A Raisen",
+    "cpo_name": "Adani TotalEnergies",
+    "address": "Bhopal Road, NH-86A, Kherabad, Raisen 464551",
+    "latitude": 23.330111,
+    "longitude": 77.784251,
+    "max_power_kw": 30.0,
+    "tariff_inr_kwh": 17.5,
+    "rating": 4.2,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/245713120",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 30.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "15A_Socket",
+        "output_power_kw": 3.3,
+        "status": "AVAILABLE"
+      }
+    ]
+  },
+  {
+    "station_name": "BPCL Fast Charger - Budhni Narmadapuram Hwy",
+    "cpo_name": "BPCL eDrive",
+    "address": "Opp. Trident Factory, NH-46, Budhni, Narmadapuram Region 466445",
+    "latitude": 22.786886,
+    "longitude": 77.681475,
+    "max_power_kw": 30.0,
+    "tariff_inr_kwh": 16.5,
+    "rating": 4.3,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": null,
+    "source": "osm",
+    "source_ref": "osm:node/910356109",
+    "fetched_at": "2026-11-24T19:17:45.113486+00:00",
+    "confidence": 0.9,
+    "connectors": [
+      {
+        "connector_type": "CCS2",
+        "output_power_kw": 30.0,
+        "status": "AVAILABLE"
+      },
+      {
+        "connector_type": "Bharat_DC001",
+        "output_power_kw": 15.0,
+        "status": "AVAILABLE"
+      }
+    ]
+  }
+]

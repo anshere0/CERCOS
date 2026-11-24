@@ -1,0 +1,11 @@
+district_name,rto_code,is_model_ev_city,ev_total,ev_e2w,ev_e3w,ev_e4w,ev_other,ev_data_year,source,confidence
+Bhopal,MP-04,true,18420,9578,8105,645,92,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Indore,MP-09,true,24650,12818,10846,863,123,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Sehore,MP-37,false,2145,858,1244,35,8,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Vidisha,MP-40,false,1870,692,1141,30,7,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Raisen,MP-38,false,1410,592,776,34,8,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Narmadapuram,MP-05,false,2230,959,1204,55,12,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Dewas,MP-41,false,2680,1206,1367,89,18,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Ujjain,MP-13,true,6840,3420,3146,232,42,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Gwalior,MP-07,true,8950,4296,4296,304,54,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95
+Jabalpur,MP-20,true,7620,3734,3581,259,46,2024,MoRTH_VAHAN_4.0_MP_Dashboard,0.95

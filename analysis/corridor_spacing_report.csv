@@ -1,0 +1,17 @@
+from_station,to_station,start_km,end_km,gap_km,violates_mop_25km_norm
+DB City Mall EV Hub (EVDOQ / Tata Power),MP Nagar Zone 1 MLCP Statiq Hub,0.0,0.0,0.0,False
+MP Nagar Zone 1 MLCP Statiq Hub,Rani Kamalapati Railway Station EV Point (VEVC),0.0,0.0,0.0,False
+Rani Kamalapati Railway Station EV Point (VEVC),Tata Power - Rohit Nagar / Gulmohar Charging Station,0.0,0.0,0.0,False
+Tata Power - Rohit Nagar / Gulmohar Charging Station,Jio-bp pulse - Bawadiya Kalan Hoshangabad Rd,0.0,0.0,0.0,False
+Jio-bp pulse - Bawadiya Kalan Hoshangabad Rd,Tata Power - Govindpura JK Road Industrial Hub,0.0,0.0,0.0,False
+Tata Power - Govindpura JK Road Industrial Hub,Ather Grid - Ashoka Garden Raisen Rd (LECCS 2W/3W),0.0,0.0,0.0,False
+Ather Grid - Ashoka Garden Raisen Rd (LECCS 2W/3W),Bhopal Junction Railway Hub (Old City AC/Socket),0.0,0.0,0.0,False
+Bhopal Junction Railway Hub (Old City AC/Socket),Adani TotalEnergies - Chunabhatti Kolar Rd,0.0,0.6,0.6,False
+Adani TotalEnergies - Chunabhatti Kolar Rd,MPPKVVCL - Phanda / Sehore Rd Substation (LV-5 AC Hub),0.6,23.71,23.11,False
+MPPKVVCL - Phanda / Sehore Rd Substation (LV-5 AC Hub),Statiq - Tirupati Fuel Point Sehore (NH-46),23.71,37.29,13.58,False
+Statiq - Tirupati Fuel Point Sehore (NH-46),VIT Bhopal / Kothri Kalan Corridor E2W/E3W Hub,37.29,69.52,32.23,True
+VIT Bhopal / Kothri Kalan Corridor E2W/E3W Hub,Jio-bp pulse - Ashta Kilerama Highway Plaza,69.52,83.09,13.57,False
+Jio-bp pulse - Ashta Kilerama Highway Plaza,Sonkatch Highway Transit AC/DC Point,83.09,118.17,35.08,True
+Sonkatch Highway Transit AC/DC Point,Jio-bp pulse - Dewas Town Highway Hub,118.17,159.15,40.98,True
+Jio-bp pulse - Dewas Town Highway Hub,Jio-bp pulse - Dewas Naka Mobility Station Indore,159.15,187.33,28.18,True
+Jio-bp pulse - Dewas Naka Mobility Station Indore,Jio-bp pulse - C21 Business Park Radisson Square Indore,187.33,196.9,9.57,False

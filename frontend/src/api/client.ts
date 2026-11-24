@@ -1,17 +1,23 @@
 import { components } from './types'
 
 export type LatLon = components['schemas']['LatLon']
-export type RecommendRequest = components['schemas']['RecommendRequest']
+export type RecommendRequest = components['schemas']['RecommendRequest'] & {
+  route_km?: number | null
+}
 
 export interface RecommendCriterionExplanation {
   criterion: string
   contribution: number
-  note: string
+  note: string | null
 }
 
 export interface RecommendedStation {
   station_id: number
   name: string
+  cpo_name?: string | null
+  lat?: number | null
+  lon?: number | null
+  connectors?: string[]
   score: number
   rank: number
   eta_extra_min: number
@@ -27,7 +33,7 @@ export interface RecommendedStation {
     arrival_soc_pct: number
   }
   explain: RecommendCriterionExplanation[]
-  source: 'synthetic' | 'osm' | 'census' | 'openchargemap'
+  source: string
   confidence: number
 }
 
@@ -36,24 +42,55 @@ export interface RejectedStation {
   reason: string
 }
 
+export interface NearestBaselineComparison {
+  station_id: number
+  name: string
+  cpo_name?: string | null
+  lat: number
+  lon: number
+  distance_from_origin_km: number
+  detour_km: number
+  tariff_inr_kwh: number
+  raw_power_kw: number
+  effective_kw: number
+  wait_min: number
+  is_compatible: boolean
+  cost_diff_vs_cercos_inr_kwh: number
+  wait_diff_vs_cercos_min: number
+}
+
 export interface RecommendResult {
   needs_charging: boolean
   reachable_km: number
+  route_km?: number | null
   top3: RecommendedStation[]
   rejected: RejectedStation[]
+  nearest_baseline?: NearestBaselineComparison | null
   warnings: string[]
   engine_version: string
 }
 
 export interface VehicleProfile {
-  id: number
+  vehicle_id?: number
+  id?: number
   segment: 'E2W' | 'E3W' | 'E4W' | 'ELCV'
-  make_model: string
+  model_name?: string
+  make_model?: string
   battery_kwh: number
   wh_per_km: number
-  max_dc_kw: number
-  max_ac_kw: number
+  max_dc_kw: number | null
+  max_ac_kw: number | null
   connector_types: string[]
+  source?: string
+  confidence?: number
+}
+
+export interface ConnectorDetail {
+  connector_id?: number
+  station_id?: number
+  connector_type: string
+  output_power_kw: number
+  status?: string
 }
 
 export interface StationFeature {
@@ -64,15 +101,22 @@ export interface StationFeature {
   }
   properties: {
     station_id: number
-    name: string
-    cpo_name: string
-    max_power_kw: number
-    tariff_inr_kwh: number
-    rating: number
-    is_operational: boolean
-    connector_types: string[]
+    name?: string
+    station_name?: string
+    cpo_name?: string | null
+    address?: string | null
+    max_power_kw?: number | null
+    tariff_inr_kwh?: number | null
+    rating?: number | null
+    is_operational?: boolean
+    open_24x7?: boolean
+    hours_text?: string | null
+    connector_types?: string[]
+    connectors?: ConnectorDetail[]
     source: string
+    source_ref?: string | null
     confidence: number
+    fetched_at?: string
   }
 }
 
@@ -81,51 +125,71 @@ export interface StationFeatureCollection {
   features: StationFeature[]
 }
 
+export interface SystemStatusResponse {
+  service: string
+  phase: string
+  database: {
+    backend: string
+    connected: boolean
+    stations_count?: number
+    postgres_note?: string
+  }
+  stations_total: number
+  stations_by_source: Record<string, number>
+  policy_benchmarks?: {
+    mop_guidelines_2022?: {
+      urban_grid_km: number
+      highway_spacing_km: number
+      fast_charger_heavy_duty_spacing_km: number
+    }
+    mhi_rajya_sabha_q3910_2026_03_27?: {
+      omc_stations_installed: number
+      omc_stations_operational: number
+      operational_ratio_pct: number
+    }
+  }
+}
+
 export interface CensusPayload {
   station_name: string
-  operator: string
-  lat: number
-  lon: number
-  address: string
-  n_connectors: number
-  connector_types: string[]
-  max_kw: number
+  cpo_name?: string
+  latitude: number
+  longitude: number
+  address?: string
+  max_power_kw?: number
   tariff_inr_kwh?: number
-  hours_24x7: boolean
-  payment_methods?: string[]
-  app_required?: boolean
-  working_yn: boolean
-  notes?: string
+  open_24x7: boolean
+  is_operational: boolean
+  connectors: { connector_type: string; output_power_kw: number; status: string }[]
   enumerator: string
 }
 
 export interface SurveyPayload {
   consent: boolean
-  segment: 'E2W' | 'E3W' | 'E4W' | 'fleet'
-  model?: string
-  battery_kwh_if_known?: number
-  home_charge_yn: boolean
-  trips_per_week_beyond_30km?: number
-  range_anxiety_1_5?: number
+  segment: 'E2W' | 'E3W' | 'E4W' | 'ELCV'
+  vehicle_model?: string
+  area?: string
+  home_charging: boolean
+  range_anxiety: number
   best_criterion: string
   worst_criterion: string
-  ratings: Record<string, number>
-  willingness_to_pay_extra_per_kwh_for_zero_wait?: number
+  best_to_others: Record<string, number>
+  others_to_worst: Record<string, number>
+  wtp_zero_wait_inr?: number
+  enumerator?: string
 }
 
 export interface QueuePayload {
   station_id: number
-  date: string
   slot: '07-10' | '12-15' | '18-21'
-  minute_stamp: string
   vehicles_waiting: number
   connectors_busy: number
-  session_start?: string
-  session_end?: string
-  observer: string
+  arrivals_in_interval: number
+  interval_minutes: number
+  observer?: string
 }
 
-const getBaseUrl = (): string => {
+export const getBaseUrl = (): string => {
   return import.meta.env.VITE_API_URL || 'http://localhost:8000'
 }
 
@@ -149,29 +213,38 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
 }
 
 export const cercosApi = {
-  // Mode & configuration
-  getModes: () => request<{ modes: string[]; default_weights: Record<string, number[]> }>('/v1/modes'),
+  getStatus: () => request<SystemStatusResponse>('/v1/status'),
 
-  // Vehicles
-  getVehicles: () => request<VehicleProfile[]>('/v1/vehicles'),
+  getModes: () =>
+    request<{
+      criteria: string[]
+      modes: Record<string, number[]>
+      descriptions?: Record<string, string>
+    }>('/v1/modes'),
 
-  // Stations
+  getVehicles: async (): Promise<VehicleProfile[]> => {
+    const rows = await request<VehicleProfile[]>('/v1/vehicles')
+    return rows.map((v, idx) => ({
+      ...v,
+      vehicle_id: v.vehicle_id ?? v.id ?? idx + 1,
+      model_name: v.model_name ?? v.make_model ?? 'Unknown EV',
+    }))
+  },
+
   getStations: (bbox: string, source?: string) => {
     const params = new URLSearchParams({ bbox })
     if (source) params.append('source', source)
     return request<StationFeatureCollection>(`/v1/stations?${params.toString()}`)
   },
 
-  getStationDetail: (id: number) => request<StationFeature>(`/v1/stations/${id}`),
+  getStationDetail: (id: number) => request<StationFeature['properties']>(`/v1/stations/${id}`),
 
-  // Recommendation engine
   recommend: (body: RecommendRequest) =>
     request<RecommendResult>('/v1/recommend', {
       method: 'POST',
       body: JSON.stringify(body),
     }),
 
-  // Field Mode instruments
   submitCensus: (payload: CensusPayload) =>
     request<{ status: 'created'; id: number }>('/v1/field/census', {
       method: 'POST',
@@ -190,12 +263,7 @@ export const cercosApi = {
       body: JSON.stringify(payload),
     }),
 
-  exportFieldData: async (kind: 'census' | 'survey' | 'queue'): Promise<string> => {
-    const url = `${getBaseUrl()}/v1/field/export/${kind}`
-    const response = await fetch(url)
-    if (!response.ok) {
-      throw new Error(`Failed to export ${kind} data: ${response.statusText}`)
-    }
-    return response.text()
+  getExportUrl: (kind: 'census' | 'survey' | 'queue'): string => {
+    return `${getBaseUrl()}/v1/field/export/${kind}`
   },
 }

@@ -3,7 +3,7 @@
   "info": {
     "title": "CERCOS API",
     "description": "Cognitive EV Route & Charging Optimization System API",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "paths": {
     "/v1/modes": {
@@ -125,10 +125,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Filter by data source (e.g. fixture, osm, ocm, census)",
+              "description": "Filter by data source (e.g. osm, ocm, census, fixture)",
               "title": "Source"
             },
-            "description": "Filter by data source (e.g. fixture, osm, ocm, census)"
+            "description": "Filter by data source (e.g. osm, ocm, census, fixture)"
           }
         ],
         "responses": {
@@ -204,7 +204,7 @@
           "Field Research"
         ],
         "summary": "Submit Census Record",
-        "description": "Ingest mobile hardware census audit for physical charging stations.",
+        "description": "Ingest and persist mobile hardware census audit for physical charging stations.",
         "operationId": "submit_census_record_v1_field_census_post",
         "requestBody": {
           "content": {
@@ -248,7 +248,7 @@
           "Field Research"
         ],
         "summary": "Submit Survey Response",
-        "description": "Submit anonymous driver BWM pairwise comparison responses.\n\nStrict informed consent gate: consent must be explicitly True or 422 is returned.\nStrict zero PII rule: absolutely no driver names, telephone numbers, or license plates.",
+        "description": "Submit and persist anonymous driver BWM pairwise comparison responses.\n\nStrict informed consent gate: consent must be explicitly True or 422 is returned.\nStrict zero PII rule: absolutely no driver names, telephone numbers, or license plates.",
         "operationId": "submit_survey_response_v1_field_survey_post",
         "requestBody": {
           "content": {
@@ -292,7 +292,7 @@
           "Field Research"
         ],
         "summary": "Submit Queue Observation",
-        "description": "Submit 3-hour queuing observations ('07-10', '12-15', '18-21').",
+        "description": "Submit and persist 3-hour queuing observations ('07-10', '12-15', '18-21').",
         "operationId": "submit_queue_observation_v1_field_queue_post",
         "requestBody": {
           "content": {
@@ -336,7 +336,7 @@
           "Field Research"
         ],
         "summary": "Export Field Csv",
-        "description": "Stream live CSV export of field data for census, survey, or queue records.",
+        "description": "Stream live CSV export of persisted field data for census, survey, or queue records.",
         "operationId": "export_field_csv_v1_field_export__kind__get",
         "parameters": [
           {
@@ -382,7 +382,7 @@
           "Recommendation Engine"
         ],
         "summary": "Recommend Charging Stop",
-        "description": "Evaluate candidate charging stations along the route using TOPSIS and Allen-Cunneen queueing.\n\nEnforces:\n    P_eff = min(P_station, P_vehicle)\nand verifies that candidate arrival State of Charge exceeds the 8.0% safety reserve.",
+        "description": "Evaluate real corridor stations using Atharva's MCDM engine and M/G/c queuing model.",
         "operationId": "recommend_charging_stop_v1_recommend_post",
         "requestBody": {
           "content": {
@@ -411,6 +411,30 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/status": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "System Status",
+        "description": "Report live database engine backend, real data provenance distribution, and policy targets.",
+        "operationId": "system_status_v1_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response System Status V1 Status Get"
                 }
               }
             }
@@ -949,6 +973,17 @@
             "type": "number",
             "title": "Reachable Km"
           },
+          "route_km": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route Km"
+          },
           "top3": {
             "items": {
               "$ref": "#/components/schemas/TopStationResult"
@@ -964,6 +999,18 @@
             "type": "array",
             "title": "Rejected",
             "default": []
+          },
+          "nearest_baseline": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nearest Baseline"
           },
           "warnings": {
             "items": {
@@ -1371,6 +1418,47 @@
           "name": {
             "type": "string",
             "title": "Name"
+          },
+          "cpo_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpo Name"
+          },
+          "lat": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lat"
+          },
+          "lon": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lon"
+          },
+          "connectors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Connectors",
+            "default": []
           },
           "score": {
             "type": "number",
