@@ -1,0 +1,177 @@
+{
+  "n_trips": 50000,
+  "unreachable_trips": 7303,
+  "segments": {
+    "E2W": {
+      "Nearest": {
+        "mean_time_min": 47.45353858752249,
+        "p90_time_min": 58.26847917273342,
+        "mean_cost_inr": 23.802982080180158,
+        "mean_wait_min": 3.391400847483815,
+        "mean_gen_cost_inr": 71.25652066770265,
+        "delta_gen_cost_vs_nearest": 0.0,
+        "cost_savings_pct": 0.0,
+        "stranding_rate_pct": 0.004745859237815006,
+        "avg_unusable_kw": 12.672004176356126
+      },
+      "CheapestOnly": {
+        "mean_time_min": 50.02870912185365,
+        "p90_time_min": 60.71693361076217,
+        "mean_cost_inr": 23.08752119312592,
+        "mean_wait_min": 3.40774341500535,
+        "mean_gen_cost_inr": 73.11623031497957,
+        "delta_gen_cost_vs_nearest": 1.8597096472769294,
+        "cost_savings_pct": -2.609879951828537,
+        "stranding_rate_pct": 0.023729296189075034,
+        "avg_unusable_kw": 9.453533292202552
+      },
+      "FastestOnly": {
+        "mean_time_min": 49.65671954889918,
+        "p90_time_min": 60.40529978057185,
+        "mean_cost_inr": 25.95394291591087,
+        "mean_wait_min": 3.414202609343693,
+        "mean_gen_cost_inr": 75.61066246481005,
+        "delta_gen_cost_vs_nearest": 4.354141797107403,
+        "cost_savings_pct": -6.110516983298257,
+        "stranding_rate_pct": 0.009491718475630012,
+        "avg_unusable_kw": 20.83762991789663
+      },
+      "CERCOS-TOPSIS": {
+        "mean_time_min": 47.393943244764536,
+        "p90_time_min": 56.78850113559304,
+        "mean_cost_inr": 24.728316993403695,
+        "mean_wait_min": 2.4091606319790007,
+        "mean_gen_cost_inr": 72.12226023816822,
+        "delta_gen_cost_vs_nearest": 0.8657395704655784,
+        "cost_savings_pct": -1.2149618902989447,
+        "stranding_rate_pct": 0.018983436951260025,
+        "avg_unusable_kw": 12.21240093018841
+      },
+      "CERCOS-Anchored": {
+        "mean_time_min": 47.458008786356594,
+        "p90_time_min": 56.99731561512337,
+        "mean_cost_inr": 24.047803810384153,
+        "mean_wait_min": 2.6507258936082922,
+        "mean_gen_cost_inr": 71.50581259674074,
+        "delta_gen_cost_vs_nearest": 0.24929192903809394,
+        "cost_savings_pct": -0.34985139142653465,
+        "stranding_rate_pct": 0.01423757771344502,
+        "avg_unusable_kw": 11.19585211902615
+      }
+    },
+    "E3W": {
+      "Nearest": {
+        "mean_time_min": 78.42825314154962,
+        "p90_time_min": 101.6625186032773,
+        "mean_cost_inr": 54.391788525294814,
+        "mean_wait_min": 3.3932036725257255,
+        "mean_gen_cost_inr": 172.03416823761927,
+        "delta_gen_cost_vs_nearest": 0.0,
+        "cost_savings_pct": 0.0,
+        "stranding_rate_pct": 0.009877518767285657,
+        "avg_unusable_kw": 11.674703674436982
+      },
+      "CheapestOnly": {
+        "mean_time_min": 84.479620961646,
+        "p90_time_min": 108.20402413453905,
+        "mean_cost_inr": 52.69478488861419,
+        "mean_wait_min": 3.453519599276146,
+        "mean_gen_cost_inr": 179.41421633108317,
+        "delta_gen_cost_vs_nearest": 7.380048093463898,
+        "cost_savings_pct": -4.289873441460962,
+        "stranding_rate_pct": 0.049387593836428295,
+        "avg_unusable_kw": 8.420085934413276
+      },
+      "FastestOnly": {
+        "mean_time_min": 78.49246216990264,
+        "p90_time_min": 98.12217724690534,
+        "mean_cost_inr": 59.37829017229908,
+        "mean_wait_min": 3.425081819365736,
+        "mean_gen_cost_inr": 177.11698342715303,
+        "delta_gen_cost_vs_nearest": 5.082815189533761,
+        "cost_savings_pct": -2.954538183666636,
+        "stranding_rate_pct": 0.04444883445278546,
+        "avg_unusable_kw": 20.009442907941526
+      },
+      "CERCOS-TOPSIS": {
+        "mean_time_min": 79.57365152273981,
+        "p90_time_min": 102.82405736707636,
+        "mean_cost_inr": 56.678946191761305,
+        "mean_wait_min": 2.3513090730598107,
+        "mean_gen_cost_inr": 176.03942347587102,
+        "delta_gen_cost_vs_nearest": 4.005255238251749,
+        "cost_savings_pct": -2.328174268683392,
+        "stranding_rate_pct": 0.029632556301856974,
+        "avg_unusable_kw": 11.62178486764125
+      },
+      "CERCOS-Anchored": {
+        "mean_time_min": 79.98607688729805,
+        "p90_time_min": 103.38236987125332,
+        "mean_cost_inr": 55.5229094166339,
+        "mean_wait_min": 2.3055577412634363,
+        "mean_gen_cost_inr": 175.50202474758098,
+        "delta_gen_cost_vs_nearest": 3.467856509961706,
+        "cost_savings_pct": -2.015795202480817,
+        "stranding_rate_pct": 0.03951007506914263,
+        "avg_unusable_kw": 10.83206242591861
+      }
+    },
+    "E4W": {
+      "Nearest": {
+        "mean_time_min": 85.39496956657473,
+        "p90_time_min": 147.39021987393872,
+        "mean_cost_inr": 182.8395729395783,
+        "mean_wait_min": 3.312881000691472,
+        "mean_gen_cost_inr": 410.55949178377756,
+        "delta_gen_cost_vs_nearest": 0.0,
+        "cost_savings_pct": 0.0,
+        "stranding_rate_pct": 0.0,
+        "avg_unusable_kw": 0.5297532656023222
+      },
+      "CheapestOnly": {
+        "mean_time_min": 87.9582477731585,
+        "p90_time_min": 140.81143576051036,
+        "mean_cost_inr": 120.05850538520451,
+        "mean_wait_min": 3.491009726839626,
+        "mean_gen_cost_inr": 354.6138327802939,
+        "delta_gen_cost_vs_nearest": -55.945659003483684,
+        "cost_savings_pct": 13.626687513766614,
+        "stranding_rate_pct": 0.0,
+        "avg_unusable_kw": 0.05079825834542816
+      },
+      "FastestOnly": {
+        "mean_time_min": 39.695484917464405,
+        "p90_time_min": 57.043056517903594,
+        "mean_cost_inr": 166.48356931415228,
+        "mean_wait_min": 3.3104697589562733,
+        "mean_gen_cost_inr": 272.338195760724,
+        "delta_gen_cost_vs_nearest": -138.22129602305358,
+        "cost_savings_pct": 33.66656934967375,
+        "stranding_rate_pct": 0.07256894049346879,
+        "avg_unusable_kw": 2.9390420899854863
+      },
+      "CERCOS-TOPSIS": {
+        "mean_time_min": 43.476650350826695,
+        "p90_time_min": 100.64501240837117,
+        "mean_cost_inr": 155.5202627764009,
+        "mean_wait_min": 1.881178092765086,
+        "mean_gen_cost_inr": 271.45799704527207,
+        "delta_gen_cost_vs_nearest": -139.1014947385055,
+        "cost_savings_pct": 33.88095940350679,
+        "stranding_rate_pct": 0.0,
+        "avg_unusable_kw": 1.741654571843251
+      },
+      "CERCOS-Anchored": {
+        "mean_time_min": 46.44365483849034,
+        "p90_time_min": 113.17087147327727,
+        "mean_cost_inr": 148.24320707519405,
+        "mean_wait_min": 1.628372948203629,
+        "mean_gen_cost_inr": 272.09295331116834,
+        "delta_gen_cost_vs_nearest": -138.46653847260922,
+        "cost_savings_pct": 33.726303067798284,
+        "stranding_rate_pct": 0.07256894049346879,
+        "avg_unusable_kw": 1.7271407837445574
+      }
+    }
+  }
+}

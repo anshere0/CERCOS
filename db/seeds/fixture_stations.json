@@ -1,0 +1,415 @@
+[
+  {
+    "station_name": "Bhopal Junction EV Hub",
+    "cpo_name": "Tata Power",
+    "address": "Platform 1 Circulating Area, Bhopal Junction Railway Station, Bhopal",
+    "latitude": 23.2599,
+    "longitude": 77.4126,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 18.5,
+    "rating": 4.5,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 755 2550100",
+    "source": "fixture",
+    "source_ref": "fixture:bhopal_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"},
+      {"connector_type": "Type2", "output_power_kw": 22.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "MP Nagar Zone 1 Fast Charging Station",
+    "cpo_name": "Jio-bp pulse",
+    "address": "Main Road, MP Nagar Zone 1, Bhopal",
+    "latitude": 23.2351,
+    "longitude": 77.4285,
+    "max_power_kw": 120.0,
+    "tariff_inr_kwh": 21.0,
+    "rating": 4.8,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 755 2550200",
+    "source": "fixture",
+    "source_ref": "fixture:bhopal_station_02",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 120.0, "status": "AVAILABLE"},
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "OCCUPIED"}
+    ]
+  },
+  {
+    "station_name": "DB City Mall EV Depot",
+    "cpo_name": "Statiq",
+    "address": "Basement Parking B2, DB City Mall, Arera Hills, Bhopal",
+    "latitude": 23.2332,
+    "longitude": 77.4334,
+    "max_power_kw": 50.0,
+    "tariff_inr_kwh": 19.0,
+    "rating": 4.6,
+    "is_operational": true,
+    "open_24x7": false,
+    "hours_text": "10:00 - 23:00",
+    "contact": "+91 755 2550300",
+    "source": "fixture",
+    "source_ref": "fixture:bhopal_station_03",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 50.0, "status": "AVAILABLE"},
+      {"connector_type": "Type2", "output_power_kw": 11.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Bairagarh Corridor Station",
+    "cpo_name": "ChargeZone",
+    "address": "Sehore Road, Bairagarh, Bhopal",
+    "latitude": 23.2755,
+    "longitude": 77.3412,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 17.5,
+    "rating": 4.2,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 755 2550400",
+    "source": "fixture",
+    "source_ref": "fixture:bhopal_station_04",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Sehore Crescent Resort Charger",
+    "cpo_name": "Fortum Charge & Drive",
+    "address": "Crescent Water Park & Resort, NH 46, Sehore",
+    "latitude": 23.2081,
+    "longitude": 77.0862,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 20.0,
+    "rating": 4.7,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7562 250100",
+    "source": "fixture",
+    "source_ref": "fixture:sehore_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"},
+      {"connector_type": "Type2", "output_power_kw": 22.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Sehore Bypass Hub",
+    "cpo_name": "Tata Power",
+    "address": "Bhopal-Indore Bypass Junction, Sehore",
+    "latitude": 23.1895,
+    "longitude": 77.0543,
+    "max_power_kw": 50.0,
+    "tariff_inr_kwh": 18.0,
+    "rating": 4.3,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7562 250200",
+    "source": "fixture",
+    "source_ref": "fixture:sehore_station_02",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 50.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Jawar Highway Plaza EV Stop",
+    "cpo_name": "Jio-bp pulse",
+    "address": "Jawar Highway Plaza, NH 46, Sehore District",
+    "latitude": 23.1120,
+    "longitude": 76.7820,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 19.5,
+    "rating": 4.4,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7562 250300",
+    "source": "fixture",
+    "source_ref": "fixture:jawar_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"},
+      {"connector_type": "CHAdeMO", "output_power_kw": 50.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Ashta Highway Express",
+    "cpo_name": "Tata Power",
+    "address": "Near Ashta Bus Stand, NH 46, Ashta",
+    "latitude": 23.0185,
+    "longitude": 76.5342,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 18.5,
+    "rating": 4.5,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7560 240100",
+    "source": "fixture",
+    "source_ref": "fixture:ashta_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"},
+      {"connector_type": "Type2", "output_power_kw": 22.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Ashta Midway Fast Charger",
+    "cpo_name": "Statiq",
+    "address": "Hotel Highway Treat, NH 46, Ashta",
+    "latitude": 23.0112,
+    "longitude": 76.5120,
+    "max_power_kw": 50.0,
+    "tariff_inr_kwh": 19.0,
+    "rating": 4.1,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7560 240200",
+    "source": "fixture",
+    "source_ref": "fixture:ashta_station_02",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 50.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Kannod Road Junction Charging",
+    "cpo_name": "Ather Grid",
+    "address": "Kannod Road Turnoff, SH 18, Sehore Border",
+    "latitude": 22.9950,
+    "longitude": 76.3500,
+    "max_power_kw": 22.0,
+    "tariff_inr_kwh": 15.0,
+    "rating": 4.0,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7560 240300",
+    "source": "fixture",
+    "source_ref": "fixture:kannod_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "15A_Socket", "output_power_kw": 3.3, "status": "AVAILABLE"},
+      {"connector_type": "Type2", "output_power_kw": 22.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Sonkatch Bypass Fast Hub",
+    "cpo_name": "ChargeZone",
+    "address": "Bhopal-Dewas Highway, Sonkatch",
+    "latitude": 22.9810,
+    "longitude": 76.2150,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 18.0,
+    "rating": 4.3,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7270 230100",
+    "source": "fixture",
+    "source_ref": "fixture:sonkatch_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Dewas Tata Power Hub",
+    "cpo_name": "Tata Power",
+    "address": "Dewas Bypass Highway Plaza, Dewas",
+    "latitude": 22.9675,
+    "longitude": 76.0534,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 18.5,
+    "rating": 4.6,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7272 250100",
+    "source": "fixture",
+    "source_ref": "fixture:dewas_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"},
+      {"connector_type": "Type2", "output_power_kw": 22.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Dewas Industrial Area Charger",
+    "cpo_name": "Jio-bp pulse",
+    "address": "AB Road, Industrial Area Phase 1, Dewas",
+    "latitude": 22.9520,
+    "longitude": 76.0680,
+    "max_power_kw": 120.0,
+    "tariff_inr_kwh": 21.5,
+    "rating": 4.7,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7272 250200",
+    "source": "fixture",
+    "source_ref": "fixture:dewas_station_02",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 120.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Dewas Bypass Food Plaza Station",
+    "cpo_name": "Fortum Charge & Drive",
+    "address": "Midway Food Plaza, Indore-Dewas Expressway, Dewas",
+    "latitude": 22.9350,
+    "longitude": 76.0120,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 20.0,
+    "rating": 4.4,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 7272 250300",
+    "source": "fixture",
+    "source_ref": "fixture:dewas_station_03",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"},
+      {"connector_type": "Type2", "output_power_kw": 11.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Mangliya Toll Plaza Charger",
+    "cpo_name": "Statiq",
+    "address": "Near Mangliya Toll Plaza, Indore Expressway",
+    "latitude": 22.8420,
+    "longitude": 75.9230,
+    "max_power_kw": 50.0,
+    "tariff_inr_kwh": 18.0,
+    "rating": 4.2,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 731 250100",
+    "source": "fixture",
+    "source_ref": "fixture:mangliya_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 50.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Indore MR-10 Intercity Fast Hub",
+    "cpo_name": "Tata Power",
+    "address": "MR-10 Highway Cross, Near ISBT, Indore",
+    "latitude": 22.7680,
+    "longitude": 75.8820,
+    "max_power_kw": 120.0,
+    "tariff_inr_kwh": 20.5,
+    "rating": 4.8,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 731 250200",
+    "source": "fixture",
+    "source_ref": "fixture:indore_station_01",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 120.0, "status": "AVAILABLE"},
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Indore Vijay Nagar Charging Hub",
+    "cpo_name": "Jio-bp pulse",
+    "address": "AB Road, Vijay Nagar Square, Indore",
+    "latitude": 22.7533,
+    "longitude": 75.8937,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 19.5,
+    "rating": 4.7,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 731 250300",
+    "source": "fixture",
+    "source_ref": "fixture:indore_station_02",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"},
+      {"connector_type": "Type2", "output_power_kw": 22.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Indore Super Corridor Fast Stop",
+    "cpo_name": "Fortum Charge & Drive",
+    "address": "TCS Square, Super Corridor Road, Indore",
+    "latitude": 22.7533,
+    "longitude": 75.8211,
+    "max_power_kw": 150.0,
+    "tariff_inr_kwh": 22.0,
+    "rating": 4.9,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 731 250400",
+    "source": "fixture",
+    "source_ref": "fixture:indore_station_03",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 150.0, "status": "AVAILABLE"},
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Indore Palasia EV Point",
+    "cpo_name": "ChargeZone",
+    "address": "Old Palasia Main Road, Indore",
+    "latitude": 22.7244,
+    "longitude": 75.8839,
+    "max_power_kw": 50.0,
+    "tariff_inr_kwh": 18.0,
+    "rating": 4.4,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 731 250500",
+    "source": "fixture",
+    "source_ref": "fixture:indore_station_04",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 50.0, "status": "AVAILABLE"}
+    ]
+  },
+  {
+    "station_name": "Indore Chhoti Gwaltoli Transit Hub",
+    "cpo_name": "Statiq",
+    "address": "Near Indore Junction Railway Station, Chhoti Gwaltoli, Indore",
+    "latitude": 22.7160,
+    "longitude": 75.8680,
+    "max_power_kw": 60.0,
+    "tariff_inr_kwh": 18.5,
+    "rating": 4.5,
+    "is_operational": true,
+    "open_24x7": true,
+    "hours_text": "24/7",
+    "contact": "+91 731 250600",
+    "source": "fixture",
+    "source_ref": "fixture:indore_station_05",
+    "confidence": 0.90,
+    "connectors": [
+      {"connector_type": "CCS2", "output_power_kw": 60.0, "status": "AVAILABLE"},
+      {"connector_type": "15A_Socket", "output_power_kw": 3.3, "status": "AVAILABLE"}
+    ]
+  }
+]
