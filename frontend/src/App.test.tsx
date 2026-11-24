@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import App from './App'
 import { MapView } from './components/MapView'
@@ -18,6 +18,14 @@ describe('CERCOS Frontend Smoke Tests', () => {
     const mapWrapper = screen.getByTestId('map-container')
     expect(mapWrapper).toBeInTheDocument()
     expect(mapWrapper.querySelector('.leaflet-container')).toBeInTheDocument()
+  })
+
+  it('renders landing showcase overlay and launches navigator map', () => {
+    render(<App />)
+    expect(screen.getByTestId('landing-overlay')).toBeInTheDocument()
+    const launchBtn = screen.getByText('Launch Live Navigator')
+    fireEvent.click(launchBtn)
+    expect(screen.queryByTestId('landing-overlay')).not.toBeInTheDocument()
   })
 
   it('renders EV charging station filter pills and markers when stations passed', () => {

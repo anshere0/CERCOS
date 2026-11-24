@@ -7,6 +7,8 @@ geoalchemy2
 pydantic
 pydantic-settings
 numpy
+scipy
+matplotlib
 pyyaml
 pytest
 ruff

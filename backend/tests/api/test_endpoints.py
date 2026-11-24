@@ -275,3 +275,28 @@ def test_recommend_performance_budget_200_stations() -> None:
     # 95th percentile
     p95 = latencies_ms[int(len(latencies_ms) * 0.95)]
     assert p95 < 500.0, f"p95 latency {p95}ms exceeded 500ms budget"
+
+
+def test_route_endpoint_contract_with_waypoint_fallback() -> None:
+    """Verify POST /v1/route returns multi-leg road geometry and steps even offline."""
+    import httpx
+
+    payload = {
+        "origin": {"lat": 23.2599, "lon": 77.4126},
+        "waypoint": {"lat": 23.2147, "lon": 77.0783},
+        "waypoint_name": "Sehore Highway Stop",
+        "destination": {"lat": 23.0195, "lon": 76.7222},
+    }
+    with patch("app.api.v1.endpoints.route.httpx.get", side_effect=httpx.ConnectError("offline test")):
+        resp = client.post("/v1/route", json=payload)
+
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["provider"] == "nh46-corridor-fallback"
+    assert data["total_distance_km"] > 50.0
+    assert data["total_duration_min"] > 30.0
+    assert len(data["legs"]) == 2
+    assert len(data["legs"][0]["coordinates"]) >= 8
+    assert len(data["legs"][0]["steps"]) >= 2
+    assert data["legs"][0]["to_label"] == "Sehore Highway Stop"
+    assert data["legs"][1]["steps"][-1]["maneuver_type"] == "arrive"

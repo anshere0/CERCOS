@@ -3,6 +3,7 @@ import { components } from './types'
 export type LatLon = components['schemas']['LatLon']
 export type RecommendRequest = components['schemas']['RecommendRequest'] & {
   route_km?: number | null
+  vehicle_model?: string | null
 }
 
 export interface RecommendCriterionExplanation {
@@ -68,6 +69,38 @@ export interface RecommendResult {
   nearest_baseline?: NearestBaselineComparison | null
   warnings: string[]
   engine_version: string
+}
+
+export interface RouteStep {
+  instruction: string
+  road_name: string
+  distance_m: number
+  duration_s: number
+  maneuver_type: string
+  modifier?: string | null
+  location: [number, number]
+}
+
+export interface RouteLeg {
+  from_label: string
+  to_label: string
+  distance_km: number
+  duration_min: number
+  coordinates: [number, number][]
+  steps: RouteStep[]
+}
+
+export interface RouteResponse {
+  provider: string
+  total_distance_km: number
+  total_duration_min: number
+  legs: RouteLeg[]
+}
+
+export function formatTariff(val: number | null | undefined): string {
+  if (val == null) return 'Unlisted (est. ₹18/kWh)'
+  if (val === 0) return 'Free (₹0/kWh)'
+  return `₹${val}/kWh`
 }
 
 export interface VehicleProfile {
@@ -241,6 +274,17 @@ export const cercosApi = {
 
   recommend: (body: RecommendRequest) =>
     request<RecommendResult>('/v1/recommend', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+
+  getRoute: (body: {
+    origin: LatLon
+    destination: LatLon
+    waypoint?: LatLon | null
+    waypoint_name?: string | null
+  }) =>
+    request<RouteResponse>('/v1/route', {
       method: 'POST',
       body: JSON.stringify(body),
     }),

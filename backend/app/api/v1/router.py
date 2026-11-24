@@ -8,6 +8,7 @@ from fastapi import APIRouter
 from app.api.v1.endpoints.field import router as field_router
 from app.api.v1.endpoints.modes import router as modes_router
 from app.api.v1.endpoints.recommend import router as recommend_router
+from app.api.v1.endpoints.route import router as route_router
 from app.api.v1.endpoints.stations import router as stations_router
 from app.api.v1.endpoints.vehicles import router as vehicles_router
 from app.core.db import check_database_status, fetch_stations_from_db
@@ -20,6 +21,7 @@ router.include_router(vehicles_router, tags=["Vehicles"])
 router.include_router(stations_router, tags=["Stations"])
 router.include_router(field_router, tags=["Field Research"])
 router.include_router(recommend_router, tags=["Recommendation Engine"])
+router.include_router(route_router, tags=["Navigation & Routing"])
 
 
 @router.get("/status", tags=["System"])

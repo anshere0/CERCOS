@@ -10,12 +10,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - name: Lint and test (skipped until backend/requirements.txt exists)
+      - name: Lint and test backend
         run: |
           if [ -f backend/requirements.txt ]; then
             pip install -r backend/requirements.txt ruff pytest
-            ruff check backend
-            pytest backend/tests -q
+            ruff check backend analysis
+            PYTHONPATH=.:backend pytest backend/tests -q
           else
             echo "backend not scaffolded yet - skipping"
           fi
@@ -25,10 +25,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
-      - name: Build (skipped until frontend/package.json exists)
+      - name: Lint, test, and build frontend
         run: |
           if [ -f frontend/package.json ]; then
-            cd frontend && npm ci && npm run build
+            cd frontend && npm ci && npm run lint && npm test && npm run build
           else
             echo "frontend not scaffolded yet - skipping"
           fi
