@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
 import { LandingOverlay } from './components/LandingOverlay'
 import { MapView } from './components/MapView'
 import { MockBanner } from './components/MockBanner'
@@ -37,7 +39,7 @@ const CORRIDOR_PRESETS: CorridorPreset[] = [
   },
   {
     id: 'bhopal-indore',
-    label: 'Bhopal → Indore Full Corridor (~195 km)',
+    label: 'Bhopal → Indore (~195 km)',
     originLabel: 'Bhopal Central',
     destLabel: 'Indore (Rajwada / AB Rd)',
     origin: { lat: 23.2599, lon: 77.4126 },
@@ -46,7 +48,7 @@ const CORRIDOR_PRESETS: CorridorPreset[] = [
   },
   {
     id: 'bhopal-sehore',
-    label: 'Bhopal → Sehore / VIT Bhopal (~45 km)',
+    label: 'Bhopal → VIT Bhopal (~45 km)',
     originLabel: 'Bhopal City',
     destLabel: 'VIT Bhopal (Kothri Kalan)',
     origin: { lat: 23.2599, lon: 77.4126 },
@@ -55,7 +57,7 @@ const CORRIDOR_PRESETS: CorridorPreset[] = [
   },
   {
     id: 'bhopal-vidisha',
-    label: 'Bhopal → Vidisha Regional Route (~58 km)',
+    label: 'Bhopal → Vidisha (~58 km)',
     originLabel: 'Bhopal Junction',
     destLabel: 'Vidisha Town',
     origin: { lat: 23.2599, lon: 77.4126 },
@@ -64,7 +66,7 @@ const CORRIDOR_PRESETS: CorridorPreset[] = [
   },
   {
     id: 'bhopal-urban',
-    label: 'Bhopal Urban Loop (~22 km · E2W/E3W friendly)',
+    label: 'Bhopal Urban Loop (~22 km)',
     originLabel: 'MP Nagar Zone 1',
     destLabel: 'Bairagarh / Bhojtal West',
     origin: { lat: 23.2338, lon: 77.4319 },
@@ -74,6 +76,41 @@ const CORRIDOR_PRESETS: CorridorPreset[] = [
 ]
 
 const ALL_MP_BBOX = '75.0,22.0,79.0,24.5'
+
+interface PlaceOption {
+  id: string
+  label: string
+  subtitle: string
+  lat: number
+  lon: number
+}
+
+const MP_LANDMARKS: PlaceOption[] = [
+  { id: 'lm-bhopal-jn', label: 'Bhopal Junction Railway Station', subtitle: 'Bhopal, Madhya Pradesh', lat: 23.2689, lon: 77.4136 },
+  { id: 'lm-rkmp', label: 'Rani Kamalapati (Habibganj) Station', subtitle: 'MP Nagar, Bhopal', lat: 23.2295, lon: 77.4391 },
+  { id: 'lm-db-mall', label: 'DB City Mall, Bhopal', subtitle: 'Arera Hills, Bhopal', lat: 23.2332, lon: 77.4301 },
+  { id: 'lm-airport', label: 'Raja Bhoj Airport, Bhopal', subtitle: 'Gandhi Nagar, Bhopal', lat: 23.2875, lon: 77.3374 },
+  { id: 'lm-vit-bhopal', label: 'VIT Bhopal University', subtitle: 'Kothri Kalan, Sehore', lat: 23.0775, lon: 76.8513 },
+  { id: 'lm-sehore', label: 'Sehore Town / NH-46', subtitle: 'Sehore, Madhya Pradesh', lat: 23.2032, lon: 77.0844 },
+  { id: 'lm-ashta', label: 'Ashta Highway Interchange', subtitle: 'Ashta, Sehore', lat: 23.0195, lon: 76.7222 },
+  { id: 'lm-dewas', label: 'Dewas AB Road Corridor', subtitle: 'Dewas, Madhya Pradesh', lat: 22.9676, lon: 76.0534 },
+  { id: 'lm-indore-vn', label: 'Vijay Nagar Square, Indore', subtitle: 'Indore, Madhya Pradesh', lat: 22.7533, lon: 75.8937 },
+  { id: 'lm-indore-raj', label: 'Rajwada, Indore', subtitle: 'Central Indore', lat: 22.7186, lon: 75.8548 },
+  { id: 'lm-vidisha', label: 'Vidisha Town Center', subtitle: 'Vidisha, Madhya Pradesh', lat: 23.5226, lon: 77.8148 },
+  { id: 'lm-ujjain', label: 'Ujjain Mahakal Corridor', subtitle: 'Ujjain, Madhya Pradesh', lat: 23.1828, lon: 75.7682 },
+]
+
+function haversineKm(a: LatLon, b: LatLon): number {
+  const toRad = (deg: number) => (deg * Math.PI) / 180
+  const dLat = toRad(b.lat - a.lat)
+  const dLon = toRad(b.lon - a.lon)
+  const lat1 = toRad(a.lat)
+  const lat2 = toRad(b.lat)
+  const h =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2)
+  return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h))
+}
 
 type AppTab = 'map' | 'field' | 'audit'
 type DrawerTab = 'setup' | 'directions'
@@ -91,6 +128,7 @@ function maneuverArrow(type: string, modifier?: string | null): string {
 
 export const App: React.FC = () => {
   const useMocks = import.meta.env.VITE_USE_MOCKS !== 'false'
+  const appRef = useRef<HTMLDivElement>(null)
 
   const [activeTab, setActiveTab] = useState<AppTab>('map')
   const [showLanding, setShowLanding] = useState<boolean>(true)
@@ -126,6 +164,19 @@ export const App: React.FC = () => {
   const [simActive, setSimActive] = useState<boolean>(false)
   const [simIdx, setSimIdx] = useState<number>(0)
 
+  // User live location
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(null)
+  const [locationError, setLocationError] = useState<string | null>(null)
+
+  // Search bar & custom origin/destination
+  const [searchOrigin, setSearchOrigin] = useState<string>('')
+  const [searchDest, setSearchDest] = useState<string>('')
+  const [customOrigin, setCustomOrigin] = useState<{ lat: number; lon: number; label: string } | null>(null)
+  const [customDest, setCustomDest] = useState<{ lat: number; lon: number; label: string } | null>(null)
+  const [activeSearchField, setActiveSearchField] = useState<'origin' | 'dest' | null>(null)
+  const [remotePlaces, setRemotePlaces] = useState<PlaceOption[]>([])
+  const [searchingPlaces, setSearchingPlaces] = useState<boolean>(false)
+
   // Field Mode states
   const [censusName, setCensusName] = useState('')
   const [censusCpo, setCensusCpo] = useState('Tata Power EZ Charge')
@@ -144,6 +195,24 @@ export const App: React.FC = () => {
     () => CORRIDOR_PRESETS.find((p) => p.id === selectedPresetId) || CORRIDOR_PRESETS[0],
     [selectedPresetId],
   )
+
+  const effectiveOrigin = useMemo<LatLon>(
+    () => (customOrigin ? { lat: customOrigin.lat, lon: customOrigin.lon } : activePreset.origin),
+    [customOrigin, activePreset],
+  )
+
+  const effectiveDest = useMemo<LatLon>(
+    () => (customDest ? { lat: customDest.lat, lon: customDest.lon } : activePreset.destination),
+    [customDest, activePreset],
+  )
+
+  const effectiveOriginLabel = customOrigin ? customOrigin.label : activePreset.originLabel
+  const effectiveDestLabel = customDest ? customDest.label : activePreset.destLabel
+
+  const effectiveRouteKm = useMemo(() => {
+    if (!customOrigin && !customDest) return activePreset.routeKm
+    return Math.max(4, Math.round(haversineKm(effectiveOrigin, effectiveDest) * 1.25))
+  }, [customOrigin, customDest, activePreset.routeKm, effectiveOrigin, effectiveDest])
 
   const activeVehicle = useMemo(
     () => vehicles[selectedVehicleIdx] || vehicles[0] || null,
@@ -173,16 +242,100 @@ export const App: React.FC = () => {
       else offline += 1
     }
     const parts: string[] = []
-    if (mismatch > 0) parts.push(`${mismatch} connector mismatch`)
-    if (unreachable > 0) parts.push(`${unreachable} below 8% safety reserve`)
-    if (offline > 0) parts.push(`${offline} out of service`)
+    if (mismatch > 0) parts.push(`${mismatch} wrong plug`)
+    if (unreachable > 0) parts.push(`${unreachable} too far`)
+    if (offline > 0) parts.push(`${offline} offline`)
     return {
       total: list.length,
-      breakdown: parts.join(', '),
+      breakdown: parts.join(' · '),
     }
   }, [recommendation])
 
-  // Load initial stations, vehicles, modes, and system status from live backend
+  // ───── Live Location ─────
+  const requestLocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported in this browser')
+      return
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude
+        const lon = pos.coords.longitude
+        setUserLocation([lat, lon])
+        setCustomOrigin({ lat, lon, label: 'My Live Location' })
+        setSearchOrigin('My Live Location')
+        setLocationError(null)
+        setActiveSearchField(null)
+        setRecommendation(null)
+      },
+      (err) => {
+        setLocationError(err.message || 'Location permission denied')
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    )
+  }, [])
+
+  // Debounced Nominatim place search when user types in Origin or Where To
+  const activeQuery = activeSearchField === 'origin' ? searchOrigin : activeSearchField === 'dest' ? searchDest : ''
+  useEffect(() => {
+    const q = activeQuery.trim()
+    if (!activeSearchField || q.length < 3 || q === 'My Live Location') {
+      setRemotePlaces([])
+      setSearchingPlaces(false)
+      return
+    }
+    const controller = new AbortController()
+    const timer = window.setTimeout(async () => {
+      setSearchingPlaces(true)
+      try {
+        const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(q)}&countrycodes=in&limit=5`
+        const resp = await fetch(url, {
+          signal: controller.signal,
+          headers: { Accept: 'application/json' },
+        })
+        if (!resp.ok) {
+          setRemotePlaces([])
+          return
+        }
+        const rows = (await resp.json()) as Array<{
+          place_id: number
+          display_name: string
+          lat: string
+          lon: string
+        }>
+        setRemotePlaces(
+          rows.map((r) => {
+            const parts = r.display_name.split(',').map((s) => s.trim())
+            return {
+              id: `nom-${r.place_id}`,
+              label: parts[0] || r.display_name,
+              subtitle: parts.slice(1, 4).join(', '),
+              lat: Number(r.lat),
+              lon: Number(r.lon),
+            }
+          }),
+        )
+      } catch {
+        setRemotePlaces([])
+      } finally {
+        setSearchingPlaces(false)
+      }
+    }, 350)
+    return () => {
+      window.clearTimeout(timer)
+      controller.abort()
+    }
+  }, [activeQuery, activeSearchField])
+
+  const filteredLandmarks = useMemo(() => {
+    const q = activeQuery.trim().toLowerCase()
+    if (!q || q === 'my live location') return MP_LANDMARKS.slice(0, 6)
+    return MP_LANDMARKS.filter(
+      (lm) => lm.label.toLowerCase().includes(q) || lm.subtitle.toLowerCase().includes(q),
+    ).slice(0, 6)
+  }, [activeQuery])
+
+  // ───── Data Loading ─────
   const loadInitialData = useCallback(async () => {
     try {
       setApiError(null)
@@ -219,8 +372,8 @@ export const App: React.FC = () => {
     try {
       const veh = vehicles[selectedVehicleIdx]
       const res = await cercosApi.recommend({
-        origin: activePreset.origin,
-        destination: activePreset.destination,
+        origin: effectiveOrigin,
+        destination: effectiveDest,
         soc_pct: socPct,
         mode: selectedMode as
           | 'Balanced'
@@ -230,8 +383,9 @@ export const App: React.FC = () => {
           | 'HighestRated'
           | 'BatterySafe',
         segment: veh?.segment || 'E4W',
+        vehicle_id: veh?.vehicle_id,
         vehicle_model: veh?.model_name,
-        route_km: activePreset.routeKm,
+        route_km: effectiveRouteKm,
       })
       setRecommendation(res)
 
@@ -243,8 +397,8 @@ export const App: React.FC = () => {
 
       const routeRes = await cercosApi
         .getRoute({
-          origin: activePreset.origin,
-          destination: activePreset.destination,
+          origin: effectiveOrigin,
+          destination: effectiveDest,
           waypoint:
             top1?.lat != null && top1?.lon != null ? { lat: top1.lat, lon: top1.lon } : null,
           waypoint_name: top1?.name ?? null,
@@ -256,7 +410,7 @@ export const App: React.FC = () => {
     } finally {
       setLoadingRec(false)
     }
-  }, [vehicles, selectedVehicleIdx, activePreset, socPct, selectedMode, stations])
+  }, [vehicles, selectedVehicleIdx, effectiveOrigin, effectiveDest, effectiveRouteKm, socPct, selectedMode, stations])
 
   useEffect(() => {
     if (stations.length > 0 && vehicles.length > 0 && !recommendation && !useMocks) {
@@ -264,7 +418,7 @@ export const App: React.FC = () => {
     }
   }, [stations.length, vehicles.length, recommendation, useMocks, runOptimize])
 
-  // Flatten detailed street route vertices & steps for live Drive Preview animation
+  // Flatten route coords & steps for Drive Preview
   const simPathCoords = useMemo<[number, number][]>(() => {
     if (!routeData) return []
     const pts: [number, number][] = []
@@ -310,11 +464,48 @@ export const App: React.FC = () => {
 
   const handleSelectCorridorFromLanding = (presetId: string) => {
     setSelectedPresetId(presetId)
+    setCustomOrigin(null)
+    setCustomDest(null)
+    setSearchOrigin('')
+    setSearchDest('')
     setRecommendation(null)
     setShowLanding(false)
     setActiveTab('map')
     setPanelCollapsed(false)
     setDrawerTab('directions')
+  }
+
+  const handleSelectPreset = (presetId: string) => {
+    setSelectedPresetId(presetId)
+    setCustomOrigin(null)
+    setCustomDest(null)
+    setSearchOrigin('')
+    setSearchDest('')
+    setActiveSearchField(null)
+    setRecommendation(null)
+  }
+
+  const handleSelectPlace = (place: PlaceOption) => {
+    const field = activeSearchField || 'dest'
+    if (field === 'origin') {
+      setCustomOrigin({ lat: place.lat, lon: place.lon, label: place.label })
+      setSearchOrigin(place.label)
+    } else {
+      setCustomDest({ lat: place.lat, lon: place.lon, label: place.label })
+      setSearchDest(place.label)
+    }
+    setActiveSearchField(null)
+    setRecommendation(null)
+  }
+
+  const handleSwapEndpoints = () => {
+    const prevOrig = { lat: effectiveOrigin.lat, lon: effectiveOrigin.lon, label: effectiveOriginLabel }
+    const prevDest = { lat: effectiveDest.lat, lon: effectiveDest.lon, label: effectiveDestLabel }
+    setCustomOrigin(prevDest)
+    setCustomDest(prevOrig)
+    setSearchOrigin(prevDest.label)
+    setSearchDest(prevOrig.label)
+    setRecommendation(null)
   }
 
   const handleCensusSubmit = async (e: React.FormEvent) => {
@@ -371,10 +562,29 @@ export const App: React.FC = () => {
     setMobileSheet((prev) => (prev === 'peek' ? 'half' : prev === 'half' ? 'full' : 'peek'))
   }
 
+  // GSAP entrance animation for the app header
+  useGSAP(
+    () => {
+      if (!appRef.current) return
+      gsap.fromTo(
+        '.cercos-brand',
+        { x: -20, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
+      )
+      gsap.fromTo(
+        '.nav-btn',
+        { y: -10, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.3, stagger: 0.06, ease: 'power2.out', delay: 0.2 },
+      )
+    },
+    { scope: appRef },
+  )
+
   return (
-    <div className="cercos-app">
+    <div className="cercos-app" ref={appRef}>
       <MockBanner visible={useMocks} />
 
+      {/* ───── Header ───── */}
       <header className="cercos-header">
         <div className="cercos-brand">
           <div className="brand-mark">⚡</div>
@@ -401,7 +611,7 @@ export const App: React.FC = () => {
               setShowLanding(false)
             }}
           >
-            Navigator Map
+            Navigator
           </button>
           <button
             type="button"
@@ -421,56 +631,224 @@ export const App: React.FC = () => {
               setActiveTab('audit')
             }}
           >
-            System Audit
+            Audit
           </button>
         </nav>
 
         <div className="cercos-header-meta">
           <span className={`cercos-badge ${statusInfo?.database.connected ? 'badge-live' : ''}`}>
             {statusInfo?.database.connected
-              ? `Live (${statusInfo.database.backend}) · ${stations.length} Stations`
-              : `${stations.length} Stations Loaded`}
+              ? `Live · ${stations.length} Stations`
+              : `${stations.length} Loaded`}
           </span>
         </div>
       </header>
 
       {apiError && (
         <div className="cercos-error-bar">
-          <strong>Backend Notice:</strong> {apiError} — ensure FastAPI is running on{' '}
+          <strong>Backend:</strong> {apiError} — ensure FastAPI is running on{' '}
           <code>http://localhost:8000</code>.
         </div>
       )}
 
+      {/* ───── Map Tab ───── */}
       {activeTab === 'map' && (
         <main className="cercos-workspace">
-          {/* Full-Bleed Map Container Always Mounted Behind Floating Directions & Landing */}
           <div className="cercos-map-pane">
             <MapView
               stations={stations}
               recommendation={recommendation}
               routeData={routeData}
-              origin={activePreset.origin}
-              destination={activePreset.destination}
+              origin={effectiveOrigin}
+              destination={effectiveDest}
               selectedStationId={selectedStation?.properties.station_id ?? null}
               focusedStepLoc={focusedStepLoc}
               simActive={simActive}
               simPosition={simPosition}
               simStep={simStep}
+              userLocation={userLocation}
+              activeVehicle={activeVehicle}
               onToggleSim={routeData ? handleToggleSim : undefined}
               onSelectStation={(st) => setSelectedStation(st)}
               onOpenLanding={() => setShowLanding(true)}
             />
 
-            {/* Floating Google Maps Directions & Route Drawer (Desktop Floating / Mobile Bottom Sheet) */}
+            {/* Google Maps Left Dock: Floating Search Bar + Directions Drawer */}
             {!showLanding && (
-              <>
+              <div className="gmaps-left-overlay">
+                <div className="gmaps-search-bar">
+                  <div className="search-route-inputs">
+                    <div className="search-dot-col">
+                      <span className="search-dot origin-dot" />
+                      <span className="search-line" />
+                      <span className="search-dot dest-dot" />
+                    </div>
+                    <div className="search-fields">
+                      <div className="search-input-wrap">
+                        <input
+                          type="text"
+                          className="search-input"
+                          aria-label="Origin location"
+                          placeholder="Your location or starting point"
+                          value={searchOrigin || effectiveOriginLabel}
+                          onChange={(e) => {
+                            setSearchOrigin(e.target.value)
+                            setActiveSearchField('origin')
+                          }}
+                          onFocus={() => setActiveSearchField('origin')}
+                        />
+                        <button
+                          type="button"
+                          className={`search-loc-btn ${userLocation ? 'active' : ''}`}
+                          onClick={requestLocation}
+                          title="Use my live GPS location"
+                          aria-label="Use my live location"
+                        >
+                          📍
+                        </button>
+                      </div>
+                      <div className="search-input-wrap">
+                        <input
+                          type="text"
+                          className="search-input"
+                          aria-label="Destination location"
+                          placeholder="Where to? (e.g. VIT Bhopal, Indore...)"
+                          value={searchDest || effectiveDestLabel}
+                          onChange={(e) => {
+                            setSearchDest(e.target.value)
+                            setActiveSearchField('dest')
+                          }}
+                          onFocus={() => setActiveSearchField('dest')}
+                        />
+                        <button
+                          type="button"
+                          className="search-swap-btn"
+                          onClick={handleSwapEndpoints}
+                          title="Swap origin and destination"
+                          aria-label="Swap origin and destination"
+                        >
+                          ⇅
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Quick Place & Corridor Suggestions Dropdown */}
+                  {activeSearchField && (
+                    <div className="search-suggestions">
+                      {activeSearchField === 'origin' && (
+                        <button
+                          type="button"
+                          className="search-suggestion-item live-gps-choice"
+                          onClick={requestLocation}
+                        >
+                          <span className="suggestion-icon">📡</span>
+                          <div className="suggestion-info">
+                            <strong>Use My Live GPS Location</strong>
+                            <span>Automatically detect current coordinates</span>
+                          </div>
+                          <span className="suggestion-km">GPS</span>
+                        </button>
+                      )}
+
+                      {searchingPlaces && (
+                        <div className="search-loading-row">Searching exact locations on map...</div>
+                      )}
+
+                      {remotePlaces.length > 0 && (
+                        <>
+                          <div className="search-suggestions-header">Exact Map Results</div>
+                          {remotePlaces.map((pl) => (
+                            <button
+                              key={pl.id}
+                              type="button"
+                              className="search-suggestion-item"
+                              onClick={() => handleSelectPlace(pl)}
+                            >
+                              <span className="suggestion-icon">📍</span>
+                              <div className="suggestion-info">
+                                <strong>{pl.label}</strong>
+                                <span>{pl.subtitle}</span>
+                              </div>
+                            </button>
+                          ))}
+                        </>
+                      )}
+
+                      <div className="search-suggestions-header">
+                        MP Landmarks ({activeSearchField === 'origin' ? 'Set Start' : 'Set Destination'})
+                      </div>
+                      {filteredLandmarks.map((lm) => (
+                        <button
+                          key={lm.id}
+                          type="button"
+                          className="search-suggestion-item"
+                          onClick={() => handleSelectPlace(lm)}
+                        >
+                          <span className="suggestion-icon">🏁</span>
+                          <div className="suggestion-info">
+                            <strong>{lm.label}</strong>
+                            <span>{lm.subtitle}</span>
+                          </div>
+                        </button>
+                      ))}
+
+                      <div className="search-suggestions-header">Popular EV Corridors</div>
+                      {CORRIDOR_PRESETS.map((p) => (
+                        <button
+                          key={p.id}
+                          type="button"
+                          className={`search-suggestion-item ${
+                            !customOrigin && !customDest && selectedPresetId === p.id ? 'active' : ''
+                          }`}
+                          onClick={() => handleSelectPreset(p.id)}
+                        >
+                          <span className="suggestion-icon">🛣️</span>
+                          <div className="suggestion-info">
+                            <strong>{p.label}</strong>
+                            <span>
+                              {p.originLabel} → {p.destLabel}
+                            </span>
+                          </div>
+                          <span className="suggestion-km mono">{p.routeKm} km</span>
+                        </button>
+                      ))}
+                      <button
+                        type="button"
+                        className="search-close-btn"
+                        onClick={() => setActiveSearchField(null)}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Vehicle + SoC compact strip below search */}
+                  {activeVehicle && (
+                    <div className="search-vehicle-strip">
+                      <span className="vehicle-chip">
+                        🚗 {activeVehicle.model_name} · {socPct}% SoC
+                      </span>
+                      <span className="range-chip mono">
+                        ~{recommendation?.reachable_km ?? reachableEstimateKm} km range
+                      </span>
+                    </div>
+                  )}
+
+                  {locationError && (
+                    <div className="location-error">
+                      📍 {locationError}
+                    </div>
+                  )}
+                </div>
+
                 {panelCollapsed ? (
                   <button
                     type="button"
                     className="floating-expand-pill"
                     onClick={() => setPanelCollapsed(false)}
                   >
-                    🧭 Directions &amp; EV Stops ({recommendation?.top3.length ?? 0})
+                    🧭 Directions ({recommendation?.top3.length ?? 0})
                   </button>
                 ) : (
                   <aside className={`gmaps-directions-drawer sheet-${mobileSheet}`}>
@@ -486,15 +864,12 @@ export const App: React.FC = () => {
                       <span className="sheet-grab-bar" />
                       <div className="sheet-peek-summary">
                         <strong>
-                          {recommendation?.top3[0]?.name || activePreset.label}
+                          {recommendation?.top3[0]?.name || `${effectiveOriginLabel} → ${effectiveDestLabel}`}
                         </strong>
                         <span className="mono">
                           {routeData
-                            ? `${routeData.total_distance_km} km · ${Math.round(routeData.total_duration_min)}m drive`
-                            : `${activePreset.routeKm} km route`}
-                          {recommendation?.top3[0]
-                            ? ` · ★ #1 ₹${recommendation.top3[0].criteria.cost_inr_kwh}/kWh`
-                            : ''}
+                            ? `${routeData.total_distance_km} km · ${Math.round(routeData.total_duration_min)}m`
+                            : `${effectiveRouteKm} km`}
                         </span>
                       </div>
                       <span className="sheet-toggle-lbl">
@@ -509,28 +884,28 @@ export const App: React.FC = () => {
                           className={`d-tab ${drawerTab === 'setup' ? 'active' : ''}`}
                           onClick={() => setDrawerTab('setup')}
                         >
-                          EV Route &amp; Stops
+                          Route Setup
                         </button>
                         <button
                           type="button"
                           className={`d-tab ${drawerTab === 'directions' ? 'active' : ''}`}
                           onClick={() => setDrawerTab('directions')}
                         >
-                          Turn-by-Turn ({simSteps.length})
+                          Directions ({simSteps.length})
                         </button>
                       </div>
                       <button
                         type="button"
                         className="collapse-drawer-btn"
                         onClick={() => setPanelCollapsed(true)}
-                        title="Hide Panel for Full Map"
+                        title="Hide Panel"
                       >
                         ◀
                       </button>
                     </div>
 
                     <div className="drawer-scroll-body">
-                      {/* Visual Google Maps Origin -> EV Stop -> Destination Route Box */}
+                      {/* Route Box */}
                       <div className="gmaps-route-box">
                         <div className="route-rail">
                           <span className="rail-dot origin" />
@@ -542,7 +917,7 @@ export const App: React.FC = () => {
                         <div className="route-fields">
                           <div className="route-row-pill">
                             <small>ORIGIN</small>
-                            <strong>{activePreset.originLabel}</strong>
+                            <strong>{effectiveOriginLabel}</strong>
                           </div>
                           <div className="route-row-pill stop-pill">
                             <small>OPTIMAL CHARGE STOP</small>
@@ -552,7 +927,7 @@ export const App: React.FC = () => {
                           </div>
                           <div className="route-row-pill">
                             <small>DESTINATION</small>
-                            <strong>{activePreset.destLabel}</strong>
+                            <strong>{effectiveDestLabel}</strong>
                           </div>
                         </div>
                       </div>
@@ -564,7 +939,7 @@ export const App: React.FC = () => {
                               Corridor Route
                               <select
                                 value={selectedPresetId}
-                                onChange={(e) => setSelectedPresetId(e.target.value)}
+                                onChange={(e) => handleSelectPreset(e.target.value)}
                               >
                                 {CORRIDOR_PRESETS.map((p) => (
                                   <option key={p.id} value={p.id}>
@@ -575,7 +950,7 @@ export const App: React.FC = () => {
                             </label>
 
                             <label className="field-label">
-                              Vehicle Profile ({vehicles.length} OEM specs)
+                              Vehicle
                               <select
                                 value={selectedVehicleIdx}
                                 onChange={(e) => setSelectedVehicleIdx(Number(e.target.value))}
@@ -590,7 +965,7 @@ export const App: React.FC = () => {
                             </label>
 
                             <label className="field-label">
-                              Battery SoC: <strong>{socPct}%</strong> · Safe Reach (8% reserve):{' '}
+                              Battery: <strong>{socPct}%</strong> · Range:{' '}
                               <strong className="mono">
                                 {recommendation?.reachable_km ?? reachableEstimateKm} km
                               </strong>
@@ -623,7 +998,7 @@ export const App: React.FC = () => {
                                 onClick={runOptimize}
                                 disabled={loadingRec}
                               >
-                                {loadingRec ? 'Routing...' : 'Optimize Stop'}
+                                {loadingRec ? 'Routing...' : '⚡ Find Best Stop'}
                               </button>
                               {routeData && (
                                 <button
@@ -631,63 +1006,54 @@ export const App: React.FC = () => {
                                   className={`sim-cta ${simActive ? 'active' : ''}`}
                                   onClick={handleToggleSim}
                                 >
-                                  {simActive ? '⏹ Stop' : '▶ Preview Drive'}
+                                  {simActive ? '⏹ Stop' : '▶ Preview'}
                                 </button>
                               )}
                             </div>
                           </section>
 
+                          {/* Comparison Card */}
                           {recommendation?.nearest_baseline && recommendation.top3.length > 0 && (
                             <section className="panel-section comparison-card">
-                              <h4>Nearest Charger vs CERCOS #1</h4>
+                              <h4>Nearest vs CERCOS #1</h4>
                               <div className="compare-grid">
                                 <div className="compare-col baseline">
-                                  <span className="col-tag">Naïve Nearest</span>
+                                  <span className="col-tag">Nearest</span>
                                   <strong>{recommendation.nearest_baseline.name}</strong>
                                   <span>
-                                    Tariff: ₹{recommendation.nearest_baseline.tariff_inr_kwh}/kWh ·{' '}
+                                    ₹{recommendation.nearest_baseline.tariff_inr_kwh}/kWh ·{' '}
                                     {recommendation.nearest_baseline.is_compatible
-                                      ? 'Plug OK'
-                                      : '⚠ Plug Mismatch!'}
-                                  </span>
-                                  <span>
-                                    Raw {recommendation.nearest_baseline.raw_power_kw}kW → Eff{' '}
-                                    <strong>{recommendation.nearest_baseline.effective_kw} kW</strong>{' '}
-                                    · Wait {recommendation.nearest_baseline.wait_min}m
+                                      ? '✓ Plug OK'
+                                      : '⚠ Wrong Plug'}
                                   </span>
                                 </div>
                                 <div className="compare-col cercos">
-                                  <span className="col-tag win">★ CERCOS #1</span>
+                                  <span className="col-tag win">★ CERCOS</span>
                                   <strong>{recommendation.top3[0].name}</strong>
                                   <span>
-                                    Tariff: ₹{recommendation.top3[0].criteria.cost_inr_kwh}/kWh (
+                                    ₹{recommendation.top3[0].criteria.cost_inr_kwh}/kWh ·{' '}
                                     {recommendation.nearest_baseline.cost_diff_vs_cercos_inr_kwh >= 0
-                                      ? `Saves ₹${recommendation.nearest_baseline.cost_diff_vs_cercos_inr_kwh}/kWh`
-                                      : `+₹${Math.abs(recommendation.nearest_baseline.cost_diff_vs_cercos_inr_kwh)}/kWh`}
-                                    )
-                                  </span>
-                                  <span>
-                                    Eff <strong>{recommendation.top3[0].criteria.effective_kw} kW</strong>{' '}
-                                    · Wait {recommendation.top3[0].criteria.wait_min}m · Score{' '}
-                                    {recommendation.top3[0].score.toFixed(3)}
+                                      ? `Saves ₹${recommendation.nearest_baseline.cost_diff_vs_cercos_inr_kwh}`
+                                      : `+₹${Math.abs(recommendation.nearest_baseline.cost_diff_vs_cercos_inr_kwh)}`}
                                   </span>
                                 </div>
                               </div>
                             </section>
                           )}
 
+                          {/* Top 3 Results */}
                           {recommendation && (
                             <section className="panel-section">
                               <div className="results-header">
-                                <h3>Top 3 Recommended Stops</h3>
+                                <h3>Top 3 Stops</h3>
                                 <span className="engine-ver">
-                                  {recommendation.needs_charging ? 'Charge Needed' : 'Reachable Directly'}
+                                  {recommendation.needs_charging ? 'Charge Needed' : 'Direct OK'}
                                 </span>
                               </div>
 
                               {recommendation.top3.length === 0 ? (
                                 <p className="muted">
-                                  No admissible station met connector + 8% reserve constraints.
+                                  No station met plug + 8% reserve constraints.
                                 </p>
                               ) : (
                                 <div className="cards-list">
@@ -714,61 +1080,56 @@ export const App: React.FC = () => {
                                       <div className="card-metrics">
                                         <span>Eff {st.criteria.effective_kw} kW</span>
                                         <span>Wait {st.criteria.wait_min}m</span>
-                                        <span>Arr SoC {st.arrival_soc_pct}%</span>
+                                        <span>SoC {st.arrival_soc_pct}%</span>
                                         <span>₹{st.criteria.cost_inr_kwh}/kWh</span>
                                       </div>
                                       <div className="card-metrics">
-                                        <span>Detour: +{st.criteria.detour_km} km</span>
-                                        <span>Est Cost: ₹{st.est_cost_inr}</span>
-                                        <span>Charge: {st.est_charge_min}m</span>
-                                        <span className="prov-badge">
-                                          {st.source.toUpperCase()} ({Math.round(st.confidence * 100)}%)
-                                        </span>
-                                      </div>
-                                      <div className="explain-list">
-                                        {st.explain.slice(0, 2).map((ex, idx) => (
-                                          <div key={idx} className="explain-item">
-                                            • {ex.note}
-                                          </div>
-                                        ))}
+                                        <span>+{st.criteria.detour_km} km detour</span>
+                                        <span>₹{st.est_cost_inr} est</span>
+                                        <span>{st.est_charge_min}m charge</span>
                                       </div>
                                     </div>
                                   ))}
                                 </div>
                               )}
 
+                              {/* Incompatible stations summary */}
                               {recommendation.rejected.length > 0 && (
                                 <details className="rejected-details">
                                   <summary>
-                                    {rejectedSummary.total} stations filtered out
+                                    <span className="rejected-count">{rejectedSummary.total}</span>{' '}
+                                    stations filtered
                                     {rejectedSummary.breakdown
-                                      ? ` (${rejectedSummary.breakdown})`
-                                      : ' (Hard Constraints)'}
+                                      ? ` — ${rejectedSummary.breakdown}`
+                                      : ''}
                                   </summary>
-                                  <ul>
-                                    {recommendation.rejected.slice(0, 25).map((r) => {
+                                  <div className="rejected-list">
+                                    {recommendation.rejected.slice(0, 15).map((r) => {
                                       const stName = stationNameById.get(r.station_id)
+                                      const lower = r.reason.toLowerCase()
+                                      const icon = lower.includes('connector') ? '🔌' : lower.includes('unreachable') ? '🔋' : '✕'
                                       return (
-                                        <li key={r.station_id}>
-                                          <strong>
-                                            {stName
-                                              ? `${stName} (#${r.station_id})`
-                                              : `Station #${r.station_id}`}
-                                            :
-                                          </strong>{' '}
-                                          {r.reason}
-                                        </li>
+                                        <div key={r.station_id} className="rejected-item">
+                                          <span className="rejected-icon">{icon}</span>
+                                          <div>
+                                            <strong>{stName || `Station #${r.station_id}`}</strong>
+                                            <span className="rejected-reason">
+                                              {lower.includes('connector mismatch')
+                                                ? `This station won't work with your ${activeVehicle?.model_name || 'vehicle'}`
+                                                : lower.includes('unreachable')
+                                                  ? 'Too far for current battery'
+                                                  : r.reason}
+                                            </span>
+                                          </div>
+                                        </div>
                                       )
                                     })}
-                                    {recommendation.rejected.length > 25 && (
-                                      <li>
-                                        <em>
-                                          + {recommendation.rejected.length - 25} additional stations
-                                          filtered by hard constraints.
-                                        </em>
-                                      </li>
+                                    {recommendation.rejected.length > 15 && (
+                                      <div className="rejected-more">
+                                        +{recommendation.rejected.length - 15} more filtered
+                                      </div>
                                     )}
-                                  </ul>
+                                  </div>
                                 </details>
                               )}
                             </section>
@@ -781,12 +1142,12 @@ export const App: React.FC = () => {
                           <div className="directions-summary-banner">
                             <div>
                               <strong className="mono">
-                                {routeData ? `${routeData.total_distance_km} km` : `${activePreset.routeKm} km`}
+                                {routeData ? `${routeData.total_distance_km} km` : `${effectiveRouteKm} km`}
                               </strong>
                               <span>
                                 {routeData
-                                  ? `${Math.round(routeData.total_duration_min)} min driving (${routeData.provider.toUpperCase()})`
-                                  : 'Computing street geometry...'}
+                                  ? `${Math.round(routeData.total_duration_min)} min (${routeData.provider.toUpperCase()})`
+                                  : 'Computing...'}
                               </span>
                             </div>
                             <button
@@ -845,7 +1206,7 @@ export const App: React.FC = () => {
                     </div>
                   </aside>
                 )}
-              </>
+              </div>
             )}
 
             {/* Station Detail Drawer */}
@@ -863,7 +1224,7 @@ export const App: React.FC = () => {
                     {selectedStation.properties.source.toUpperCase()}
                   </span>
                   <span className="conf-badge">
-                    Confidence {Math.round((selectedStation.properties.confidence ?? 0.85) * 100)}%
+                    {Math.round((selectedStation.properties.confidence ?? 0.85) * 100)}% conf
                   </span>
                 </div>
                 <h4>{selectedStation.properties.name || selectedStation.properties.station_name}</h4>
@@ -874,18 +1235,14 @@ export const App: React.FC = () => {
                     {selectedStation.properties.cpo_name || 'Public / Unlisted'}
                   </div>
                   <div>
-                    <strong>Max Power:</strong> {selectedStation.properties.max_power_kw ?? 'N/A'} kW
+                    <strong>Power:</strong> {selectedStation.properties.max_power_kw ?? 'N/A'} kW
                   </div>
                   <div>
-                    <strong>Retail Tariff:</strong>{' '}
+                    <strong>Tariff:</strong>{' '}
                     {formatTariff(selectedStation.properties.tariff_inr_kwh)}
                   </div>
                   <div>
                     <strong>Hours:</strong> {selectedStation.properties.hours_text || '24/7'}
-                  </div>
-                  <div>
-                    <strong>Registry Ref:</strong>{' '}
-                    <code>{selectedStation.properties.source_ref || 'verified'}</code>
                   </div>
                 </div>
                 <div className="drawer-connectors">
@@ -898,7 +1255,7 @@ export const App: React.FC = () => {
               </div>
             )}
 
-            {/* Google Maps-inspired Hero Landing Sheet over Live Map */}
+            {/* Landing Overlay */}
             <LandingOverlay
               visible={showLanding}
               stationCount={stations.length}
@@ -915,12 +1272,13 @@ export const App: React.FC = () => {
         </main>
       )}
 
+      {/* ───── Field Tab ───── */}
       {activeTab === 'field' && (
         <main className="cercos-page-grid">
           <div className="page-card">
-            <h3>Station Hardware Census (Instrument 1)</h3>
+            <h3>Station Hardware Census</h3>
             <p className="muted">
-              Persisted directly to CERCOS database via <code>POST /v1/field/census</code>.
+              Persisted to CERCOS database via <code>POST /v1/field/census</code>.
             </p>
             <form onSubmit={handleCensusSubmit} className="cercos-form">
               <label className="field-label">
@@ -963,9 +1321,9 @@ export const App: React.FC = () => {
           </div>
 
           <div className="page-card">
-            <h3>Anonymous Driver BWM Survey (Instrument 2)</h3>
+            <h3>Anonymous Driver BWM Survey</h3>
             <p className="muted">
-              Consent required (<code>consent=True</code>). Zero names or phone numbers stored.
+              Consent required. Zero names or phone numbers stored.
             </p>
             <form onSubmit={handleSurveySubmit} className="cercos-form">
               <label className="consent-box">
@@ -974,9 +1332,7 @@ export const App: React.FC = () => {
                   checked={surveyConsent}
                   onChange={(e) => setSurveyConsent(e.target.checked)}
                 />
-                <span>
-                  I confirm the participant gave informed verbal consent (mandatory before saving).
-                </span>
+                <span>Participant gave informed verbal consent.</span>
               </label>
               <label className="field-label">
                 Vehicle Segment
@@ -987,24 +1343,24 @@ export const App: React.FC = () => {
                   }
                 >
                   <option value="E2W">Electric Two-Wheeler (E2W)</option>
-                  <option value="E3W">Electric Three-Wheeler / E-Rickshaw (E3W)</option>
-                  <option value="E4W">Electric Four-Wheeler Car (E4W)</option>
-                  <option value="ELCV">Electric Light Commercial Vehicle (ELCV)</option>
+                  <option value="E3W">Electric Three-Wheeler (E3W)</option>
+                  <option value="E4W">Electric Four-Wheeler (E4W)</option>
+                  <option value="ELCV">Electric LCV (ELCV)</option>
                 </select>
               </label>
               <div className="form-row">
                 <label className="field-label">
-                  Most Important (Best)
+                  Most Important
                   <select value={surveyBest} onChange={(e) => setSurveyBest(e.target.value)}>
-                    <option value="cost">Charging Cost (INR/kWh)</option>
-                    <option value="wait">Queue Wait Time</option>
+                    <option value="cost">Charging Cost</option>
+                    <option value="wait">Queue Wait</option>
                     <option value="detour">Detour Distance</option>
                     <option value="speed">Charging Speed</option>
-                    <option value="soc">Arrival Battery Safety</option>
+                    <option value="soc">Battery Safety</option>
                   </select>
                 </label>
                 <label className="field-label">
-                  Least Important (Worst)
+                  Least Important
                   <select value={surveyWorst} onChange={(e) => setSurveyWorst(e.target.value)}>
                     <option value="rating">Amenities / Rating</option>
                     <option value="detour">Detour Distance</option>
@@ -1020,16 +1376,16 @@ export const App: React.FC = () => {
             {fieldMsg && <div className="field-toast">{fieldMsg}</div>}
 
             <div className="export-row">
-              <strong>Live CSV Data Exports:</strong>
+              <strong>CSV Exports:</strong>
               <div className="export-links">
                 <a href={cercosApi.getExportUrl('census')} target="_blank" rel="noreferrer">
-                  Census CSV
+                  Census
                 </a>
                 <a href={cercosApi.getExportUrl('survey')} target="_blank" rel="noreferrer">
-                  Survey CSV
+                  Survey
                 </a>
                 <a href={cercosApi.getExportUrl('queue')} target="_blank" rel="noreferrer">
-                  Queue CSV
+                  Queue
                 </a>
               </div>
             </div>
@@ -1037,22 +1393,23 @@ export const App: React.FC = () => {
         </main>
       )}
 
+      {/* ───── Audit Tab ───── */}
       {activeTab === 'audit' && (
         <main className="cercos-page-grid single">
           <div className="page-card">
-            <h3>Real Data Provenance &amp; System Verification</h3>
+            <h3>Real Data Provenance & System Verification</h3>
             {statusInfo && (
               <div className="audit-stats">
                 <div className="stat-box">
-                  <span className="stat-lbl">Database Engine</span>
+                  <span className="stat-lbl">Database</span>
                   <strong>{statusInfo.database.backend}</strong>
                 </div>
                 <div className="stat-box">
-                  <span className="stat-lbl">Active Corridor Stations</span>
+                  <span className="stat-lbl">Active Stations</span>
                   <strong>{statusInfo.stations_total}</strong>
                 </div>
                 <div className="stat-box">
-                  <span className="stat-lbl">MHI Official MP Stations</span>
+                  <span className="stat-lbl">MHI Official</span>
                   <strong>
                     {statusInfo.policy_benchmarks?.mhi_rajya_sabha_q3910_2026_03_27
                       ?.omc_stations_operational ?? 1291}{' '}
@@ -1060,7 +1417,7 @@ export const App: React.FC = () => {
                   </strong>
                 </div>
                 <div className="stat-box">
-                  <span className="stat-lbl">MoP Statutory Highway Spacing</span>
+                  <span className="stat-lbl">Highway Spacing</span>
                   <strong>25 km Max</strong>
                 </div>
               </div>
@@ -1070,12 +1427,12 @@ export const App: React.FC = () => {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Station Name</th>
+                  <th>Station</th>
                   <th>Operator</th>
-                  <th>Coordinates</th>
-                  <th>Max kW</th>
+                  <th>Coords</th>
+                  <th>kW</th>
                   <th>Tariff</th>
-                  <th>Source Reference</th>
+                  <th>Source</th>
                 </tr>
               </thead>
               <tbody>
@@ -1091,11 +1448,11 @@ export const App: React.FC = () => {
                   >
                     <td>{s.properties.station_id}</td>
                     <td>{s.properties.name || s.properties.station_name}</td>
-                    <td>{s.properties.cpo_name || 'Public / Unlisted'}</td>
+                    <td>{s.properties.cpo_name || 'Public'}</td>
                     <td className="mono">
                       {s.geometry.coordinates[1].toFixed(4)}, {s.geometry.coordinates[0].toFixed(4)}
                     </td>
-                    <td>{s.properties.max_power_kw ?? 'N/A'} kW</td>
+                    <td>{s.properties.max_power_kw ?? 'N/A'}</td>
                     <td>{formatTariff(s.properties.tariff_inr_kwh)}</td>
                     <td>
                       <code>{s.properties.source_ref || s.properties.source}</code>
@@ -1108,7 +1465,7 @@ export const App: React.FC = () => {
         </main>
       )}
 
-      {/* Sticky Mobile App Bottom Navigation Bar */}
+      {/* ───── Mobile Bottom Nav ───── */}
       <nav className="mobile-bottom-nav" aria-label="Mobile Navigation">
         <button
           type="button"
@@ -1130,7 +1487,7 @@ export const App: React.FC = () => {
           }}
         >
           <span>🗺️</span>
-          <small>Explore</small>
+          <small>Navigate</small>
         </button>
         <button
           type="button"

@@ -6,6 +6,7 @@ import {
   Popup,
   TileLayer,
   Tooltip,
+  Circle,
   useMap,
 } from 'react-leaflet'
 import L from 'leaflet'
@@ -18,12 +19,13 @@ import {
   type RouteResponse,
   type RouteStep,
   type StationFeature,
+  type VehicleProfile,
 } from '../api/client'
 
 const BHOPAL_CENTER: [number, number] = [23.2599, 77.4126]
 const DEFAULT_ZOOM = 11
 
-type MapFilterMode = 'all' | 'recommended' | 'fast' | 'light_ev'
+type MapFilterMode = 'all' | 'recommended' | 'fast' | 'light_ev' | 'compatible'
 
 export interface MapViewProps {
   center?: [number, number]
@@ -38,18 +40,23 @@ export interface MapViewProps {
   simActive?: boolean
   simPosition?: [number, number] | null
   simStep?: RouteStep | null
+  userLocation?: [number, number] | null
+  activeVehicle?: VehicleProfile | null
   onToggleSim?: () => void
   onSelectStation?: (station: StationFeature) => void
   onOpenLanding?: () => void
 }
 
-function createPinIcon(options: {
+/* ───── Icon Factories ───── */
+
+function createStationIcon(options: {
   bg: string
   border: string
   label: string
   size?: number
   pulse?: boolean
   selected?: boolean
+  incompatible?: boolean
 }): L.DivIcon {
   const size = options.size ?? 30
   const ring = options.selected
@@ -57,9 +64,24 @@ function createPinIcon(options: {
     : 'box-shadow: 0 3px 8px rgba(15,23,42,0.35);'
   const pulseClass = options.pulse ? 'cercos-pin-pulse' : ''
 
+  // Incompatible stations get a strikethrough overlay
+  const incompatOverlay = options.incompatible
+    ? `<div style="
+        position:absolute;
+        top:50%;left:50%;
+        transform:translate(-50%,-50%) rotate(-45deg);
+        width:${size + 6}px;
+        height:3px;
+        background:#ef4444;
+        border-radius:2px;
+        pointer-events:none;
+      "></div>`
+    : ''
+
   return L.divIcon({
     className: `cercos-custom-pin ${pulseClass}`,
     html: `<div style="
+      position:relative;
       width:${size}px;
       height:${size}px;
       border-radius:9999px;
@@ -72,29 +94,32 @@ function createPinIcon(options: {
       align-items:center;
       justify-content:center;
       ${ring}
-    ">${options.label}</div>`,
+    ">${options.label}${incompatOverlay}</div>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
     popupAnchor: [0, -(size / 2 + 4)],
   })
 }
 
-const endpointIcon = (label: string, bg: string) =>
+const endpointIcon = (label: string, bg: string, emoji?: string) =>
   L.divIcon({
     className: 'cercos-endpoint-pin',
     html: `<div style="
-      padding:4px 9px;
+      padding:5px 11px;
       border-radius:9999px;
       background:${bg};
       color:#fff;
       font-weight:700;
       font-size:11px;
       border:2px solid #fff;
-      box-shadow:0 4px 12px rgba(15,23,42,0.38);
+      box-shadow:0 4px 14px rgba(15,23,42,0.4);
       white-space:nowrap;
-    ">${label}</div>`,
-    iconSize: [78, 26],
-    iconAnchor: [39, 13],
+      display:flex;
+      align-items:center;
+      gap:4px;
+    ">${emoji ? `<span style="font-size:13px">${emoji}</span>` : ''}${label}</div>`,
+    iconSize: [90, 28],
+    iconAnchor: [45, 14],
   })
 
 const navPuckIcon = () =>
@@ -104,6 +129,84 @@ const navPuckIcon = () =>
     iconSize: [34, 34],
     iconAnchor: [17, 17],
   })
+
+const userLocationIcon = () =>
+  L.divIcon({
+    className: 'user-location-pin',
+    html: `<div class="user-loc-outer"><div class="user-loc-core"></div></div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 12],
+  })
+
+/* ───── Compatibility Helper ───── */
+
+function normalizeConnector(c: string): string {
+  return c.trim().toLowerCase().replace(/[\s_-]+/g, '')
+}
+
+function hasConnectorMatch(
+  stationConns: string[] | undefined,
+  vehicleConns: string[] | undefined,
+): boolean {
+  if (!vehicleConns || vehicleConns.length === 0) return true
+  if (!stationConns || stationConns.length === 0) return true
+  const vSet = new Set(vehicleConns.map(normalizeConnector))
+  return stationConns.some((c) => vSet.has(normalizeConnector(c)))
+}
+
+function getCompatibilityInfo(
+  station: StationFeature,
+  vehicle: VehicleProfile | null | undefined,
+  rejectReason?: string,
+): { compatible: boolean; isPlugMismatch: boolean; reason: string; shortLabel: string } {
+  if (!vehicle) {
+    return { compatible: true, isPlugMismatch: false, reason: '', shortLabel: '' }
+  }
+
+  const vehicleName = vehicle.model_name || vehicle.make_model || 'your vehicle'
+  const vehicleConns = vehicle.connector_types?.join(', ') || 'compatible plug'
+  const stationConnsList = station.properties.connector_types || []
+  const stationConns = stationConnsList.join(', ') || 'other connectors'
+
+  if (rejectReason) {
+    const lower = rejectReason.toLowerCase()
+    if (lower.includes('connector mismatch')) {
+      return {
+        compatible: false,
+        isPlugMismatch: true,
+        reason: `This EV station won't work with your ${vehicleName} (needs ${vehicleConns}, station has ${stationConns}).`,
+        shortLabel: "⚠ Won't fit your EV",
+      }
+    }
+    if (lower.includes('unreachable') || lower.includes('reserve')) {
+      return {
+        compatible: false,
+        isPlugMismatch: false,
+        reason: `Too far on current battery — won't reach with the 8% safety reserve.`,
+        shortLabel: '🔋 Out of Range',
+      }
+    }
+    return {
+      compatible: false,
+      isPlugMismatch: false,
+      reason: 'Currently unavailable or filtered out for this trip.',
+      shortLabel: '✕ Unavailable',
+    }
+  }
+
+  if (!hasConnectorMatch(stationConnsList, vehicle.connector_types)) {
+    return {
+      compatible: false,
+      isPlugMismatch: true,
+      reason: `This EV station won't work with your ${vehicleName} (needs ${vehicleConns}, station has ${stationConns}).`,
+      shortLabel: "⚠ Won't fit your EV",
+    }
+  }
+
+  return { compatible: true, isPlugMismatch: false, reason: '', shortLabel: '' }
+}
+
+/* ───── Map Viewport Controller ───── */
 
 const MapViewportController: React.FC<{
   stations: StationFeature[]
@@ -130,7 +233,7 @@ const MapViewportController: React.FC<{
     try {
       map.flyTo([lat, lon], Math.max(map.getZoom(), 13), { duration: 0.65 })
     } catch {
-      // Ignore inside jsdom tests without layout geometry
+      /* jsdom */
     }
   }, [map, selectedStation])
 
@@ -139,7 +242,7 @@ const MapViewportController: React.FC<{
     try {
       map.flyTo(focusedStepLoc, 14, { duration: 0.6 })
     } catch {
-      // Ignore in test runtime
+      /* jsdom */
     }
   }, [map, focusedStepLoc])
 
@@ -148,7 +251,7 @@ const MapViewportController: React.FC<{
     try {
       map.panTo(simPosition, { animate: true, duration: 0.25 })
     } catch {
-      // Ignore in test runtime
+      /* jsdom */
     }
   }, [map, simPosition])
 
@@ -163,13 +266,15 @@ const MapViewportController: React.FC<{
       try {
         map.fitBounds(L.latLngBounds(pts), { padding: [55, 55], maxZoom: 12 })
       } catch {
-        // Ignore in headless test runtime
+        /* jsdom */
       }
     }
   }, [map, origin, destination, fitTrigger, stations])
 
   return null
 }
+
+/* ───── Main MapView Component ───── */
 
 export const MapView: React.FC<MapViewProps> = ({
   center = BHOPAL_CENTER,
@@ -184,6 +289,8 @@ export const MapView: React.FC<MapViewProps> = ({
   simActive = false,
   simPosition = null,
   simStep = null,
+  userLocation = null,
+  activeVehicle = null,
   onToggleSim,
   onSelectStation,
   onOpenLanding,
@@ -226,9 +333,14 @@ export const MapView: React.FC<MapViewProps> = ({
           conns.includes('Type2') ||
           kw <= 22
         )
+      if (filterMode === 'compatible') {
+        const rejectReason = rejectedReasons.get(id)
+        const compat = getCompatibilityInfo(st, activeVehicle, rejectReason)
+        return compat.compatible || rankByStationId.has(id)
+      }
       return true
     })
-  }, [stations, filterMode, rankByStationId])
+  }, [stations, filterMode, rankByStationId, rejectedReasons, activeVehicle])
 
   const isJsdom = typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent)
 
@@ -256,13 +368,25 @@ export const MapView: React.FC<MapViewProps> = ({
   const leg1Coords = routeData?.legs[0]?.coordinates ?? fallbackCoords
   const leg2Coords = routeData?.legs[1]?.coordinates ?? []
 
+  // Count incompatible stations across visible dataset/route for the badge
+  const incompatibleCount = useMemo(() => {
+    if (!activeVehicle) return 0
+    let count = 0
+    for (const st of stations) {
+      const id = st.properties.station_id
+      const compat = getCompatibilityInfo(st, activeVehicle, rejectedReasons.get(id))
+      if (compat.isPlugMismatch) count++
+    }
+    return count
+  }, [stations, activeVehicle, rejectedReasons])
+
   return (
     <div
       data-testid="map-container"
       className="cercos-map-wrapper"
       style={{ width: '100%', height: '100%', position: 'relative', minHeight: '340px' }}
     >
-      {/* Google Maps-style Live Turn-by-Turn Navigation HUD Banner during Preview */}
+      {/* Google Maps-style Live Turn-by-Turn Navigation HUD */}
       {simActive && simStep && (
         <div className="gmaps-turn-hud" role="status" aria-live="polite">
           <div className="turn-hud-icon">↱</div>
@@ -277,20 +401,20 @@ export const MapView: React.FC<MapViewProps> = ({
           </div>
           {onToggleSim && (
             <button type="button" className="turn-hud-stop" onClick={onToggleSim}>
-              Exit Preview
+              Exit
             </button>
           )}
         </div>
       )}
 
-      {/* Google Maps-inspired Floating Filter Chip Strip */}
+      {/* Filter Chip Strip */}
       <div className="cercos-map-filters">
         <button
           type="button"
           className={`cercos-chip ${filterMode === 'all' ? 'active' : ''}`}
           onClick={() => setFilterMode('all')}
         >
-          All Stations ({stations.length})
+          All ({stations.length})
         </button>
         {recommendation && (
           <button
@@ -298,7 +422,19 @@ export const MapView: React.FC<MapViewProps> = ({
             className={`cercos-chip ${filterMode === 'recommended' ? 'active' : ''}`}
             onClick={() => setFilterMode('recommended')}
           >
-            ★ Top 3 Recommended
+            ★ Top 3
+          </button>
+        )}
+        {activeVehicle && (
+          <button
+            type="button"
+            className={`cercos-chip ${filterMode === 'compatible' ? 'active' : ''}`}
+            onClick={() => setFilterMode('compatible')}
+          >
+            ✓ Compatible
+            {incompatibleCount > 0 && (
+              <span className="chip-badge-warn">{incompatibleCount} incompatible</span>
+            )}
           </button>
         )}
         <button
@@ -313,14 +449,14 @@ export const MapView: React.FC<MapViewProps> = ({
           className={`cercos-chip ${filterMode === 'light_ev' ? 'active' : ''}`}
           onClick={() => setFilterMode('light_ev')}
         >
-          🛵 2W / 3W Compatible
+          🛵 2W/3W
         </button>
         <button
           type="button"
           className="cercos-chip fit-btn"
           onClick={() => setFitTrigger((c) => c + 1)}
         >
-          ⌖ Fit Route
+          ⌖ Fit
         </button>
         {onToggleSim && (
           <button
@@ -328,73 +464,68 @@ export const MapView: React.FC<MapViewProps> = ({
             className={`cercos-chip sim-btn ${simActive ? 'active' : ''}`}
             onClick={onToggleSim}
           >
-            {simActive ? '⏹ Stop Preview' : '▶ Preview Drive'}
+            {simActive ? '⏹ Stop' : '▶ Drive'}
           </button>
         )}
       </div>
 
-      {/* Bottom-Right Map Control Stack (Google Maps FAB style) */}
+      {/* FAB Stack */}
       <div className="gmaps-fab-stack">
         {onOpenLanding && (
           <button
             type="button"
             className="gmaps-fab"
             onClick={onOpenLanding}
-            title="Show CERCOS Overview Landing"
+            title="Show CERCOS Overview"
           >
-            ✨ Overview
+            ✨
           </button>
         )}
         <button
           type="button"
           className="gmaps-fab"
           onClick={() => setLegendExpanded((v) => !v)}
-          title="Toggle Map Legend"
+          title="Toggle Legend"
         >
-          {legendExpanded ? 'Hide Key' : 'Map Key'}
+          {legendExpanded ? '✕' : '🗺️'}
         </button>
       </div>
 
-      {/* Collapsible Map Key / Legend */}
+      {/* Collapsible Legend */}
       <div className={`cercos-map-legend ${legendExpanded ? 'expanded' : 'compact'}`}>
-        <div className="legend-title">EV Station Highlights</div>
         {legendExpanded ? (
           <>
+            <div className="legend-title">Map Legend</div>
             <div className="legend-row">
               <span className="dot" style={{ background: '#059669', border: '2px solid #facc15' }} />
-              <span>★ #1 CERCOS Optimal Stop</span>
+              <span>★ #1 Optimal Stop</span>
             </div>
             <div className="legend-row">
               <span className="dot" style={{ background: '#0d9488' }} />
-              <span>#2 &amp; #3 Ranked Alternatives</span>
+              <span>#2 & #3 Alternatives</span>
             </div>
             <div className="legend-row">
               <span className="dot" style={{ background: '#d97706' }} />
-              <span>NR — Naïve Nearest Station</span>
+              <span>Nearest Station</span>
             </div>
             <div className="legend-row">
               <span className="dot" style={{ background: '#6366f1' }} />
-              <span>DC Fast Hub (≥ 50 kW)</span>
-            </div>
-            <div className="legend-row">
-              <span className="dot" style={{ background: '#0284c7' }} />
-              <span>AC / 2W-3W Station (&lt; 50 kW)</span>
+              <span>DC Fast (≥50 kW)</span>
             </div>
             <div className="legend-row">
               <span className="dot" style={{ background: '#dc2626' }} />
-              <span>✕ Filtered (Plug / SoC Reserve)</span>
+              <span>⚠ Incompatible / Filtered</span>
             </div>
             <div className="legend-row">
               <span className="dot" style={{ background: '#1a73e8' }} />
-              <span>Real Road Route (OSRM)</span>
+              <span>OSRM Road Route</span>
             </div>
           </>
         ) : (
           <div className="legend-compact-pills">
-            <span>🟢 #1 Stop</span>
-            <span>🔵 Highway Leg</span>
-            <span>⚡ ≥50kW</span>
-            <span>✕ Filtered</span>
+            <span>🟢 Optimal</span>
+            <span>🔵 Route</span>
+            <span>🔴 Incompatible</span>
           </div>
         )}
       </div>
@@ -422,7 +553,7 @@ export const MapView: React.FC<MapViewProps> = ({
           />
         )}
 
-        {/* Leg 1: Google Maps Layered Highway Polyline (Dark Azure Casing + Bright Nav Blue) */}
+        {/* Route Polylines — Leg 1 (Origin → Charge Stop) */}
         {!isJsdom && leg1Coords.length >= 2 && (
           <>
             <Polyline
@@ -436,7 +567,7 @@ export const MapView: React.FC<MapViewProps> = ({
           </>
         )}
 
-        {/* Leg 2: Post-Charge Continuation Highway Polyline */}
+        {/* Route Polylines — Leg 2 (Charge Stop → Destination) */}
         {!isJsdom && leg2Coords.length >= 2 && (
           <>
             <Polyline
@@ -456,19 +587,42 @@ export const MapView: React.FC<MapViewProps> = ({
           </>
         )}
 
-        {/* Animated Navigation EV Cursor */}
+        {/* Navigation EV Cursor */}
         {simActive && simPosition && <Marker position={simPosition} icon={navPuckIcon()} />}
 
+        {/* User Live Location */}
+        {userLocation && (
+          <>
+            <Marker position={userLocation} icon={userLocationIcon()} />
+            <Circle
+              center={userLocation}
+              radius={200}
+              pathOptions={{
+                color: '#1a73e8',
+                fillColor: '#1a73e8',
+                fillOpacity: 0.08,
+                weight: 1.5,
+                opacity: 0.3,
+              }}
+            />
+          </>
+        )}
+
+        {/* Origin & Destination Markers */}
         {origin && (
-          <Marker position={[origin.lat, origin.lon]} icon={endpointIcon('START', '#0f172a')} />
+          <Marker
+            position={[origin.lat, origin.lon]}
+            icon={endpointIcon('START', '#0f172a', '📍')}
+          />
         )}
         {destination && (
           <Marker
             position={[destination.lat, destination.lon]}
-            icon={endpointIcon('DEST', '#1a73e8')}
+            icon={endpointIcon('DEST', '#1a73e8', '🏁')}
           />
         )}
 
+        {/* Station Markers with Compatibility Indicators */}
         {filteredStations.map((station) => {
           const [lon, lat] = station.geometry.coordinates
           const p = station.properties
@@ -479,28 +633,34 @@ export const MapView: React.FC<MapViewProps> = ({
           const rejectReason = rejectedReasons.get(id)
           const isNearest = nearestBaseline?.station_id === id
           const isSelected = selectedStationId === id
+          const compat = getCompatibilityInfo(station, activeVehicle, rejectReason)
 
           let bg = kw >= 50 ? '#6366f1' : '#0284c7'
           let border = '#ffffff'
           let label = kw >= 50 ? `⚡${Math.round(kw)}` : `${Math.round(kw)}`
           let size = 28
           let pulse = false
+          let incompatible = false
 
-          if (rejectReason || p.is_operational === false) {
+          if (rejectReason || p.is_operational === false || !compat.compatible) {
             bg = '#dc2626'
             label = '✕'
-            size = 22
-          } else if (rank === 1) {
+            size = 24
+            incompatible = !compat.compatible
+          }
+          if (rank === 1) {
             bg = '#059669'
             border = '#facc15'
-            label = '★#1'
+            label = '★'
             size = 38
             pulse = true
+            incompatible = false
           } else if (rank === 2 || rank === 3) {
             bg = '#0d9488'
             border = '#a7f3d0'
             label = `#${rank}`
             size = 34
+            incompatible = false
           } else if (isNearest && recommendation) {
             bg = '#d97706'
             border = '#fef08a'
@@ -512,26 +672,52 @@ export const MapView: React.FC<MapViewProps> = ({
             <Marker
               key={id}
               position={[lat, lon]}
-              icon={createPinIcon({ bg, border, label, size, pulse, selected: isSelected })}
+              icon={createStationIcon({ bg, border, label, size, pulse, selected: isSelected, incompatible })}
               eventHandlers={{
                 click: () => onSelectStation?.(station),
               }}
             >
-              {(rank === 1 || isNearest) && (
+              {/* Permanent tooltip for top station & nearest baseline; hover tooltip for incompatible/normal */}
+              {rank === 1 || isNearest ? (
                 <Tooltip permanent direction="top" offset={[0, -18]} className="cercos-pin-tooltip">
                   {rank === 1
-                    ? `★ #1 ${p.cpo_name ?? ''} (${kw} kW)`
-                    : `Nearest: ${p.cpo_name ?? ''}`}
+                    ? `★ #1 ${p.cpo_name ?? name} (${kw} kW)`
+                    : `Nearest: ${p.cpo_name ?? name}`}
+                </Tooltip>
+              ) : (
+                <Tooltip direction="top" offset={[0, -14]} className="cercos-pin-tooltip">
+                  {compat.compatible
+                    ? `${name} · ${kw} kW`
+                    : `${name} · ${compat.shortLabel}`}
                 </Tooltip>
               )}
               <Popup>
                 <div className="cercos-popup">
+                  {/* Compatibility Banner */}
+                  {!compat.compatible && (
+                    <div className="popup-compat-banner incompatible">
+                      <span className="compat-icon">⚠</span>
+                      <span>{compat.reason}</span>
+                    </div>
+                  )}
+                  {compat.compatible && rank && (
+                    <div className="popup-compat-banner compatible">
+                      <span className="compat-icon">✓</span>
+                      <span>Compatible with your {activeVehicle?.model_name || 'vehicle'}</span>
+                    </div>
+                  )}
+
                   <div className="popup-badges">
-                    {rank && <span className="badge-rank">CERCOS Rank #{rank}</span>}
-                    {isNearest && <span className="badge-nearest">Nearest Stop</span>}
+                    {rank && <span className="badge-rank">CERCOS #{rank}</span>}
+                    {isNearest && <span className="badge-nearest">Nearest</span>}
+                    {!compat.compatible && (
+                      <span className="badge-incompat">{compat.shortLabel}</span>
+                    )}
                     <span className="badge-source">{(p.source || 'ocm').toUpperCase()}</span>
                   </div>
+
                   <h4>{name}</h4>
+
                   <div className="popup-meta">
                     <div>
                       <strong>CPO:</strong> {p.cpo_name || 'Public'}
@@ -541,18 +727,28 @@ export const MapView: React.FC<MapViewProps> = ({
                       {formatTariff(p.tariff_inr_kwh)}
                     </div>
                     <div>
-                      <strong>Connectors:</strong> {(p.connector_types || ['Type2']).join(', ')}
+                      <strong>Connectors:</strong>{' '}
+                      <span
+                        className={
+                          !compat.compatible && rejectReason?.toLowerCase().includes('connector')
+                            ? 'conn-mismatch'
+                            : ''
+                        }
+                      >
+                        {(p.connector_types || ['Type2']).join(', ')}
+                      </span>
                     </div>
+                    {activeVehicle && (
+                      <div className="popup-vehicle-needs">
+                        <strong>Your vehicle needs:</strong>{' '}
+                        {activeVehicle.connector_types?.join(', ') || 'Unknown'}
+                      </div>
+                    )}
                     <div>
                       <strong>Hours:</strong> {p.hours_text || '24/7'} ·{' '}
                       <strong>Confidence:</strong> {Math.round((p.confidence ?? 0.85) * 100)}%
                     </div>
                     {p.address && <div className="popup-addr">{p.address}</div>}
-                    {rejectReason && (
-                      <div className="popup-reject">
-                        <strong>Rejected:</strong> {rejectReason}
-                      </div>
-                    )}
                   </div>
                 </div>
               </Popup>
